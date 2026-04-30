@@ -4,7 +4,6 @@ import { AdminRoute } from './components/AdminRoute';
 import { OrganizerOrAdminRoute } from './components/OrganizerOrAdminRoute';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminPage } from './pages/AdminPage';
-import { AdminApprovalsPage } from './pages/AdminApprovalsPage';
 import { EventsPage } from './pages/EventsPage';
 import { EventDetailPage } from './pages/EventDetailPage';
 import { EventFormPage } from './pages/EventFormPage';
@@ -50,14 +49,6 @@ export default function App() {
           element={
             <AdminRoute>
               <AdminPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/approvals"
-          element={
-            <AdminRoute>
-              <AdminApprovalsPage />
             </AdminRoute>
           }
         />

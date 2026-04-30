@@ -53,11 +53,9 @@ export const api = {
   changePassword: (payload) => request('/auth/me/password', { method: 'PUT', body: JSON.stringify(payload) }),
   myRegistrations: () => request('/auth/me/registrations'),
   listEvents: (params = {}) => request(`/events${buildQuery(params)}`),
-  listPendingEvents: (params = {}) => request(`/events/pending${buildQuery(params)}`),
   listManageEvents: (params = {}) => request(`/events/manage${buildQuery(params)}`),
   getEvent: (eventId) => request(`/events/${eventId}`),
   createEvent: (payload) => request('/events', { method: 'POST', body: JSON.stringify(payload) }),
-  approveEvent: (eventId) => request(`/events/${eventId}/approve`, { method: 'POST' }),
   getEventStats: (eventId) => request(`/events/${eventId}/stats`),
   updateEvent: (eventId, payload) =>
     request(`/events/${eventId}`, { method: 'PUT', body: JSON.stringify(payload) }),

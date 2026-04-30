@@ -5,17 +5,9 @@ export const eventsRepositoryMemory = {
     const search = String(options.search || '').trim().toLowerCase();
     const page = Math.max(1, Number(options.page || 1));
     const limit = Math.max(1, Number(options.limit || 0));
-    const approvalStatus = options.approvalStatus;
     const organizerId = options.organizerId ? String(options.organizerId) : null;
 
     let events = [...memoryStore.events].sort((a, b) => String(a.date).localeCompare(String(b.date)));
-
-    if (approvalStatus) {
-      events = events.filter((event) => {
-        const status = event.approvalStatus || 'approved';
-        return status === approvalStatus;
-      });
-    }
 
     if (organizerId) {
       events = events.filter((event) => String(event.organizerId) === organizerId);

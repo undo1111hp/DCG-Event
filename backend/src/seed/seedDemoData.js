@@ -105,9 +105,6 @@ export async function seedDemoData(authRepository, eventsRepository, domainRepos
         ...event,
         createdBy: admin.id,
         organizerId: organizer.id,
-        approvalStatus: 'approved',
-        approvedBy: admin.id,
-        approvedAt: new Date().toISOString(),
         categoryIds: categories.slice(0, 2).map((c) => c.id),
         venueIds: venues.slice(0, 1).map((v) => v.id)
       });

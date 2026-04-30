@@ -23,6 +23,34 @@ export function EventDetailPage() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+
+  function prettyTime(value) {
+    if (!value) return 'N/A';
+    const s = String(value);
+    try {
+      // If value is already YYYY-MM-DD, show localized date only
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+        const d = new Date(s);
+        if (!Number.isNaN(d.getTime())) return d.toLocaleDateString();
+        return s;
+      }
+
+      // If ISO or contains time, extract date portion and show localized date
+      if (s.includes('T') || /\s\d{1,2}:\d{2}/.test(s)) {
+        const datePart = s.split('T')[0].split(' ')[0];
+        const d = new Date(datePart);
+        if (!Number.isNaN(d.getTime())) return d.toLocaleDateString();
+        return datePart;
+      }
+
+      const d = new Date(s);
+      if (Number.isNaN(d.getTime())) return String(value);
+      // Fallback: return localized date (no time)
+      return d.toLocaleDateString();
+    } catch (e) {
+      return String(value);
+    }
+  }
   const hasPaidTickets = tickets.some((ticket) => Number(ticket.price) > 0);
   const isFreeEntryEvent = !hasPaidTickets;
   const canManageEvent = isAdmin || (isOrganizer && event && user?.id === event.organizerId);
@@ -216,10 +244,10 @@ export function EventDetailPage() {
       <h1>{event.title}</h1>
       <p className="detail-description">{event.description || 'No description.'}</p>
       <p className="detail-meta">
-        <strong>Start Time:</strong> {event.start_time}
+        <strong>Start Date:</strong> {prettyTime(event.startTime || event.start_time || event.date)}
       </p>
       <p className="detail-meta">
-        <strong>End Time:</strong> {event.end_time}
+        <strong>End Date:</strong> {prettyTime(event.endTime || event.end_time)}
       </p>
       <p className="detail-meta">
         <strong>Location:</strong> {event.location}

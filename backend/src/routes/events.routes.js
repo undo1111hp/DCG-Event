@@ -5,7 +5,6 @@ export function createEventsRouter(
   eventsService,
   requireAuth,
   optionalAuth,
-  requireAdmin,
   requireOrganizerOrAdmin
 ) {
   const router = Router();
@@ -15,16 +14,6 @@ export function createEventsRouter(
     optionalAuth,
     asyncHandler(async (req, res) => {
       const events = await eventsService.listEvents(req.query, req.user);
-      res.json(events);
-    })
-  );
-
-  router.get(
-    '/pending',
-    requireAuth,
-    requireAdmin,
-    asyncHandler(async (req, res) => {
-      const events = await eventsService.listPendingEvents(req.user, req.query);
       res.json(events);
     })
   );
@@ -54,16 +43,6 @@ export function createEventsRouter(
     optionalAuth,
     asyncHandler(async (req, res) => {
       const event = await eventsService.getEventById(req.params.eventId, req.user);
-      res.json(event);
-    })
-  );
-
-  router.post(
-    '/:eventId/approve',
-    requireAuth,
-    requireAdmin,
-    asyncHandler(async (req, res) => {
-      const event = await eventsService.approveEvent(req.params.eventId, req.user);
       res.json(event);
     })
   );

@@ -35,10 +35,10 @@ export function createApp() {
   app.use('/api/admin', createAdminRouter(authService, requireAuth, requireAdmin));
   app.use(
     '/api/events',
-    createEventsRouter(eventsService, requireAuth, optionalAuth, requireAdmin, requireOrganizerOrAdmin)
+    createEventsRouter(eventsService, requireAuth, optionalAuth, requireOrganizerOrAdmin)
   );
   app.use('/api/commerce', createCommerceRouter(commerceService, requireAuth, requireOrganizerOrAdmin));
-  app.use('/api/meta', createMetadataRouter(metadataService, requireAuth, requireOrganizerOrAdmin));
+  app.use('/api/meta', createMetadataRouter(metadataService, requireAuth, requireAdmin, requireOrganizerOrAdmin));
   app.use('/api', createReviewsRouter(reviewsService, requireAuth));
 
   app.use(notFoundHandler);

@@ -32,6 +32,7 @@ function getBadges(events) {
 
 export function DashboardPage() {
   const { user } = useAuth();
+  const isOrganizer = user?.role === 'organizer';
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -100,6 +101,21 @@ export function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {isOrganizer ? (
+        <div className="card">
+          <h2>Organizer Tools</h2>
+          <p className="status">Create and manage your own events without admin access.</p>
+          <div className="action-row">
+            <Link className="solid-btn" to="/events/new">
+              Create Event
+            </Link>
+            <Link className="ghost-btn" to="/events/stats">
+              Event Stats
+            </Link>
+          </div>
+        </div>
+      ) : null}
 
       {loading ? <LoadingSpinner /> : null}
       {error ? <p className="error">{error}</p> : null}

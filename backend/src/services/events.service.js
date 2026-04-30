@@ -1,22 +1,6 @@
 import { ApiError } from '../utils/apiError.js';
 
 export function createEventsService(eventsRepository, domainRepository) {
-  function getApprovalStatus(event) {
-    return event.approvalStatus || 'approved';
-  }
-
-  function canViewUnapprovedEvent(user, event) {
-    if (!user) {
-      return false;
-    }
-
-    if (user.role === 'admin') {
-      return true;
-    }
-
-    return user.role === 'organizer' && String(event.organizerId) === String(user.id);
-  }
-
   function ensureCanManageEvent(user, event) {
     if (!user) {
       throw new ApiError(401, 'Authentication required');
@@ -59,24 +43,13 @@ export function createEventsService(eventsRepository, domainRepository) {
       return eventsRepository.listEvents({ ...options, organizerId: viewer.id });
     }
 
-    return eventsRepository.listEvents({ ...options, approvalStatus: 'approved' });
-  }
-
-  async function listPendingEvents(viewer, options = {}) {
-    if (!viewer || viewer.role !== 'admin') {
-      throw new ApiError(403, 'Admin access required');
-    }
-
-    return eventsRepository.listEvents({ ...options, approvalStatus: 'pending' });
+    return eventsRepository.listEvents(options);
   }
 
   async function createEvent(payload, viewer) {
     if (!payload.title || !payload.start_time || !payload.end_time) {
       throw new ApiError(400, 'title and date are required');
     }
-
-    const isAdminCreator = viewer.role === 'admin';
-    const approvedAt = isAdminCreator ? new Date().toISOString() : null;
 
     return eventsRepository.createEvent({
       title: payload.title,
@@ -96,39 +69,7 @@ export function createEventsService(eventsRepository, domainRepository) {
       throw new ApiError(404, 'Event not found');
     }
 
-    if (getApprovalStatus(event) !== 'approved' && !canViewUnapprovedEvent(viewer, event)) {
-      throw new ApiError(404, 'Event not found');
-    }
-
     return hydrateEventVenues(event);
-  }
-
-  async function approveEvent(id, viewer) {
-    if (!viewer || viewer.role !== 'admin') {
-      throw new ApiError(403, 'Admin access required');
-    }
-
-    const event = await eventsRepository.getEventById(id);
-    if (!event) {
-      throw new ApiError(404, 'Event not found');
-    }
-
-    if (getApprovalStatus(event) === 'approved') {
-      return event;
-    }
-
-    const approvedAt = new Date().toISOString();
-    const updated = await eventsRepository.updateEvent(id, {
-      approvalStatus: 'approved',
-      approvedBy: viewer.id,
-      approvedAt
-    });
-
-    if (!updated) {
-      throw new ApiError(404, 'Event not found');
-    }
-
-    return updated;
   }
 
   async function updateEvent(id, updates, viewer) {
@@ -169,10 +110,6 @@ export function createEventsService(eventsRepository, domainRepository) {
     const event = await eventsRepository.getEventById(eventId);
     if (!event) {
       throw new ApiError(404, 'Event not found');
-    }
-
-    if (getApprovalStatus(event) !== 'approved') {
-      throw new ApiError(409, 'This event is still pending admin approval');
     }
 
     const registrations = await eventsRepository.listRegistrationsForEvent(eventId);
@@ -239,10 +176,8 @@ export function createEventsService(eventsRepository, domainRepository) {
 
   return {
     listEvents,
-    listPendingEvents,
     createEvent,
     getEventById,
-    approveEvent,
     updateEvent,
     deleteEvent,
     registerForEvent,

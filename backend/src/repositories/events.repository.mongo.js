@@ -11,6 +11,16 @@ function formatDate(value) {
   return Number.isNaN(date.getTime()) ? String(value) : date.toISOString();
 }
 
+function dateOnly(value) {
+  if (value == null) return null;
+  const s = String(value);
+  if (s.includes('T')) return s.split('T')[0];
+  if (s.includes(' ')) return s.split(' ')[0];
+  const d = new Date(s);
+  if (!Number.isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+  return s;
+}
+
 async function nextNumericId(model) {
   const [result] = await model.aggregate([{ $group: { _id: null, maxId: { $max: '$_id' } } }]);
   return Number((result?.maxId || 0) + 1);
@@ -27,7 +37,6 @@ function toIdString(value) {
 
 function mapEvent(doc) {
   const organizerSource = doc.organizerId ?? doc.organizerIds ?? doc.createdBy;
-  const approvalStatus = doc.approvalStatus || 'approved';
 
   return {
     id: String(doc._id),
@@ -35,14 +44,11 @@ function mapEvent(doc) {
     description: doc.description,
     location: doc.location,
     date: doc.date || doc.start_time || doc.startTime || '',
-    startTime: formatDate(doc.start_time || doc.startTime),
-    endTime: formatDate(doc.end_time || doc.endTime),
+    startTime: dateOnly(doc.start_time || doc.startTime || doc.date),
+    endTime: dateOnly(doc.end_time || doc.endTime),
     createdBy: toIdString(doc.createdBy ?? organizerSource),
     organizerId: toIdString(doc.organizerId ?? organizerSource),
     organizerIds: doc.organizerIds ?? organizerSource ?? null,
-    approvalStatus,
-    approvedBy: toIdString(doc.approvedBy),
-    approvedAt: formatDate(doc.approvedAt),
     ratingAvg: doc.rating_avg ?? doc.ratingAvg ?? 0,
     ratingCount: doc.rating_count ?? doc.ratingCount ?? 0,
     categoryIds: (doc.categoryIds || []).map((id) => String(id)),
@@ -114,7 +120,6 @@ export const eventsRepositoryMongo = {
     const search = String(options.search || '').trim();
     const page = Math.max(1, Number(options.page || 1));
     const limit = Math.max(1, Number(options.limit || 0));
-    const approvalStatus = options.approvalStatus;
     const organizerId = options.organizerId;
     const numericOrganizerId = organizerId !== undefined ? toNumericId(organizerId) : null;
 
@@ -131,12 +136,6 @@ export const eventsRepositoryMongo = {
           { end_time: { $regex: search, $options: 'i' } }
         ]
       });
-    }
-
-    if (approvalStatus === 'approved') {
-      clauses.push({ $or: [{ approvalStatus: 'approved' }, { approvalStatus: { $exists: false } }] });
-    } else if (approvalStatus) {
-      clauses.push({ approvalStatus });
     }
 
     if (organizerId) {
@@ -185,8 +184,8 @@ export const eventsRepositoryMongo = {
       title: payload.title,
       description: payload.description || '',
       location: payload.location || '',
-      start_time: payload.startTime || payload.start_time || payload.date || null,
-      end_time: payload.endTime || payload.end_time || null,
+      start_time: dateOnly(payload.startTime || payload.start_time || payload.date || null),
+      end_time: dateOnly(payload.endTime || payload.end_time || null),
       organizerId: toNumericId(payload.organizerId || payload.createdBy),
       categoryIds: Array.isArray(payload.categoryIds) ? payload.categoryIds.map(toNumericId) : [],
       venueIds: Array.isArray(payload.venueIds) ? payload.venueIds.map(toNumericId) : [],
@@ -209,8 +208,8 @@ export const eventsRepositoryMongo = {
   async updateEvent(id, updates) {
     const doc = await EventModel.findByIdAndUpdate(toNumericId(id), {
       ...updates,
-      start_time: updates.start_time,
-      end_time: updates.end_time,
+      start_time: updates.start_time != null ? dateOnly(updates.start_time) : updates.start_time,
+      end_time: updates.end_time != null ? dateOnly(updates.end_time) : updates.end_time,
       organizerId: updates.organizerId != null ? toNumericId(updates.organizerId) : undefined,
       categoryIds: Array.isArray(updates.categoryIds) ? updates.categoryIds.map(toNumericId) : undefined,
       venueIds: Array.isArray(updates.venueIds) ? updates.venueIds.map(toNumericId) : undefined,

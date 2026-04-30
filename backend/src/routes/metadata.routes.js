@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
-export function createMetadataRouter(metadataService, requireAuth, requireOrganizerOrAdmin) {
+export function createMetadataRouter(metadataService, requireAuth, requireAdmin, requireOrganizerOrAdmin) {
   const router = Router();
 
   router.get(
@@ -33,7 +33,7 @@ export function createMetadataRouter(metadataService, requireAuth, requireOrgani
   router.post(
     '/venues',
     requireAuth,
-    requireOrganizerOrAdmin,
+    requireAdmin,
     asyncHandler(async (req, res) => {
       const venue = await metadataService.createVenue(req.body);
       res.status(201).json(venue);
@@ -43,7 +43,7 @@ export function createMetadataRouter(metadataService, requireAuth, requireOrgani
   router.put(
     '/venues/:venueId',
     requireAuth,
-    requireOrganizerOrAdmin,
+    requireAdmin,
     asyncHandler(async (req, res) => {
       const venue = await metadataService.updateVenue(req.params.venueId, req.body);
       res.json(venue);

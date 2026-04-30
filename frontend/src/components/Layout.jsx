@@ -21,7 +21,6 @@ export function Layout({ children }) {
           {isAuthenticated ? <NavLink to="/account">Account</NavLink> : null}
           {isAdmin || isOrganizer ? <NavLink to="/events/new">Create Event</NavLink> : null}
           {isAdmin || isOrganizer ? <NavLink to="/events/stats">Event Stats</NavLink> : null}
-          {isAdmin ? <NavLink to="/admin/approvals">Approvals</NavLink> : null}
           {isAdmin ? <NavLink to="/admin" end>Admin Portal</NavLink> : null}
         </nav>
         <div className="auth-area">
