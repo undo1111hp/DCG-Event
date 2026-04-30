@@ -71,7 +71,7 @@ export function createEventsService(eventsRepository, domainRepository) {
   }
 
   async function createEvent(payload, viewer) {
-    if (!payload.title || !payload.date) {
+    if (!payload.title || !payload.start_time || !payload.end_time) {
       throw new ApiError(400, 'title and date are required');
     }
 
@@ -82,12 +82,9 @@ export function createEventsService(eventsRepository, domainRepository) {
       title: payload.title,
       description: payload.description || '',
       location: payload.location || '',
-      date: payload.date,
-      createdBy: viewer.id,
+      start_time: payload.start_time,
+      end_time: payload.end_time,
       organizerId: payload.organizerId || viewer.id,
-      approvalStatus: isAdminCreator ? 'approved' : 'pending',
-      approvedBy: isAdminCreator ? viewer.id : null,
-      approvedAt,
       categoryIds: Array.isArray(payload.categoryIds) ? payload.categoryIds : [],
       venueIds: Array.isArray(payload.venueIds) ? payload.venueIds : []
     });

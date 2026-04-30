@@ -162,11 +162,20 @@ export function EventFormPage({ mode }) {
           />
         </label>
         <label>
-          Date
+          Start Time
           <input
-            value={form.date}
-            onChange={(e) => setForm((s) => ({ ...s, date: e.target.value }))}
+            value={form.start_time}
+            onChange={(e) => setForm((s) => ({ ...s, start_time: e.target.value }))}
             placeholder="2026-05-01 18:30"
+            required
+          />
+        </label>
+        <label>
+          End Time
+          <input
+            value={form.end_time}
+            onChange={(e) => setForm((s) => ({ ...s, end_time: e.target.value }))}
+            placeholder="2026-05-02 18:30"
             required
           />
         </label>

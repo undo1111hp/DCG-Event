@@ -53,10 +53,7 @@ export const eventsRepositoryMemory = {
   async createEvent(payload) {
     const event = {
       id: memoryStore.makeId(),
-      organizerId: payload.organizerId || payload.createdBy,
-      approvalStatus: payload.approvalStatus || 'pending',
-      approvedBy: payload.approvedBy || null,
-      approvedAt: payload.approvedAt || null,
+      organizerId: payload.organizerId,
       categoryIds: payload.categoryIds || [],
       venueIds: payload.venueIds || [],
       ...payload,

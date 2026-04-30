@@ -1,0 +1,905 @@
+[
+  {
+    "_id": 1,
+    "title": "Event 1",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      13,
+      12
+    ],
+    "organizerId": 2,
+    "rating_avg": 2,
+    "rating_count": 1,
+    "categoryIds": [
+      2,
+      4
+    ]
+  },
+  {
+    "_id": 2,
+    "title": "Event 2",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      1,
+      2,
+      3
+    ],
+    "organizerId": 3,
+    "rating_avg": 3.5,
+    "rating_count": 2,
+    "categoryIds": [
+      3,
+      2
+    ]
+  },
+  {
+    "_id": 3,
+    "title": "Event 3",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      3
+    ],
+    "organizerId": 1,
+    "rating_avg": 2.5,
+    "rating_count": 4,
+    "categoryIds": [
+      1,
+      10,
+      2
+    ]
+  },
+  {
+    "_id": 4,
+    "title": "Event 4",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      3
+    ],
+    "organizerId": 3,
+    "rating_avg": 4,
+    "rating_count": 6,
+    "categoryIds": [
+      2
+    ]
+  },
+  {
+    "_id": 5,
+    "title": "Event 5",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      13,
+      2,
+      14
+    ],
+    "organizerId": 1,
+    "rating_avg": 3,
+    "rating_count": 3,
+    "categoryIds": [
+      8,
+      9
+    ]
+  },
+  {
+    "_id": 6,
+    "title": "Event 6",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      1,
+      2
+    ],
+    "organizerId": 1,
+    "rating_avg": 2,
+    "rating_count": 3,
+    "categoryIds": [
+      1,
+      2,
+      8
+    ]
+  },
+  {
+    "_id": 7,
+    "title": "Event 7",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      12,
+      2,
+      4
+    ],
+    "organizerId": 2,
+    "rating_avg": 0,
+    "rating_count": 0,
+    "categoryIds": [
+      10,
+      3,
+      4
+    ]
+  },
+  {
+    "_id": 8,
+    "title": "Event 8",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      7
+    ],
+    "organizerId": 3,
+    "rating_avg": 1,
+    "rating_count": 2,
+    "categoryIds": [
+      1,
+      6
+    ]
+  },
+  {
+    "_id": 9,
+    "title": "Event 9",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11,
+      13,
+      1
+    ],
+    "organizerId": 2,
+    "rating_avg": 3.5,
+    "rating_count": 2,
+    "categoryIds": [
+      1,
+      5,
+      9
+    ]
+  },
+  {
+    "_id": 10,
+    "title": "Event 10",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      12,
+      11
+    ],
+    "organizerId": 1,
+    "rating_avg": 2,
+    "rating_count": 3,
+    "categoryIds": [
+      6,
+      1,
+      7
+    ]
+  },
+  {
+    "_id": 11,
+    "title": "Event 11",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      6
+    ],
+    "organizerId": 3,
+    "rating_avg": 3,
+    "rating_count": 2,
+    "categoryIds": [
+      5,
+      4
+    ]
+  },
+  {
+    "_id": 12,
+    "title": "Event 12",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      10,
+      6
+    ],
+    "organizerId": 3,
+    "rating_avg": 2.75,
+    "rating_count": 4,
+    "categoryIds": [
+      5
+    ]
+  },
+  {
+    "_id": 13,
+    "title": "Event 13",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      5
+    ],
+    "organizerId": 1,
+    "rating_avg": 1,
+    "rating_count": 1,
+    "categoryIds": [
+      4
+    ]
+  },
+  {
+    "_id": 14,
+    "title": "Event 14",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      6,
+      2,
+      1
+    ],
+    "organizerId": 1,
+    "rating_avg": 0,
+    "rating_count": 0,
+    "categoryIds": [
+      7,
+      3,
+      8
+    ]
+  },
+  {
+    "_id": 15,
+    "title": "Event 15",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      9
+    ],
+    "organizerId": 3,
+    "rating_avg": 5,
+    "rating_count": 1,
+    "categoryIds": [
+      4,
+      1,
+      9
+    ]
+  },
+  {
+    "_id": 16,
+    "title": "Event 16",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      4
+    ],
+    "organizerId": 3,
+    "rating_avg": 3.5,
+    "rating_count": 4,
+    "categoryIds": [
+      4
+    ]
+  },
+  {
+    "_id": 17,
+    "title": "Event 17",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      2,
+      15
+    ],
+    "organizerId": 1,
+    "rating_avg": 1,
+    "rating_count": 1,
+    "categoryIds": [
+      5,
+      9,
+      3
+    ]
+  },
+  {
+    "_id": 18,
+    "title": "Event 18",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11
+    ],
+    "organizerId": 1,
+    "rating_avg": 2.75,
+    "rating_count": 4,
+    "categoryIds": [
+      3
+    ]
+  },
+  {
+    "_id": 19,
+    "title": "Event 19",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      2
+    ],
+    "organizerId": 3,
+    "rating_avg": 3,
+    "rating_count": 1,
+    "categoryIds": [
+      1,
+      6
+    ]
+  },
+  {
+    "_id": 20,
+    "title": "Event 20",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      8
+    ],
+    "organizerId": 2,
+    "rating_avg": 5,
+    "rating_count": 1,
+    "categoryIds": [
+      1,
+      2,
+      6
+    ]
+  },
+  {
+    "_id": 21,
+    "title": "Event 21",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      13
+    ],
+    "organizerId": 1,
+    "rating_avg": 0,
+    "rating_count": 0,
+    "categoryIds": [
+      6,
+      5,
+      8
+    ]
+  },
+  {
+    "_id": 22,
+    "title": "Event 22",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      7
+    ],
+    "organizerId": 2,
+    "rating_avg": 3.5,
+    "rating_count": 2,
+    "categoryIds": [
+      8,
+      1,
+      9
+    ]
+  },
+  {
+    "_id": 23,
+    "title": "Event 23",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      8
+    ],
+    "organizerId": 1,
+    "rating_avg": 5,
+    "rating_count": 1,
+    "categoryIds": [
+      8,
+      5,
+      10
+    ]
+  },
+  {
+    "_id": 24,
+    "title": "Event 24",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      8,
+      6
+    ],
+    "organizerId": 1,
+    "rating_avg": 3,
+    "rating_count": 1,
+    "categoryIds": [
+      7
+    ]
+  },
+  {
+    "_id": 25,
+    "title": "Event 25",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      8
+    ],
+    "organizerId": 1,
+    "rating_avg": 2.3333333333333335,
+    "rating_count": 3,
+    "categoryIds": [
+      8,
+      5
+    ]
+  },
+  {
+    "_id": 26,
+    "title": "Event 26",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      12,
+      14,
+      1
+    ],
+    "organizerId": 3,
+    "rating_avg": 3,
+    "rating_count": 1,
+    "categoryIds": [
+      1
+    ]
+  },
+  {
+    "_id": 27,
+    "title": "Event 27",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      12
+    ],
+    "organizerId": 3,
+    "rating_avg": 2.6666666666666665,
+    "rating_count": 3,
+    "categoryIds": [
+      9
+    ]
+  },
+  {
+    "_id": 28,
+    "title": "Event 28",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      4
+    ],
+    "organizerId": 1,
+    "rating_avg": 2,
+    "rating_count": 3,
+    "categoryIds": [
+      3
+    ]
+  },
+  {
+    "_id": 29,
+    "title": "Event 29",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      13,
+      1,
+      2
+    ],
+    "organizerId": 1,
+    "rating_avg": 4,
+    "rating_count": 3,
+    "categoryIds": [
+      2
+    ]
+  },
+  {
+    "_id": 30,
+    "title": "Event 30",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      12,
+      10,
+      9
+    ],
+    "organizerId": 2,
+    "rating_avg": 4.666666666666667,
+    "rating_count": 3,
+    "categoryIds": [
+      3,
+      2
+    ]
+  },
+  {
+    "_id": 31,
+    "title": "Event 31",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      4,
+      1,
+      10
+    ],
+    "organizerId": 3,
+    "rating_avg": 3.25,
+    "rating_count": 4,
+    "categoryIds": [
+      2
+    ]
+  },
+  {
+    "_id": 32,
+    "title": "Event 32",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11,
+      1
+    ],
+    "organizerId": 1,
+    "rating_avg": 0,
+    "rating_count": 0,
+    "categoryIds": [
+      10,
+      1
+    ]
+  },
+  {
+    "_id": 33,
+    "title": "Event 33",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11
+    ],
+    "organizerId": 2,
+    "rating_avg": 4,
+    "rating_count": 1,
+    "categoryIds": [
+      6,
+      7,
+      3
+    ]
+  },
+  {
+    "_id": 34,
+    "title": "Event 34",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      8,
+      5,
+      1
+    ],
+    "organizerId": 1,
+    "rating_avg": 3,
+    "rating_count": 3,
+    "categoryIds": [
+      1,
+      8
+    ]
+  },
+  {
+    "_id": 35,
+    "title": "Event 35",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      6,
+      12,
+      1
+    ],
+    "organizerId": 3,
+    "rating_avg": 3.5,
+    "rating_count": 2,
+    "categoryIds": [
+      6,
+      7,
+      1
+    ]
+  },
+  {
+    "_id": 36,
+    "title": "Event 36",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      13
+    ],
+    "organizerId": 1,
+    "rating_avg": 0,
+    "rating_count": 0,
+    "categoryIds": [
+      10,
+      9
+    ]
+  },
+  {
+    "_id": 37,
+    "title": "Event 37",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      4,
+      8
+    ],
+    "organizerId": 2,
+    "rating_avg": 2.5,
+    "rating_count": 2,
+    "categoryIds": [
+      10,
+      6,
+      5
+    ]
+  },
+  {
+    "_id": 38,
+    "title": "Event 38",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      1,
+      3,
+      13
+    ],
+    "organizerId": 3,
+    "rating_avg": 3,
+    "rating_count": 2,
+    "categoryIds": [
+      6
+    ]
+  },
+  {
+    "_id": 39,
+    "title": "Event 39",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      8
+    ],
+    "organizerId": 3,
+    "rating_avg": 1,
+    "rating_count": 1,
+    "categoryIds": [
+      8
+    ]
+  },
+  {
+    "_id": 40,
+    "title": "Event 40",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11,
+      7,
+      1
+    ],
+    "organizerId": 2,
+    "rating_avg": 3,
+    "rating_count": 1,
+    "categoryIds": [
+      6,
+      5,
+      4
+    ]
+  },
+  {
+    "_id": 41,
+    "title": "Event 41",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      6,
+      3,
+      15
+    ],
+    "organizerId": 1,
+    "rating_avg": 5,
+    "rating_count": 1,
+    "categoryIds": [
+      1,
+      9,
+      2
+    ]
+  },
+  {
+    "_id": 42,
+    "title": "Event 42",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11,
+      10,
+      2
+    ],
+    "organizerId": 3,
+    "rating_avg": 1.6666666666666667,
+    "rating_count": 3,
+    "categoryIds": [
+      3,
+      2,
+      9
+    ]
+  },
+  {
+    "_id": 43,
+    "title": "Event 43",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      1
+    ],
+    "organizerId": 1,
+    "rating_avg": 5,
+    "rating_count": 1,
+    "categoryIds": [
+      9
+    ]
+  },
+  {
+    "_id": 44,
+    "title": "Event 44",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      9,
+      3,
+      4
+    ],
+    "organizerId": 1,
+    "rating_avg": 2.5,
+    "rating_count": 4,
+    "categoryIds": [
+      4
+    ]
+  },
+  {
+    "_id": 45,
+    "title": "Event 45",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      14
+    ],
+    "organizerId": 3,
+    "rating_avg": 3,
+    "rating_count": 1,
+    "categoryIds": [
+      2,
+      10,
+      4
+    ]
+  },
+  {
+    "_id": 46,
+    "title": "Event 46",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      1,
+      9,
+      3
+    ],
+    "organizerId": 3,
+    "rating_avg": 1,
+    "rating_count": 2,
+    "categoryIds": [
+      4,
+      7
+    ]
+  },
+  {
+    "_id": 47,
+    "title": "Event 47",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      14,
+      1,
+      8
+    ],
+    "organizerId": 1,
+    "rating_avg": 3.25,
+    "rating_count": 4,
+    "categoryIds": [
+      8,
+      4
+    ]
+  },
+  {
+    "_id": 48,
+    "title": "Event 48",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      6,
+      8,
+      15
+    ],
+    "organizerId": 2,
+    "rating_avg": 4,
+    "rating_count": 1,
+    "categoryIds": [
+      1,
+      5,
+      3
+    ]
+  },
+  {
+    "_id": 49,
+    "title": "Event 49",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11,
+      8,
+      12
+    ],
+    "organizerId": 3,
+    "rating_avg": 4,
+    "rating_count": 1,
+    "categoryIds": [
+      10,
+      8
+    ]
+  },
+  {
+    "_id": 50,
+    "title": "Event 50",
+    "description": "Some description",
+    "start_time": "2026-07-01",
+    "end_time": "2026-07-02",
+    "venueIds": [
+      11
+    ],
+    "organizerId": 1,
+    "rating_avg": 5,
+    "rating_count": 1,
+    "categoryIds": [
+      7,
+      4
+    ]
+  }
+]

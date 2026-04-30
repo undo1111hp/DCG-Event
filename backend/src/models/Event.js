@@ -5,20 +5,13 @@ const eventSchema = new mongoose.Schema(
     _id: { type: Number },
     title: { type: String, required: true },
     description: { type: String, default: '' },
-    date: { type: String, required: true },
-    location: { type: String, default: '' },
     start_time: { type: String, default: null },
     end_time: { type: String, default: null },
-    organizerIds: { type: mongoose.Schema.Types.Mixed, default: null },
     rating_avg: { type: Number, default: 0 },
     rating_count: { type: Number, default: 0 },
     categoryIds: [{ type: mongoose.Schema.Types.Mixed }],
     venueIds: [{ type: mongoose.Schema.Types.Mixed }],
     createdBy: { type: mongoose.Schema.Types.Mixed, default: null },
-    organizerId: { type: mongoose.Schema.Types.Mixed, default: null },
-    approvalStatus: { type: String, default: 'approved' },
-    approvedBy: { type: mongoose.Schema.Types.Mixed, default: null },
-    approvedAt: { type: String, default: null }
   },
   { strict: false, collection: 'Event' }
 );

@@ -216,7 +216,10 @@ export function EventDetailPage() {
       <h1>{event.title}</h1>
       <p className="detail-description">{event.description || 'No description.'}</p>
       <p className="detail-meta">
-        <strong>Date:</strong> {event.date}
+        <strong>Start Time:</strong> {event.start_time}
+      </p>
+      <p className="detail-meta">
+        <strong>End Time:</strong> {event.end_time}
       </p>
       <p className="detail-meta">
         <strong>Location:</strong> {event.location}

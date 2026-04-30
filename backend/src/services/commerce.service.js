@@ -158,7 +158,7 @@ export function createCommerceService(eventsRepository, domainRepository) {
       eventId,
       ticketId: ticket.id,
       quantity,
-      totalAmount,
+      totalAmount: totalAmount,
       status: 'paid',
       registrationDate: now
     });

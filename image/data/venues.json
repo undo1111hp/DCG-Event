@@ -1,0 +1,107 @@
+[
+  {
+    "_id": 1,
+    "name": "Venue 1",
+    "address": "Street 1",
+    "city": "HCM",
+    "capacity": 2983
+  },
+  {
+    "_id": 2,
+    "name": "Venue 2",
+    "address": "Street 2",
+    "city": "Hanoi",
+    "capacity": 4799
+  },
+  {
+    "_id": 3,
+    "name": "Venue 3",
+    "address": "Street 3",
+    "city": "Hanoi",
+    "capacity": 4714
+  },
+  {
+    "_id": 4,
+    "name": "Venue 4",
+    "address": "Street 4",
+    "city": "HCM",
+    "capacity": 2605
+  },
+  {
+    "_id": 5,
+    "name": "Venue 5",
+    "address": "Street 5",
+    "city": "HCM",
+    "capacity": 1151
+  },
+  {
+    "_id": 6,
+    "name": "Venue 6",
+    "address": "Street 6",
+    "city": "HCM",
+    "capacity": 1706
+  },
+  {
+    "_id": 7,
+    "name": "Venue 7",
+    "address": "Street 7",
+    "city": "Hanoi",
+    "capacity": 4179
+  },
+  {
+    "_id": 8,
+    "name": "Venue 8",
+    "address": "Street 8",
+    "city": "HCM",
+    "capacity": 3927
+  },
+  {
+    "_id": 9,
+    "name": "Venue 9",
+    "address": "Street 9",
+    "city": "Hanoi",
+    "capacity": 2951
+  },
+  {
+    "_id": 10,
+    "name": "Venue 10",
+    "address": "Street 10",
+    "city": "HCM",
+    "capacity": 1174
+  },
+  {
+    "_id": 11,
+    "name": "Venue 11",
+    "address": "Street 11",
+    "city": "Hanoi",
+    "capacity": 4150
+  },
+  {
+    "_id": 12,
+    "name": "Venue 12",
+    "address": "Street 12",
+    "city": "Hanoi",
+    "capacity": 2232
+  },
+  {
+    "_id": 13,
+    "name": "Venue 13",
+    "address": "Street 13",
+    "city": "Da Nang",
+    "capacity": 2076
+  },
+  {
+    "_id": 14,
+    "name": "Venue 14",
+    "address": "Street 14",
+    "city": "HCM",
+    "capacity": 3241
+  },
+  {
+    "_id": 15,
+    "name": "Venue 15",
+    "address": "Street 15",
+    "city": "Hanoi",
+    "capacity": 1271
+  }
+]

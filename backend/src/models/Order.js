@@ -7,9 +7,7 @@ const orderSchema = new mongoose.Schema(
     eventId: { type: mongoose.Schema.Types.Mixed, required: true },
     ticketId: { type: mongoose.Schema.Types.Mixed, default: null },
     quantity: { type: Number, required: true, min: 1 },
-    totalAmount: { type: Number, required: true, min: 0 },
     status: { type: String, enum: ['pending', 'paid', 'failed', 'cancelled'], default: 'paid' },
-    registrationDate: { type: String, default: null },
     registration_date: { type: String, default: null }
   },
   { strict: false, collection: 'Order' }
