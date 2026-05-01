@@ -42,6 +42,8 @@ export function EventFormPage({ mode }) {
   const [form, setForm] = useState(initialState);
   const [venueForms, setVenueForms] = useState([emptyVenue()]);
   const [existingVenues, setExistingVenues] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
   const [loading, setLoading] = useState(mode === 'edit');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -51,8 +53,14 @@ export function EventFormPage({ mode }) {
 
     async function loadForm() {
       try {
-        const venueList = await api.listVenues();
+        // Load categories and venues
+        const [categoryList, venueList] = await Promise.all([
+          api.listCategories(),
+          api.listVenues()
+        ]);
+
         if (isMounted) {
+          setCategories(Array.isArray(categoryList) ? categoryList : []);
           setExistingVenues(Array.isArray(venueList) ? venueList : []);
         }
 
@@ -78,6 +86,11 @@ export function EventFormPage({ mode }) {
             }))
           : [emptyVenue()];
 
+        // Get selected category IDs from event
+        const catIds = Array.isArray(event.categoryIds)
+          ? event.categoryIds.map((id) => String(id))
+          : [];
+
         setForm({
           title: event.title,
           description: event.description,
@@ -87,6 +100,7 @@ export function EventFormPage({ mode }) {
           location: event.location
         });
         setVenueForms(mappedVenues);
+        setSelectedCategoryIds(catIds);
       } catch (err) {
         if (isMounted) {
           setError(err.message);
@@ -170,6 +184,11 @@ export function EventFormPage({ mode }) {
     if (payload.end_time) payload.end_time = dateOnly(payload.end_time);
 
     try {
+      // Validate at least one category is selected
+      if (selectedCategoryIds.length === 0) {
+        throw new Error('At least one category must be selected.');
+      }
+
       const normalizedVenues = venueForms
         .map((venue) => ({
           ...venue,
@@ -205,6 +224,7 @@ export function EventFormPage({ mode }) {
       }
 
       payload.venueIds = savedVenueIds;
+      payload.categoryIds = selectedCategoryIds;
 
       if (mode === 'create') {
         const created = await api.createEvent(payload);
@@ -244,6 +264,38 @@ export function EventFormPage({ mode }) {
             rows={4}
           />
         </label>
+        <section className="category-panel">
+          <h2>Categories</h2>
+          <p className="status">Select at least one category for this event.</p>
+          {categories.length === 0 ? (
+            <p className="status">No categories available. Ask an admin to create some.</p>
+          ) : (
+            <div className="category-grid">
+              {categories.map((category) => {
+                const checked = selectedCategoryIds.includes(String(category.id));
+                return (
+                  <label
+                    key={category.id}
+                    className={`category-option ${checked ? 'is-selected' : ''}`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedCategoryIds((prev) => [...prev, String(category.id)]);
+                        } else {
+                          setSelectedCategoryIds((prev) => prev.filter((id) => id !== String(category.id)));
+                        }
+                      }}
+                    />
+                    <span>{category.name}</span>
+                  </label>
+                );
+              })}
+            </div>
+          )}
+        </section>
         <label>
           Start Date
           <input

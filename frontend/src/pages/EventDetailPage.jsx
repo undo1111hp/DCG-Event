@@ -243,6 +243,20 @@ export function EventDetailPage() {
     <section className="card detail-card">
       <h1>{event.title}</h1>
       <p className="detail-description">{event.description || 'No description.'}</p>
+      {Array.isArray(event.categories) && event.categories.length > 0 && (
+        <div className="categories-section" style={{ marginBottom: '1rem' }}>
+          <p style={{ marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: 'bold' }}>
+            Categories:
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            {event.categories.map((category) => (
+              <span key={category.id} className="result-pill" style={{ padding: '0.25rem 0.5rem', fontSize: '0.85rem' }}>
+                {category.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
       <p className="detail-meta">
         <strong>Start Date:</strong> {prettyTime(event.startTime || event.start_time || event.date)}
       </p>

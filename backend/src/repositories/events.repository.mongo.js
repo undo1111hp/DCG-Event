@@ -1,6 +1,8 @@
 import { EventModel } from '../models/Event.js';
 import { RegistrationModel } from '../models/Registration.js';
 import { VenueModel } from '../models/Venue.js';
+import { EventCategoryModel } from '../models/EventCategory.js';
+import { CategoryModel } from '../models/Category.js';
 
 function formatDate(value) {
   if (!value) {
@@ -33,6 +35,85 @@ function toNumericId(id) {
 
 function toIdString(value) {
   return value == null ? null : String(value);
+}
+
+async function hydrateCategoriesFromJunction(events) {
+  if (!Array.isArray(events) || events.length === 0) {
+    return events;
+  }
+
+  const eventIds = events.map((event) => toNumericId(event.id || event._id));
+  const junctions = await EventCategoryModel.find({ eventId: { $in: eventIds } })
+    .lean()
+    .exec();
+
+  const categoryIds = [...new Set(junctions.map((j) => j.categoryId))];
+  const categories = await CategoryModel.find({ _id: { $in: categoryIds } })
+    .lean()
+    .exec();
+
+  const categoryMap = new Map(categories.map((cat) => [cat._id, { id: String(cat._id), name: cat.name }]));
+  const junctionsByEventId = new Map();
+  junctions.forEach((j) => {
+    const key = toNumericId(j.eventId);
+    if (!junctionsByEventId.has(key)) {
+      junctionsByEventId.set(key, []);
+    }
+    junctionsByEventId.get(key).push(j.categoryId);
+  });
+
+  return events.map((event) => {
+    const eventNumId = toNumericId(event.id || event._id);
+    const catIds = junctionsByEventId.get(eventNumId) || [];
+    const catObjs = catIds.map((catId) => categoryMap.get(catId)).filter(Boolean);
+
+    return {
+      ...event,
+      categories: catObjs
+    };
+  });
+}
+
+async function migrateCategoriesToJunction() {
+  const events = await EventModel.find({ categoryIds: { $exists: true, $not: { $size: 0 } } })
+    .lean()
+    .exec();
+
+  if (events.length === 0) {
+    return 0;
+  }
+
+  const junctionsToInsert = [];
+  let junctionId = 0;
+  const [maxIdResult] = await EventCategoryModel.aggregate([
+    { $group: { _id: null, maxId: { $max: '$_id' } } }
+  ]);
+  junctionId = (maxIdResult?.maxId || 0) + 1;
+
+  for (const event of events) {
+    const eventId = toNumericId(event._id);
+    const categoryIds = Array.isArray(event.categoryIds)
+      ? event.categoryIds.map(toNumericId)
+      : [];
+
+    for (const categoryId of categoryIds) {
+      junctionsToInsert.push({
+        _id: junctionId++,
+        eventId,
+        categoryId
+      });
+    }
+  }
+
+  if (junctionsToInsert.length === 0) {
+    return 0;
+  }
+
+  await EventCategoryModel.insertMany(junctionsToInsert, { ordered: false }).catch(() => {
+    // Ignore duplicate key errors
+  });
+
+  return junctionsToInsert.length;
 }
 
 function mapEvent(doc) {
@@ -118,10 +199,13 @@ async function hydrateEventLocations(events) {
 export const eventsRepositoryMongo = {
   async listEvents(options = {}) {
     const search = String(options.search || '').trim();
+    const hasPagination = options.page !== undefined || options.limit !== undefined;
     const page = Math.max(1, Number(options.page || 1));
     const limit = Math.max(1, Number(options.limit || 0));
     const organizerId = options.organizerId;
+    const categoryId = options.categoryId;
     const numericOrganizerId = organizerId !== undefined ? toNumericId(organizerId) : null;
+    const numericCategoryId = categoryId !== undefined ? toNumericId(categoryId) : null;
 
     const clauses = [];
 
@@ -149,11 +233,28 @@ export const eventsRepositoryMongo = {
       });
     }
 
-    const filter = clauses.length > 0 ? { $and: clauses } : {};
+    let filter = clauses.length > 0 ? { $and: clauses } : {};
 
-    if (!options.search && !options.page && !options.limit) {
+    // If filtering by category, get event IDs from EventCategory junction
+    if (numericCategoryId) {
+      const junctions = await EventCategoryModel.find({ categoryId: numericCategoryId })
+        .lean()
+        .exec();
+      const eventIds = junctions.map((j) => j.eventId);
+      if (eventIds.length === 0) {
+        return { items: [], page: 1, totalPages: 0, totalItems: 0, limit };
+      }
+      filter = {
+        ...filter,
+        _id: { $in: eventIds }
+      };
+    }
+
+    if (!hasPagination) {
       const docs = await EventModel.find(filter).sort({ _id: 1 }).lean().exec();
-      return hydrateEventLocations(docs.map(mapEvent));
+      const mapped = docs.map(mapEvent);
+      const hydrated = await hydrateEventLocations(mapped);
+      return await hydrateCategoriesFromJunction(hydrated);
     }
 
     const totalItems = await EventModel.countDocuments(filter).exec();
@@ -167,10 +268,12 @@ export const eventsRepositoryMongo = {
       .lean()
       .exec();
 
-    const items = await hydrateEventLocations(docs.map(mapEvent));
+    const mapped = docs.map(mapEvent);
+    const hydrated = await hydrateEventLocations(mapped);
+    const categorized = await hydrateCategoriesFromJunction(hydrated);
 
     return {
-      items,
+      items: categorized,
       page: currentPage,
       totalPages,
       totalItems,
@@ -201,8 +304,10 @@ export const eventsRepositoryMongo = {
       return null;
     }
 
-    const [event] = await hydrateEventLocations([mapEvent(doc)]);
-    return event || null;
+    const mapped = mapEvent(doc);
+    const [hydrated] = await hydrateEventLocations([mapped]);
+    const [categorized] = await hydrateCategoriesFromJunction([hydrated]);
+    return categorized || null;
   },
 
   async updateEvent(id, updates) {
@@ -260,5 +365,39 @@ export const eventsRepositoryMongo = {
   async listRegistrationsForUser(userId) {
     const docs = await RegistrationModel.find({ userId: toNumericId(userId) }).lean().exec();
     return docs.map(mapRegistration);
+  },
+
+  async linkCategoryToEvent(eventId, categoryId) {
+    const numericEventId = toNumericId(eventId);
+    const numericCategoryId = toNumericId(categoryId);
+
+    const doc = await EventCategoryModel.findOneAndUpdate(
+      { eventId: numericEventId, categoryId: numericCategoryId },
+      {
+        _id: await nextNumericId(EventCategoryModel),
+        eventId: numericEventId,
+        categoryId: numericCategoryId
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    ).exec();
+
+    return { eventId: String(doc.eventId), categoryId: String(doc.categoryId) };
+  },
+
+  async unlinkCategoryFromEvent(eventId, categoryId) {
+    const deleted = await EventCategoryModel.deleteOne({
+      eventId: toNumericId(eventId),
+      categoryId: toNumericId(categoryId)
+    }).exec();
+
+    return deleted.deletedCount > 0;
+  },
+
+  async unlinkAllCategoriesFromEvent(eventId) {
+    await EventCategoryModel.deleteMany({ eventId: toNumericId(eventId) }).exec();
+  },
+
+  async migrateCategoriesToJunctionTable() {
+    return migrateCategoriesToJunction();
   }
 };

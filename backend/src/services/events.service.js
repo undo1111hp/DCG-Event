@@ -34,6 +34,12 @@ export function createEventsService(eventsRepository, domainRepository) {
     };
   }
 
+  async function hydrateEventCategories(event) {
+    // Categories are already hydrated by the repository via the junction table
+    // This method is a placeholder for any additional category enrichment
+    return event;
+  }
+
   async function listEvents(options = {}, viewer = null) {
     if (viewer?.role === 'admin') {
       return eventsRepository.listEvents(options);
@@ -51,16 +57,36 @@ export function createEventsService(eventsRepository, domainRepository) {
       throw new ApiError(400, 'title and date are required');
     }
 
-    return eventsRepository.createEvent({
+    // Categories are now required
+    if (!Array.isArray(payload.categoryIds) || payload.categoryIds.length === 0) {
+      throw new ApiError(400, 'At least one category is required');
+    }
+
+    // Validate that all categories exist
+    const categories = await Promise.all(
+      payload.categoryIds.map((catId) => domainRepository.getCategoryById(catId))
+    );
+    if (categories.some((cat) => !cat)) {
+      throw new ApiError(400, 'One or more categories do not exist');
+    }
+
+    const event = await eventsRepository.createEvent({
       title: payload.title,
       description: payload.description || '',
       location: payload.location || '',
       start_time: payload.start_time,
       end_time: payload.end_time,
       organizerId: payload.organizerId || viewer.id,
-      categoryIds: Array.isArray(payload.categoryIds) ? payload.categoryIds : [],
+      categoryIds: payload.categoryIds,
       venueIds: Array.isArray(payload.venueIds) ? payload.venueIds : []
     });
+
+    // Link categories to event via junction table
+    for (const categoryId of payload.categoryIds) {
+      await eventsRepository.linkCategoryToEvent(event.id, categoryId);
+    }
+
+    return event;
   }
 
   async function getEventById(id, viewer = null) {
@@ -84,6 +110,28 @@ export function createEventsService(eventsRepository, domainRepository) {
       delete updates.capacity;
     }
 
+    // If updating categories, validate them
+    if (Array.isArray(updates.categoryIds)) {
+      if (updates.categoryIds.length === 0) {
+        throw new ApiError(400, 'At least one category is required');
+      }
+
+      const categories = await Promise.all(
+        updates.categoryIds.map((catId) => domainRepository.getCategoryById(catId))
+      );
+      if (categories.some((cat) => !cat)) {
+        throw new ApiError(400, 'One or more categories do not exist');
+      }
+
+      // Remove all existing category links
+      await eventsRepository.unlinkAllCategoriesFromEvent(id);
+
+      // Add new category links
+      for (const categoryId of updates.categoryIds) {
+        await eventsRepository.linkCategoryToEvent(id, categoryId);
+      }
+    }
+
     const updated = await eventsRepository.updateEvent(id, updates);
     if (!updated) {
       throw new ApiError(404, 'Event not found');
@@ -100,10 +148,49 @@ export function createEventsService(eventsRepository, domainRepository) {
 
     ensureCanManageEvent(viewer, existing);
 
+    // Clean up category links
+    await eventsRepository.unlinkAllCategoriesFromEvent(id);
+
     const deleted = await eventsRepository.deleteEvent(id);
     if (!deleted) {
       throw new ApiError(404, 'Event not found');
     }
+  }
+
+  async function linkCategoryToEvent(eventId, categoryId, viewer) {
+    const event = await eventsRepository.getEventById(eventId);
+    if (!event) {
+      throw new ApiError(404, 'Event not found');
+    }
+
+    ensureCanManageEvent(viewer, event);
+
+    const category = await domainRepository.getCategoryById(categoryId);
+    if (!category) {
+      throw new ApiError(404, 'Category not found');
+    }
+
+    return eventsRepository.linkCategoryToEvent(eventId, categoryId);
+  }
+
+  async function unlinkCategoryFromEvent(eventId, categoryId, viewer) {
+    const event = await eventsRepository.getEventById(eventId);
+    if (!event) {
+      throw new ApiError(404, 'Event not found');
+    }
+
+    ensureCanManageEvent(viewer, event);
+
+    const result = await eventsRepository.unlinkCategoryFromEvent(eventId, categoryId);
+    if (!result) {
+      throw new ApiError(404, 'Category link not found');
+    }
+
+    return result;
+  }
+
+  async function migrateCategoriesToJunctionTable() {
+    return eventsRepository.migrateCategoriesToJunctionTable();
   }
 
   async function registerForEvent(eventId, userId) {
@@ -182,6 +269,9 @@ export function createEventsService(eventsRepository, domainRepository) {
     deleteEvent,
     registerForEvent,
     listRegistrationsForEvent,
-    getEventStats
+    getEventStats,
+    linkCategoryToEvent,
+    unlinkCategoryFromEvent,
+    migrateCategoriesToJunctionTable
   };
 }

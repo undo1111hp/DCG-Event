@@ -1,16 +1,38 @@
 import { memoryStore } from './memoryStore.js';
 
+function hydrateCategories(event) {
+  const categoryIds = Array.isArray(event.categoryIds) ? event.categoryIds.map((id) => String(id)) : [];
+  const categories = categoryIds
+    .map((categoryId) => memoryStore.categories.find((category) => String(category.id) === categoryId))
+    .filter(Boolean)
+    .map((category) => ({ id: String(category.id), name: category.name }));
+
+  return {
+    ...event,
+    categoryIds,
+    categories
+  };
+}
+
 export const eventsRepositoryMemory = {
   async listEvents(options = {}) {
     const search = String(options.search || '').trim().toLowerCase();
+    const hasPagination = options.page !== undefined || options.limit !== undefined;
     const page = Math.max(1, Number(options.page || 1));
     const limit = Math.max(1, Number(options.limit || 0));
     const organizerId = options.organizerId ? String(options.organizerId) : null;
+    const categoryId = options.categoryId ? String(options.categoryId) : null;
 
     let events = [...memoryStore.events].sort((a, b) => String(a.date).localeCompare(String(b.date)));
 
     if (organizerId) {
       events = events.filter((event) => String(event.organizerId) === organizerId);
+    }
+
+    if (categoryId) {
+      events = events.filter(
+        (event) => Array.isArray(event.categoryIds) && event.categoryIds.some((id) => String(id) === categoryId)
+      );
     }
 
     if (search) {
@@ -22,8 +44,8 @@ export const eventsRepositoryMemory = {
       });
     }
 
-    if (!options.search && !options.page && !options.limit) {
-      return events;
+    if (!hasPagination) {
+      return events.map(hydrateCategories);
     }
 
     const totalItems = events.length;
@@ -31,7 +53,7 @@ export const eventsRepositoryMemory = {
     const totalPages = Math.max(1, Math.ceil(totalItems / effectiveLimit));
     const currentPage = Math.min(page, totalPages);
     const start = (currentPage - 1) * effectiveLimit;
-    const items = events.slice(start, start + effectiveLimit);
+    const items = events.slice(start, start + effectiveLimit).map(hydrateCategories);
 
     return {
       items,
@@ -45,19 +67,20 @@ export const eventsRepositoryMemory = {
   async createEvent(payload) {
     const event = {
       id: memoryStore.makeId(),
-      organizerId: payload.organizerId,
-      categoryIds: payload.categoryIds || [],
-      venueIds: payload.venueIds || [],
       ...payload,
+      organizerId: payload.organizerId,
+      categoryIds: Array.isArray(payload.categoryIds) ? payload.categoryIds.map((id) => String(id)) : [],
+      venueIds: Array.isArray(payload.venueIds) ? payload.venueIds.map((id) => String(id)) : [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
     memoryStore.events.push(event);
-    return event;
+    return hydrateCategories(event);
   },
 
   async getEventById(id) {
-    return memoryStore.events.find((e) => e.id === id) || null;
+    const event = memoryStore.events.find((e) => e.id === id) || null;
+    return event ? hydrateCategories(event) : null;
   },
 
   async updateEvent(id, updates) {
@@ -69,10 +92,13 @@ export const eventsRepositoryMemory = {
     memoryStore.events[idx] = {
       ...memoryStore.events[idx],
       ...updates,
+      categoryIds: Array.isArray(updates.categoryIds)
+        ? updates.categoryIds.map((categoryId) => String(categoryId))
+        : memoryStore.events[idx].categoryIds,
       updatedAt: new Date().toISOString()
     };
 
-    return memoryStore.events[idx];
+    return hydrateCategories(memoryStore.events[idx]);
   },
 
   async deleteEvent(id) {
@@ -84,6 +110,54 @@ export const eventsRepositoryMemory = {
     memoryStore.events.splice(idx, 1);
     memoryStore.registrations = memoryStore.registrations.filter((r) => r.eventId !== id);
     return true;
+  },
+
+  async linkCategoryToEvent(eventId, categoryId) {
+    const event = memoryStore.events.find((e) => e.id === eventId);
+    if (!event) {
+      return null;
+    }
+
+    const nextCategoryId = String(categoryId);
+    const current = Array.isArray(event.categoryIds) ? event.categoryIds.map((id) => String(id)) : [];
+    if (!current.includes(nextCategoryId)) {
+      current.push(nextCategoryId);
+    }
+
+    event.categoryIds = current;
+    event.updatedAt = new Date().toISOString();
+    return { eventId: String(eventId), categoryId: nextCategoryId };
+  },
+
+  async unlinkCategoryFromEvent(eventId, categoryId) {
+    const event = memoryStore.events.find((e) => e.id === eventId);
+    if (!event) {
+      return false;
+    }
+
+    const nextCategoryId = String(categoryId);
+    const current = Array.isArray(event.categoryIds) ? event.categoryIds.map((id) => String(id)) : [];
+    const filtered = current.filter((id) => id !== nextCategoryId);
+    const changed = filtered.length !== current.length;
+    event.categoryIds = filtered;
+    if (changed) {
+      event.updatedAt = new Date().toISOString();
+    }
+    return changed;
+  },
+
+  async unlinkAllCategoriesFromEvent(eventId) {
+    const event = memoryStore.events.find((e) => e.id === eventId);
+    if (!event) {
+      return;
+    }
+
+    event.categoryIds = [];
+    event.updatedAt = new Date().toISOString();
+  },
+
+  async migrateCategoriesToJunctionTable() {
+    return 0;
   },
 
   async registerForEvent(eventId, userId) {

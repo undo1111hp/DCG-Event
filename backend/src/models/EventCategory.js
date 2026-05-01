@@ -2,12 +2,13 @@ import mongoose from 'mongoose';
 
 const eventCategorySchema = new mongoose.Schema(
   {
-    eventId: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true },
-    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true }
+    _id: { type: Number },
+    eventId: { type: Number, required: true },
+    categoryId: { type: Number, required: true }
   },
-  { timestamps: true }
+  { strict: false, collection: 'EventCategory' }
 );
 
 eventCategorySchema.index({ eventId: 1, categoryId: 1 }, { unique: true });
 
-export const EventCategoryModel = mongoose.model('EventCategory', eventCategorySchema);
+export const EventCategoryModel = mongoose.model('EventCategory', eventCategorySchema, 'EventCategory');
