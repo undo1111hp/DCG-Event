@@ -163,14 +163,6 @@ export function createCommerceService(eventsRepository, domainRepository) {
       registrationDate: now
     });
 
-    const payment = await domainRepository.createPayment({
-      orderId: order.id,
-      amount: totalAmount,
-      paymentMethod: payload.paymentMethod || 'mock-gateway',
-      paymentStatus: 'paid',
-      paymentDate: now
-    });
-
     return { order, payment: null };
   }
 

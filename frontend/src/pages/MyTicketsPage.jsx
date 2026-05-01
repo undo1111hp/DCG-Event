@@ -82,7 +82,9 @@ export function MyTicketsPage() {
               const event = eventMap.get(order.eventId);
               const isPending = order.status === 'pending';
               const isPaid = order.status === 'paid';
+              const isConfirmed = order.status === 'confirmed';
               const isCancelled = order.status === 'cancelled';
+              const isFailed = order.status === 'failed';
               const isProcessing = processingOrderId === order.id;
 
               return (
@@ -121,6 +123,14 @@ export function MyTicketsPage() {
                         <Link className="solid-btn inline" to={`/events/${event.id}`}>
                           View Event ►
                         </Link>
+                      )}
+                      {isConfirmed && event && (
+                        <Link className="solid-btn inline" to={`/events/${event.id}`}>
+                          View Event ►
+                        </Link>
+                      )}
+                      {isFailed && (
+                        <span className="status" style={{ color: 'var(--red)' }}>Payment failed</span>
                       )}
                       {isCancelled && (
                         <span className="status" style={{ color: 'var(--red)' }}>Order cancelled</span>

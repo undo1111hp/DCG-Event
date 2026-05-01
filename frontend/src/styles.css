@@ -686,6 +686,20 @@ button:hover {
   background: rgba(255, 79, 111, 0.12);
 }
 
+.status-badge.status-confirmed {
+  color: var(--green);
+  border-color: var(--green);
+  background: rgba(71, 245, 140, 0.12);
+  box-shadow: 0 0 8px var(--glow-green);
+}
+
+.status-badge.status-failed {
+  color: var(--red);
+  border-color: var(--red);
+  background: rgba(255, 79, 111, 0.12);
+  box-shadow: 0 0 8px var(--glow-red);
+}
+
 /* =============================================
    ADMIN
    ============================================= */
