@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import { PageTransition, StaggerList, StaggerItem } from '../components/PageTransition';
 
 const initialForm = {
   title: '',
@@ -24,6 +25,7 @@ export function AdminPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [activeTab, setActiveTab] = useState('events');
   const pageSize = 4;
 
   async function loadEvents() {
@@ -154,22 +156,44 @@ export function AdminPage() {
   }
 
   return (
-    <section className="admin-wrap">
-      <div className="card admin-card">
-        <h1>Admin Portal</h1>
-        <p className="status">Manage events from one control panel.</p>
-        <div className="toolbar">
-          <label className="search-field">
-            Search
-            <input
-              value={search}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="title, location, date..."
-            />
-          </label>
-          <div className="result-pill">{totalItems} events</div>
+    <PageTransition>
+      <section className="admin-wrap">
+        <div className="card">
+          <h1>Admin Portal</h1>
+          <p className="status">Manage all aspects of your events from one control panel.</p>
+          <div className="admin-tabs">
+            {['events', 'categories', 'venues', 'users'].map((tab) => (
+              <button
+                key={tab}
+                className={`admin-tab ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab === 'events' && '🎪 '}
+                {tab === 'categories' && '🏷️ '}
+                {tab === 'venues' && '📍 '}
+                {tab === 'users' && '👥 '}
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
-        <form className="form-grid" onSubmit={handleCreate}>
+
+        {activeTab === 'events' && (
+          <>
+            <div className="card admin-card">
+              <h2>Create Event</h2>
+              <div className="toolbar">
+                <label className="search-field">
+                  Search
+                  <input
+                    value={search}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    placeholder="title, location, date..."
+                  />
+                </label>
+                <div className="result-pill">{totalItems} events</div>
+              </div>
+              <form className="form-grid" onSubmit={handleCreate}>
           <label>
             Title
             <input
@@ -203,141 +227,127 @@ export function AdminPage() {
               onChange={(e) => setForm((s) => ({ ...s, location: e.target.value }))}
             />
           </label>
-          <button className="solid-btn">Create Event</button>
-        </form>
-      </div>
+          <button className="solid-btn">+ Create Event</button>
+              </form>
+            </div>
 
-      <div className="card admin-card">
-        <h2>Current Events</h2>
-        {status ? <p className="success">{status}</p> : null}
-        {error ? <p className="error">{error}</p> : null}
-        {loading ? <LoadingSpinner /> : null}
-        <div className="admin-list">
-          {events.map((event) => (
-            <article key={event.id} className="admin-row">
-              <div>
-                <h3>{event.title}</h3>
-                <p>
-                  {event.date} | {event.location}
-                </p>
+            <div className="card admin-card">
+              <h2>Current Events</h2>
+              {status ? <p className="success">{status}</p> : null}
+              {error ? <p className="error">{error}</p> : null}
+              {loading ? <LoadingSpinner /> : null}
+              <div className="admin-list">
+                {events.map((event) => (
+                  <article key={event.id} className="admin-row">
+                    <div>
+                      <h3>{event.title}</h3>
+                      <p>{event.date} | {event.location}</p>
+                    </div>
+                    <button className="ghost-btn danger" onClick={() => handleDelete(event.id)}>
+                      Delete
+                    </button>
+                  </article>
+                ))}
               </div>
-              <button className="ghost-btn" onClick={() => handleDelete(event.id)}>
-                Delete
-              </button>
-            </article>
-          ))}
-        </div>
-        <div className="pagination">
-          <button className="ghost-btn" type="button" onClick={() => goToPage(page - 1)} disabled={page <= 1}>
-            Prev
-          </button>
-          <span className="result-pill">
-            Page {page} of {totalPages}
-          </span>
-          <button className="ghost-btn" type="button" onClick={() => goToPage(page + 1)} disabled={page >= totalPages}>
-            Next
-          </button>
-        </div>
-      </div>
-
-      <div className="card admin-card">
-        <h2>Categories</h2>
-        <form className="form-grid" onSubmit={handleCreateCategory}>
-          <label>
-            Category Name
-            <input value={categoryName} onChange={(e) => setCategoryName(e.target.value)} required />
-          </label>
-          <button className="ghost-btn">Create Category</button>
-        </form>
-        <div className="admin-list">
-          {categories.map((category) => (
-            <article key={category.id} className="admin-row">
-              <div>
-                <h3>{category.name}</h3>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div className="card admin-card">
-        <h2>Venues</h2>
-        <form className="form-grid" onSubmit={handleCreateVenue}>
-          <label>
-            Name
-            <input
-              value={venueForm.name}
-              onChange={(e) => setVenueForm((s) => ({ ...s, name: e.target.value }))}
-              required
-            />
-          </label>
-          <label>
-            City
-            <input
-              value={venueForm.city}
-              onChange={(e) => setVenueForm((s) => ({ ...s, city: e.target.value }))}
-              required
-            />
-          </label>
-          <label>
-            Address
-            <input
-              value={venueForm.address}
-              onChange={(e) => setVenueForm((s) => ({ ...s, address: e.target.value }))}
-            />
-          </label>
-          <label>
-            Capacity
-            <input
-              type="number"
-              min={1}
-              value={venueForm.capacity}
-              onChange={(e) => setVenueForm((s) => ({ ...s, capacity: e.target.value }))}
-              required
-            />
-          </label>
-          <button className="ghost-btn">Create Venue</button>
-        </form>
-        <div className="admin-list">
-          {venues.map((venue) => (
-            <article key={venue.id} className="admin-row">
-              <div>
-                <h3>{venue.name}</h3>
-                <p>
-                  {venue.city} | cap {venue.capacity}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div className="card admin-card">
-        <h2>Users</h2>
-        <div className="admin-list">
-          {users.map((u) => (
-            <article key={u.id} className="admin-row">
-              <div>
-                <h3>{u.name}</h3>
-                <p>
-                  {u.email} | {u.role}
-                </p>
-              </div>
-              <div className="action-row">
-                <button className="ghost-btn" onClick={() => handleChangeRole(u.id, 'user')}>
-                  User
+              <div className="pagination">
+                <button className="ghost-btn" type="button" onClick={() => goToPage(page - 1)} disabled={page <= 1}>
+                  ◄ Prev
                 </button>
-                <button className="ghost-btn" onClick={() => handleChangeRole(u.id, 'organizer')}>
-                  Organizer
-                </button>
-                <button className="ghost-btn" onClick={() => handleChangeRole(u.id, 'admin')}>
-                  Admin
+                <span className="result-pill">Page {page} of {totalPages}</span>
+                <button className="ghost-btn" type="button" onClick={() => goToPage(page + 1)} disabled={page >= totalPages}>
+                  Next ►
                 </button>
               </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
+            </div>
+          </>
+        )}
+
+        {activeTab === 'categories' && (
+          <div className="card admin-card">
+            <h2>Categories</h2>
+            {status ? <p className="success">{status}</p> : null}
+            {error ? <p className="error">{error}</p> : null}
+            <form className="form-grid" onSubmit={handleCreateCategory}>
+              <label>
+                Category Name
+                <input value={categoryName} onChange={(e) => setCategoryName(e.target.value)} placeholder="New category name" required />
+              </label>
+              <button className="solid-btn">+ Create Category</button>
+            </form>
+            <div className="admin-list" style={{ marginTop: '1rem' }}>
+              {categories.length === 0 ? <p className="status">No categories yet.</p> : null}
+              {categories.map((category) => (
+                <article key={category.id} className="admin-row">
+                  <div><h3>{category.name}</h3></div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'venues' && (
+          <div className="card admin-card">
+            <h2>Venues</h2>
+            {status ? <p className="success">{status}</p> : null}
+            {error ? <p className="error">{error}</p> : null}
+            <form className="form-grid" onSubmit={handleCreateVenue}>
+              <label>
+                Name
+                <input value={venueForm.name} onChange={(e) => setVenueForm((s) => ({ ...s, name: e.target.value }))} placeholder="Venue name" required />
+              </label>
+              <label>
+                City
+                <input value={venueForm.city} onChange={(e) => setVenueForm((s) => ({ ...s, city: e.target.value }))} placeholder="City" required />
+              </label>
+              <label>
+                Address
+                <input value={venueForm.address} onChange={(e) => setVenueForm((s) => ({ ...s, address: e.target.value }))} placeholder="Street address" />
+              </label>
+              <label>
+                Capacity
+                <input type="number" min={1} value={venueForm.capacity} onChange={(e) => setVenueForm((s) => ({ ...s, capacity: e.target.value }))} required />
+              </label>
+              <button className="solid-btn">+ Create Venue</button>
+            </form>
+            <div className="admin-list" style={{ marginTop: '1rem' }}>
+              {venues.length === 0 ? <p className="status">No venues yet.</p> : null}
+              {venues.map((venue) => (
+                <article key={venue.id} className="admin-row">
+                  <div>
+                    <h3>{venue.name}</h3>
+                    <p>{venue.city} | Capacity: {venue.capacity}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'users' && (
+          <div className="card admin-card">
+            <h2>Users</h2>
+            <div className="admin-list">
+              {users.length === 0 ? <p className="status">No users found.</p> : null}
+              {users.map((u) => (
+                <article key={u.id} className="admin-row">
+                  <div>
+                    <h3>{u.name}</h3>
+                    <p>{u.email} | <span className="result-pill" style={{ fontSize: '0.9rem' }}>{u.role}</span></p>
+                  </div>
+                  <div className="action-row">
+                    <button className="ghost-btn" onClick={() => handleChangeRole(u.id, 'user')}>User</button>
+                    <button className="ghost-btn" onClick={() => handleChangeRole(u.id, 'organizer')}>Organizer</button>
+                    <button className="ghost-btn" onClick={() => handleChangeRole(u.id, 'admin')}>Admin</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {status && activeTab === 'events' ? null : null}
+        {error && activeTab === 'events' ? null : null}
+      </section>
+    </PageTransition>
   );
 }

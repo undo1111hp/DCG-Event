@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import { PageTransition } from '../components/PageTransition';
 
 export function EventDetailPage() {
   const { eventId } = useParams();
@@ -240,8 +241,9 @@ export function EventDetailPage() {
   }
 
   return (
-    <section className="card detail-card">
-      <h1>{event.title}</h1>
+    <PageTransition>
+      <section className="card detail-card">
+        <h1>{event.title}</h1>
       <p className="detail-description">{event.description || 'No description.'}</p>
       {Array.isArray(event.categories) && event.categories.length > 0 && (
         <div className="categories-section" style={{ marginBottom: '1rem' }}>
@@ -493,14 +495,22 @@ export function EventDetailPage() {
           {isAuthenticated ? (
             <form className="form-grid" onSubmit={handleSubmitReview}>
               <label>
-                Rating (1-5)
-                <input
-                  type="number"
-                  min={1}
-                  max={5}
-                  value={reviewForm.rating}
-                  onChange={(e) => setReviewForm((prev) => ({ ...prev, rating: e.target.value }))}
-                />
+                Rating
+                <div className="star-rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      className={`star-btn ${star <= Number(reviewForm.rating) ? 'filled' : ''}`}
+                      onClick={() => setReviewForm((prev) => ({ ...prev, rating: star }))}
+                    >
+                      ★
+                    </button>
+                  ))}
+                  <span style={{ marginLeft: '0.5rem', fontSize: '1.2rem', color: '#9fd3ff' }}>
+                    {reviewForm.rating}/5
+                  </span>
+                </div>
               </label>
               <label>
                 Comment
@@ -508,9 +518,10 @@ export function EventDetailPage() {
                   rows={3}
                   value={reviewForm.comment}
                   onChange={(e) => setReviewForm((prev) => ({ ...prev, comment: e.target.value }))}
+                  placeholder="Share your experience..."
                 />
               </label>
-              <button className="solid-btn">Submit Review</button>
+              <button className="solid-btn">✦ Submit Review</button>
             </form>
           ) : (
             <p className="status">Login to submit a review.</p>
@@ -521,9 +532,10 @@ export function EventDetailPage() {
       {canManageEvent ? (
         <div className="card form-card" style={{ marginTop: '2rem' }}>
           <h2>Registrations</h2>
-          <p>{registrations.length} attendee(s)</p>
+          <p className="status">{registrations.length} attendee(s) registered</p>
         </div>
       ) : null}
-    </section>
+      </section>
+    </PageTransition>
   );
 }

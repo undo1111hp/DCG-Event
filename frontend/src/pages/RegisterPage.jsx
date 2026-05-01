@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { PageTransition } from '../components/PageTransition';
 
 export function RegisterPage() {
   const { register } = useAuth();
@@ -25,45 +26,52 @@ export function RegisterPage() {
   }
 
   return (
-    <section className="card auth-card">
-      <h1>Create account</h1>
-      <form onSubmit={onSubmit} className="form-grid">
-        <label>
-          Name
-          <input
-            value={form.name}
-            onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-            required
-          />
-        </label>
-        <label>
-          Email
-          <input
-            type="email"
-            value={form.email}
-            onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={form.password}
-            onChange={(e) => setForm((s) => ({ ...s, password: e.target.value }))}
-            required
-            minLength={6}
-          />
-        </label>
-        <p className="status">New signups are attendee accounts by default.</p>
-        {error ? <p className="error">{error}</p> : null}
-        <button className="solid-btn" disabled={loading}>
-          {loading ? 'Creating...' : 'Register'}
-        </button>
-      </form>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
-    </section>
+    <PageTransition>
+      <section className="card auth-card">
+        <h1>Create Account</h1>
+        <form onSubmit={onSubmit} className="form-grid">
+          <label>
+            Name
+            <input
+              value={form.name}
+              onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
+              placeholder="Your name"
+              required
+              autoFocus
+            />
+          </label>
+          <label>
+            Email
+            <input
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
+              placeholder="your@email.com"
+              required
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              value={form.password}
+              onChange={(e) => setForm((s) => ({ ...s, password: e.target.value }))}
+              placeholder="Min 6 characters"
+              required
+              minLength={6}
+            />
+          </label>
+          <p className="status">New signups are attendee accounts by default.</p>
+          {error ? <p className="error">{error}</p> : null}
+          <button className="solid-btn" disabled={loading}>
+            {loading ? '⟳ Creating...' : '✦ Register'}
+          </button>
+        </form>
+        <div className="auth-divider">or</div>
+        <p>
+          Already have an account? <Link to="/login">Login ►</Link>
+        </p>
+      </section>
+    </PageTransition>
   );
 }

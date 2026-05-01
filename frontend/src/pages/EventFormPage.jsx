@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import { PageTransition } from '../components/PageTransition';
 
 function dateOnly(value) {
   if (value == null || value === '') return '';
@@ -245,8 +246,9 @@ export function EventFormPage({ mode }) {
   }
 
   return (
-    <section className="card form-card">
-      <h1>{mode === 'create' ? 'Create Event' : 'Edit Event'}</h1>
+    <PageTransition>
+      <section className="card form-card">
+        <h1>{mode === 'create' ? 'Create Event' : 'Edit Event'}</h1>
       <form onSubmit={onSubmit} className="form-grid">
         <label>
           Title
@@ -424,9 +426,10 @@ export function EventFormPage({ mode }) {
         </div>
         {error ? <p className="error">{error}</p> : null}
         <button className="solid-btn" disabled={saving}>
-          {saving ? 'Saving...' : mode === 'create' ? 'Create Event' : 'Save Changes'}
+          {saving ? '⟳ Saving...' : mode === 'create' ? '✦ Create Event' : '💾 Save Changes'}
         </button>
       </form>
-    </section>
+      </section>
+    </PageTransition>
   );
 }

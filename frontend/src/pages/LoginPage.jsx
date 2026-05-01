@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { PageTransition } from '../components/PageTransition';
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -25,35 +26,41 @@ export function LoginPage() {
   }
 
   return (
-    <section className="card auth-card">
-      <h1>Login</h1>
-      <form onSubmit={onSubmit} className="form-grid">
-        <label>
-          Email
-          <input
-            type="email"
-            value={form.email}
-            onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={form.password}
-            onChange={(e) => setForm((s) => ({ ...s, password: e.target.value }))}
-            required
-          />
-        </label>
-        {error ? <p className="error">{error}</p> : null}
-        <button className="solid-btn" disabled={loading}>
-          {loading ? 'Signing in...' : 'Login'}
-        </button>
-      </form>
-      <p>
-        No account? <Link to="/register">Create one</Link>
-      </p>
-    </section>
+    <PageTransition>
+      <section className="card auth-card">
+        <h1>Login</h1>
+        <form onSubmit={onSubmit} className="form-grid">
+          <label>
+            Email
+            <input
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
+              placeholder="your@email.com"
+              required
+              autoFocus
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              value={form.password}
+              onChange={(e) => setForm((s) => ({ ...s, password: e.target.value }))}
+              placeholder="••••••••"
+              required
+            />
+          </label>
+          {error ? <p className="error">{error}</p> : null}
+          <button className="solid-btn" disabled={loading}>
+            {loading ? '⟳ Signing in...' : '► Login'}
+          </button>
+        </form>
+        <div className="auth-divider">or</div>
+        <p>
+          No account? <Link to="/register">Create one ►</Link>
+        </p>
+      </section>
+    </PageTransition>
   );
 }
