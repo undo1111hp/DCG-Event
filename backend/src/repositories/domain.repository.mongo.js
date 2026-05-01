@@ -237,6 +237,20 @@ export const domainRepositoryMongo = {
     return mapPayment(created);
   },
 
+  async updateOrder(id, updates) {
+    const doc = await OrderModel.findByIdAndUpdate(
+      toNumericId(id),
+      { ...updates },
+      { new: true, runValidators: true }
+    ).lean().exec();
+    return doc ? mapOrder(doc) : null;
+  },
+
+  async getOrderById(id) {
+    const doc = await OrderModel.findById(toNumericId(id)).lean().exec();
+    return doc ? mapOrder(doc) : null;
+  },
+
   async listPaymentsByOrder(orderId) {
     const docs = await PaymentModel.find({ orderId: toNumericId(orderId) }).sort({ _id: -1 }).lean().exec();
     return docs.map(mapPayment);

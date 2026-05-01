@@ -159,7 +159,7 @@ export function createCommerceService(eventsRepository, domainRepository) {
       ticketId: ticket.id,
       quantity,
       totalAmount: totalAmount,
-      status: 'paid',
+      status: 'pending',
       registrationDate: now
     });
 
@@ -171,7 +171,68 @@ export function createCommerceService(eventsRepository, domainRepository) {
       paymentDate: now
     });
 
-    return { order, payment };
+    return { order, payment: null };
+  }
+
+  async function payOrder(orderId, userId) {
+    const order = await domainRepository.getOrderById(orderId);
+    if (!order) {
+      throw new ApiError(404, 'Order not found');
+    }
+
+    if (String(order.userId) !== String(userId)) {
+      throw new ApiError(403, 'You can only pay for your own orders');
+    }
+
+    if (order.status !== 'pending') {
+      throw new ApiError(400, `Cannot pay for an order with status '${order.status}'`);
+    }
+
+    const updated = await domainRepository.updateOrder(orderId, { status: 'paid' });
+    if (!updated) {
+      throw new ApiError(404, 'Order not found');
+    }
+
+    const now = new Date().toISOString();
+    const payment = await domainRepository.createPayment({
+      orderId: order.id,
+      amount: order.totalAmount,
+      paymentMethod: 'mock-gateway',
+      paymentStatus: 'paid',
+      paymentDate: now
+    });
+
+    return { order: updated, payment };
+  }
+
+  async function cancelOrder(orderId, userId) {
+    const order = await domainRepository.getOrderById(orderId);
+    if (!order) {
+      throw new ApiError(404, 'Order not found');
+    }
+
+    if (String(order.userId) !== String(userId)) {
+      throw new ApiError(403, 'You can only cancel your own orders');
+    }
+
+    if (order.status !== 'pending') {
+      throw new ApiError(400, `Cannot cancel an order with status '${order.status}'`);
+    }
+
+    // Restore ticket quantity
+    const ticket = await domainRepository.getTicketById(order.ticketId);
+    if (ticket) {
+      await domainRepository.updateTicket(ticket.id, {
+        quantityAvailable: Number(ticket.quantityAvailable) + Number(order.quantity)
+      });
+    }
+
+    const updated = await domainRepository.updateOrder(orderId, { status: 'cancelled' });
+    if (!updated) {
+      throw new ApiError(404, 'Order not found');
+    }
+
+    return { order: updated };
   }
 
   async function listOrdersByUser(userId) {
@@ -192,6 +253,8 @@ export function createCommerceService(eventsRepository, domainRepository) {
     updateTicket,
     deleteTicket,
     createOrderAndPayment,
+    payOrder,
+    cancelOrder,
     listOrdersByUser,
     listOrdersByEvent,
     listPaymentsByOrder

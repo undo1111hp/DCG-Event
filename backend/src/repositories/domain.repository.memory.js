@@ -181,5 +181,24 @@ export const domainRepositoryMemory = {
 
   async listReviewsByEvent(eventId) {
     return memoryStore.reviews.filter((review) => review.eventId === eventId);
+  },
+
+  async updateOrder(id, updates) {
+    const idx = memoryStore.orders.findIndex((order) => order.id === id);
+    if (idx === -1) {
+      return null;
+    }
+
+    memoryStore.orders[idx] = {
+      ...memoryStore.orders[idx],
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+
+    return memoryStore.orders[idx];
+  },
+
+  async getOrderById(id) {
+    return memoryStore.orders.find((order) => order.id === id) || null;
   }
 };

@@ -84,5 +84,23 @@ export function createCommerceRouter(commerceService, requireAuth, requireOrgani
     })
   );
 
+  router.put(
+    '/orders/:orderId/pay',
+    requireAuth,
+    asyncHandler(async (req, res) => {
+      const result = await commerceService.payOrder(req.params.orderId, req.user.id);
+      res.json(result);
+    })
+  );
+
+  router.put(
+    '/orders/:orderId/cancel',
+    requireAuth,
+    asyncHandler(async (req, res) => {
+      const result = await commerceService.cancelOrder(req.params.orderId, req.user.id);
+      res.json(result);
+    })
+  );
+
   return router;
 }

@@ -451,6 +451,34 @@ button:hover {
   margin-top: 0.8rem;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: 2px solid;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.status-pending {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: rgba(255, 182, 39, 0.12);
+}
+
+.status-badge.status-paid {
+  color: var(--green);
+  border-color: var(--green);
+  background: rgba(71, 245, 140, 0.12);
+}
+
+.status-badge.status-cancelled {
+  color: var(--red);
+  border-color: var(--red);
+  background: rgba(255, 79, 111, 0.12);
+}
+
 .admin-wrap {
   display: grid;
   gap: 1rem;

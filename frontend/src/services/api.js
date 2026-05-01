@@ -76,6 +76,8 @@ export const api = {
   myOrders: () => request('/commerce/my-orders'),
   listEventOrders: (eventId) => request(`/commerce/events/${eventId}/orders`),
   listOrderPayments: (orderId) => request(`/commerce/orders/${orderId}/payments`),
+  payOrder: (orderId) => request(`/commerce/orders/${orderId}/pay`, { method: 'PUT' }),
+  cancelOrder: (orderId) => request(`/commerce/orders/${orderId}/cancel`, { method: 'PUT' }),
   listEventReviews: (eventId) => request(`/events/${eventId}/reviews`),
   addEventReview: (eventId, payload) =>
     request(`/events/${eventId}/reviews`, { method: 'POST', body: JSON.stringify(payload) }),

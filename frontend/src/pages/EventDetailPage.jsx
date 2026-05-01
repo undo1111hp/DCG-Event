@@ -118,7 +118,7 @@ export function EventDetailPage() {
         quantity: Number(ticketQty),
         paymentMethod: 'mock-gateway'
       });
-      setMessage('Ticket order created and payment recorded. Check My Tickets.');
+      setMessage('Order created! Go to My Tickets to complete payment.');
       await load();
     } catch (err) {
       setError(err.message);
