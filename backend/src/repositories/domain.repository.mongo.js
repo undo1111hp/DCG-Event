@@ -257,13 +257,26 @@ export const domainRepositoryMongo = {
   },
 
   async createOrUpdateReview(payload) {
+    const filter = { userId: toNumericId(payload.userId), eventId: toNumericId(payload.eventId) };
+
+    const existing = await ReviewModel.findOne(filter).lean().exec();
+
     const doc = await ReviewModel.findOneAndUpdate(
-      { userId: toNumericId(payload.userId), eventId: toNumericId(payload.eventId) },
+      filter,
       {
-        userId: toNumericId(payload.userId),
-        eventId: toNumericId(payload.eventId),
-        rating: payload.rating,
-        comment: payload.comment || ''
+        $set: {
+          rating: payload.rating,
+          comment: payload.comment || ''
+        },
+        ...(existing
+          ? {}
+          : {
+              $setOnInsert: {
+                _id: await nextNumericId(ReviewModel),
+                userId: toNumericId(payload.userId),
+                eventId: toNumericId(payload.eventId)
+              }
+            })
       },
       { upsert: true, new: true, setDefaultsOnInsert: true }
     )
