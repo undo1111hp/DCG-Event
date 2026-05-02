@@ -81,11 +81,6 @@ export function createEventsService(eventsRepository, domainRepository) {
       venueIds: Array.isArray(payload.venueIds) ? payload.venueIds : []
     });
 
-    // Link categories to event via junction table
-    for (const categoryId of payload.categoryIds) {
-      await eventsRepository.linkCategoryToEvent(event.id, categoryId);
-    }
-
     return event;
   }
 
@@ -122,14 +117,6 @@ export function createEventsService(eventsRepository, domainRepository) {
       if (categories.some((cat) => !cat)) {
         throw new ApiError(400, 'One or more categories do not exist');
       }
-
-      // Remove all existing category links
-      await eventsRepository.unlinkAllCategoriesFromEvent(id);
-
-      // Add new category links
-      for (const categoryId of updates.categoryIds) {
-        await eventsRepository.linkCategoryToEvent(id, categoryId);
-      }
     }
 
     const updated = await eventsRepository.updateEvent(id, updates);
@@ -147,9 +134,6 @@ export function createEventsService(eventsRepository, domainRepository) {
     }
 
     ensureCanManageEvent(viewer, existing);
-
-    // Clean up category links
-    await eventsRepository.unlinkAllCategoriesFromEvent(id);
 
     const deleted = await eventsRepository.deleteEvent(id);
     if (!deleted) {
@@ -187,10 +171,6 @@ export function createEventsService(eventsRepository, domainRepository) {
     }
 
     return result;
-  }
-
-  async function migrateCategoriesToJunctionTable() {
-    return eventsRepository.migrateCategoriesToJunctionTable();
   }
 
   async function registerForEvent(eventId, userId) {
@@ -271,7 +251,6 @@ export function createEventsService(eventsRepository, domainRepository) {
     listRegistrationsForEvent,
     getEventStats,
     linkCategoryToEvent,
-    unlinkCategoryFromEvent,
-    migrateCategoriesToJunctionTable
+    unlinkCategoryFromEvent
   };
 }

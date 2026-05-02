@@ -87,10 +87,6 @@ export const api = {
   createVenue: (payload) => request('/meta/venues', { method: 'POST', body: JSON.stringify(payload) }),
   updateVenue: (venueId, payload) =>
     request(`/meta/venues/${venueId}`, { method: 'PUT', body: JSON.stringify(payload) }),
-  linkCategoryToEvent: (eventId, categoryId) =>
-    request(`/events/${eventId}/categories/${categoryId}`, { method: 'POST' }),
-  unlinkCategoryFromEvent: (eventId, categoryId) =>
-    request(`/events/${eventId}/categories/${categoryId}`, { method: 'DELETE' }),
   listUsers: () => request('/admin/users'),
   updateUserRole: (userId, role) =>
     request(`/admin/users/${userId}/role`, { method: 'PUT', body: JSON.stringify({ role }) })

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 import { ApiError } from '../utils/apiError.js';
 
-export function createAuthService(authRepository, eventsRepository) {
+export function createAuthService(authRepository, eventsRepository, domainRepository) {
   function signToken(user) {
     return jwt.sign({ sub: user.id, email: user.email, role: user.role || 'user' }, env.jwtSecret, {
       expiresIn: '7d'
@@ -149,20 +149,41 @@ export function createAuthService(authRepository, eventsRepository) {
   }
 
   async function myRegistrations(userId) {
-    const registrations = await eventsRepository.listRegistrationsForUser(userId);
-    const events = await eventsRepository.listEvents();
-    const eventMap = new Map(events.map((event) => [event.id, event]));
+    const orders = await domainRepository.listOrdersByUser(userId);
+    const activeOrders = orders.filter((order) => order.status !== 'cancelled');
 
-    return registrations
-      .map((registration) => {
-        const event = eventMap.get(registration.eventId);
+    // Deduplicate: one entry per event (keep the most recent order)
+    const seen = new Map();
+    for (const order of activeOrders) {
+      const existing = seen.get(order.eventId);
+      if (!existing || new Date(order.createdAt) > new Date(existing.createdAt)) {
+        seen.set(order.eventId, order);
+      }
+    }
+
+    const uniqueOrders = [...seen.values()];
+    if (uniqueOrders.length === 0) {
+      return [];
+    }
+
+    const events = await Promise.all(
+      uniqueOrders.map((order) => eventsRepository.getEventById(order.eventId))
+    );
+
+    return uniqueOrders
+      .map((order, index) => {
+        const event = events[index];
         if (!event) {
           return null;
         }
 
         return {
-          registrationId: registration.id,
-          registeredAt: registration.createdAt,
+          orderId: order.id,
+          registrationId: order.id,
+          registeredAt: order.registrationDate || order.createdAt,
+          quantity: order.quantity,
+          totalAmount: order.totalAmount,
+          orderStatus: order.status,
           ...event
         };
       })

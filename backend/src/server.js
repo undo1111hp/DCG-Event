@@ -13,10 +13,6 @@ async function bootstrap() {
     seedResult = await seedDemoData(authRepository, eventsRepository, domainRepository);
   }
 
-  if (typeof eventsRepository.migrateCategoriesToJunctionTable === 'function') {
-    await eventsRepository.migrateCategoriesToJunctionTable();
-  }
-
   const app = createApp();
 
   app.listen(env.port, () => {

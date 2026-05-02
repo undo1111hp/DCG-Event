@@ -78,34 +78,6 @@ export function createEventsRouter(
   );
 
   router.post(
-    '/:eventId/categories/:categoryId',
-    requireAuth,
-    requireOrganizerOrAdmin,
-    asyncHandler(async (req, res) => {
-      const result = await eventsService.linkCategoryToEvent(
-        req.params.eventId,
-        req.params.categoryId,
-        req.user
-      );
-      res.status(201).json(result);
-    })
-  );
-
-  router.delete(
-    '/:eventId/categories/:categoryId',
-    requireAuth,
-    requireOrganizerOrAdmin,
-    asyncHandler(async (req, res) => {
-      await eventsService.unlinkCategoryFromEvent(
-        req.params.eventId,
-        req.params.categoryId,
-        req.user
-      );
-      res.status(204).send();
-    })
-  );
-
-  router.post(
     '/:eventId/register',
     requireAuth,
     asyncHandler(async (req, res) => {

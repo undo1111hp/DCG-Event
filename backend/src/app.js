@@ -18,7 +18,7 @@ import { createReviewsService } from './services/reviews.service.js';
 export function createApp() {
   const app = express();
   const { authRepository, eventsRepository, domainRepository } = getRepositories();
-  const authService = createAuthService(authRepository, eventsRepository);
+  const authService = createAuthService(authRepository, eventsRepository, domainRepository);
   const eventsService = createEventsService(eventsRepository, domainRepository);
   const commerceService = createCommerceService(eventsRepository, domainRepository);
   const metadataService = createMetadataService(domainRepository);
