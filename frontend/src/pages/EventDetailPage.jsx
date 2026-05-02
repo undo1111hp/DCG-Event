@@ -12,7 +12,7 @@ export function EventDetailPage() {
   const isOrganizer = user?.role === 'organizer';
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
-  const [registrations, setRegistrations] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState('');
   const [ticketQty, setTicketQty] = useState(1);
@@ -76,10 +76,10 @@ export function EventDetailPage() {
       }
 
       if (isAuthenticated && (isAdmin || (isOrganizer && ev && user?.id === ev.organizerId))) {
-        const regs = await api.listRegistrations(eventId);
-        setRegistrations(regs);
+        const eventOrders = await api.listEventOrders(eventId);
+        setOrders(eventOrders);
       } else {
-        setRegistrations([]);
+        setOrders([]);
       }
     } catch (err) {
       setError(err.message);
@@ -531,8 +531,36 @@ export function EventDetailPage() {
 
       {canManageEvent ? (
         <div className="card form-card" style={{ marginTop: '2rem' }}>
-          <h2>Registrations</h2>
-          <p className="status">{registrations.length} attendee(s) registered</p>
+          <h2>Orders</h2>
+          <p className="status">{orders.length} order(s) placed</p>
+          {orders.length > 0 ? (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="pixel-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order.id}>
+                      <td>#{order.id}</td>
+                      <td>{order.quantity}</td>
+                      <td>${order.totalAmount}</td>
+                      <td>
+                        <span className={`status-badge status-${order.status}`}>
+                          {order.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : null}
         </div>
       ) : null}
       </section>

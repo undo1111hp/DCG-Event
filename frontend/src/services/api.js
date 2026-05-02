@@ -61,7 +61,6 @@ export const api = {
     request(`/events/${eventId}`, { method: 'PUT', body: JSON.stringify(payload) }),
   deleteEvent: (eventId) => request(`/events/${eventId}`, { method: 'DELETE' }),
   registerForEvent: (eventId) => request(`/events/${eventId}/register`, { method: 'POST' }),
-  listRegistrations: (eventId) => request(`/events/${eventId}/registrations`),
   listEventTickets: (eventId) => request(`/commerce/events/${eventId}/tickets`),
   createTicket: (eventId, payload) =>
     request(`/commerce/events/${eventId}/tickets`, { method: 'POST', body: JSON.stringify(payload) }),

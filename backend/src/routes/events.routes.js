@@ -87,12 +87,12 @@ export function createEventsRouter(
   );
 
   router.get(
-    '/:eventId/registrations',
+    '/:eventId/orders',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      const regs = await eventsService.listRegistrationsForEvent(req.params.eventId, req.user);
-      res.json(regs);
+      const orders = await eventsService.listOrdersForEvent(req.params.eventId, req.user);
+      res.json(orders);
     })
   );
 

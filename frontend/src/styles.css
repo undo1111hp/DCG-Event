@@ -701,6 +701,45 @@ button:hover {
 }
 
 /* =============================================
+   PIXEL TABLE
+   ============================================= */
+.pixel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.2rem;
+}
+
+.pixel-table th,
+.pixel-table td {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pixel-table th {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cyan);
+  border-bottom: 2px solid var(--cyan);
+  white-space: nowrap;
+}
+
+.pixel-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.pixel-table td:nth-child(2),
+.pixel-table th:nth-child(2) {
+  text-align: center;
+}
+
+.pixel-table td:nth-child(3),
+.pixel-table th:nth-child(3) {
+  text-align: right;
+}
+
+/* =============================================
    ADMIN
    ============================================= */
 .admin-wrap { display: grid; gap: 1rem; }

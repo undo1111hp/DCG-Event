@@ -28,6 +28,9 @@ Build working Event Management frontend and backend with API calls, then connect
 - [x] Login now supports legacy plaintext Atlas passwords and auto-migrates to bcrypt on successful login
 - [x] Ticket schema fixed for numeric `eventId` (avoids ObjectId cast errors)
 - [x] Payment and order writes aligned to Atlas snake_case fields (`payment_*`, `registration_date`)
+- [x] Dashboard now uses Orders instead of Registrations (cancelled orders filtered out)
+- [x] EventCategory junction table removed — categories resolved inline from Event.categoryIds
+- [x] Event detail page shows Orders for organizer/admin instead of Registrations
 
 ## Resume Checklist
 1. Keep backend in mongo mode with EventManagement in `.env`.
@@ -73,14 +76,19 @@ Alternative root commands:
 - Role-based auth: admin, organizer, user roles
 - Startup seed: default admin account and 3 demo events
 - Startup seed: customer account with demo registrations
+- Dashboard uses Orders instead of Registrations (cancelled orders filtered)
+- EventCategory junction table removed — categories stored inline in Event.categoryIds
+- Event detail page shows Orders for organizer/admin (renamed from Registrations)
 
 ## Validation Snapshot
 - Backend booted on http://localhost:5000 in mongo mode
-- Atlas/API counts matched for EventManagement (`events=200`, `categories=30`, `venues=20`)
-- Smoke test passed: health, register, login, list events, list tickets, create order, add review, my-orders
-- Login verified with Atlas accounts using legacy password format (and auto-migration to bcrypt)
-- New payment/order records verified in Atlas with snake_case fields
-- Frontend dev server booted on http://localhost:5173
+- Atlas/API counts: `events=56`, `categories=11`, `venues=26`
+- Smoke test passed: health, register, login, list events, list tickets, create order, pay order, cancel order, add review, my-orders
+- Dashboard verified: orders appear after purchase, cancelled orders filtered out
+- Event orders endpoint verified: `GET /events/:eventId/orders` returns orders for organizer/admin
+- Event stats verified: registrations count uses orders
+- Categories resolved inline without junction table
+- Login verified with Atlas accounts using legacy plaintext password (auto-migration to bcrypt)
 - Frontend production build passed
 
 ## Seed Credentials (Memory Mode Only)

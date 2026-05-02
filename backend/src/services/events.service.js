@@ -188,7 +188,7 @@ export function createEventsService(eventsRepository, domainRepository) {
     return eventsRepository.registerForEvent(eventId, userId);
   }
 
-  async function listRegistrationsForEvent(eventId, viewer) {
+  async function listOrdersForEvent(eventId, viewer) {
     const event = await eventsRepository.getEventById(eventId);
     if (!event) {
       throw new ApiError(404, 'Event not found');
@@ -196,7 +196,7 @@ export function createEventsService(eventsRepository, domainRepository) {
 
     ensureCanManageEvent(viewer, event);
 
-    return eventsRepository.listRegistrationsForEvent(eventId);
+    return domainRepository.listOrdersByEvent(eventId);
   }
 
   async function getEventStats(eventId, viewer) {
@@ -207,8 +207,7 @@ export function createEventsService(eventsRepository, domainRepository) {
 
     ensureCanManageEvent(viewer, event);
 
-    const [registrations, tickets, orders, reviews] = await Promise.all([
-      eventsRepository.listRegistrationsForEvent(eventId),
+    const [tickets, orders, reviews] = await Promise.all([
       domainRepository.listTicketsByEvent(eventId),
       domainRepository.listOrdersByEvent(eventId),
       domainRepository.listReviewsByEvent(eventId)
@@ -228,7 +227,7 @@ export function createEventsService(eventsRepository, domainRepository) {
     return {
       event,
       totals: {
-        registrations: registrations.length,
+        registrations: orders.length,
         orders: orders.length,
         ticketsSold,
         ticketsRemaining,
@@ -248,7 +247,7 @@ export function createEventsService(eventsRepository, domainRepository) {
     updateEvent,
     deleteEvent,
     registerForEvent,
-    listRegistrationsForEvent,
+    listOrdersForEvent,
     getEventStats,
     linkCategoryToEvent,
     unlinkCategoryFromEvent
