@@ -4,6 +4,7 @@ import { TicketModel } from '../models/Ticket.js';
 import { OrderModel } from '../models/Order.js';
 import { PaymentModel } from '../models/Payment.js';
 import { ReviewModel } from '../models/Review.js';
+import { EventModel } from '../models/Event.js';
 
 function formatDate(value) {
   if (!value) {
@@ -278,11 +279,32 @@ export const domainRepositoryMongo = {
       .lean()
       .exec();
 
+    // Recalculate rating_avg and rating_count on the Event document
+    // event_id in Review is Mixed type — may be stored as string or number,
+    // so query for both to handle any mismatch.
+    const eventIdNumeric = toNumericId(payload.event_id);
+    const eventIdString = String(payload.event_id);
+    const allReviews = await ReviewModel.find({
+      $or: [{ event_id: eventIdNumeric }, { event_id: eventIdString }]
+    }).lean().exec();
+    const rating_count = allReviews.length;
+    const rating_avg = rating_count > 0
+      ? Number((allReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / rating_count).toFixed(2))
+      : 0;
+    await EventModel.updateOne(
+      { _id: eventIdNumeric },
+      { $set: { rating_avg, rating_count } }
+    ).exec();
+
     return mapReview(doc);
   },
 
   async listReviewsByEvent(eventId) {
-    const docs = await ReviewModel.find({ event_id: toNumericId(eventId) }).sort({ _id: -1 }).lean().exec();
+    const numericId = toNumericId(eventId);
+    const stringId = String(eventId);
+    const docs = await ReviewModel.find({
+      $or: [{ event_id: numericId }, { event_id: stringId }]
+    }).sort({ _id: -1 }).lean().exec();
     return docs.map(mapReview);
   }
 };

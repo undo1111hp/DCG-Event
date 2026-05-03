@@ -16,6 +16,11 @@ export function MyTicketsPage() {
     setLoading(true);
     setError('');
     try {
+      if (!localStorage.getItem('dcg_token')) {
+        setError('Your session has expired. Please log in again.');
+        setLoading(false);
+        return;
+      }
       const [ordersData, eventsData] = await Promise.all([api.my_orders(), api.list_events()]);
       setOrders(Array.isArray(ordersData) ? ordersData : []);
       setEvents(Array.isArray(eventsData) ? eventsData : eventsData.items || []);

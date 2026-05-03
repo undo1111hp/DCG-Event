@@ -38,6 +38,10 @@ async function request(path, options = {}) {
   const data = text ? JSON.parse(text) : null;
 
   if (!response.ok) {
+    if (response.status === 401) {
+      localStorage.removeItem('dcg_token');
+      window.location.href = '/login';
+    }
     throw new Error(data?.message || 'Request failed');
   }
 

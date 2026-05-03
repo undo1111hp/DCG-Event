@@ -5,6 +5,10 @@ import { useAuth } from '../context/AuthContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { PageTransition } from '../components/PageTransition';
 
+function hasToken() {
+  return Boolean(localStorage.getItem('dcg_token'));
+}
+
 export function EventDetailPage() {
   const { event_id } = useParams();
   const { isAuthenticated, user } = useAuth();
@@ -75,7 +79,7 @@ export function EventDetailPage() {
         setSelectedTicketId((prev) => prev || paidTicket?.id || ticketData[0].id);
       }
 
-      if (isAuthenticated && (isAdmin || (isOrganizer && ev && user?.id === ev.organizer_id))) {
+      if (isAuthenticated && hasToken() && (isAdmin || (isOrganizer && ev && user?.id === ev.organizer_id))) {
         const eventOrders = await api.list_event_orders(event_id);
         setOrders(eventOrders);
       } else {
@@ -93,6 +97,10 @@ export function EventDetailPage() {
   }, [event_id, isAuthenticated]);
 
   async function handleRegister() {
+    if (!hasToken()) {
+      setError('Your session has expired. Please log in again.');
+      return;
+    }
     setMessage('');
     setError('');
     try {
@@ -105,6 +113,10 @@ export function EventDetailPage() {
   }
 
   async function handleBuyTicket() {
+    if (!hasToken()) {
+      setError('Your session has expired. Please log in again.');
+      return;
+    }
     if (!selectedTicketId) {
       setError('Please select a ticket type');
       return;
@@ -128,6 +140,10 @@ export function EventDetailPage() {
 
   async function handleSubmitReview(e) {
     e.preventDefault();
+    if (!hasToken()) {
+      setError('Your session has expired. Please log in again.');
+      return;
+    }
     setMessage('');
     setError('');
 
@@ -146,6 +162,10 @@ export function EventDetailPage() {
 
   async function handleCreateTicketTier(e) {
     e.preventDefault();
+    if (!hasToken()) {
+      setError('Your session has expired. Please log in again.');
+      return;
+    }
     setMessage('');
     setError('');
 
@@ -181,6 +201,10 @@ export function EventDetailPage() {
     if (!editingTicketId) {
       return;
     }
+    if (!hasToken()) {
+      setError('Your session has expired. Please log in again.');
+      return;
+    }
 
     setMessage('');
     setError('');
@@ -200,6 +224,10 @@ export function EventDetailPage() {
   }
 
   async function handleDeleteTicketTier(ticket_id) {
+    if (!hasToken()) {
+      setError('Your session has expired. Please log in again.');
+      return;
+    }
     if (!confirm('Delete this ticket tier?')) {
       return;
     }
@@ -220,6 +248,10 @@ export function EventDetailPage() {
   }
 
   async function handleDelete() {
+    if (!hasToken()) {
+      setError('Your session has expired. Please log in again.');
+      return;
+    }
     if (!confirm('Delete this event?')) {
       return;
     }
