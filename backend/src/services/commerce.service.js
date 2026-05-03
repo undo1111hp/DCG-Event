@@ -10,7 +10,7 @@ export function createCommerceService(eventsRepository, domainRepository) {
       return;
     }
 
-    if (user.role === 'organizer' && String(event.organizerId) === String(user.id)) {
+    if (user.role === 'organizer' && String(event.organizer_id) === String(user.id)) {
       return;
     }
 
@@ -25,13 +25,13 @@ export function createCommerceService(eventsRepository, domainRepository) {
 
     ensureCanManageEvent(viewer, event);
 
-    if (!payload.type || payload.price === undefined || payload.quantityAvailable === undefined) {
-      throw new ApiError(400, 'type, price, quantityAvailable are required');
+    if (!payload.type || payload.price === undefined || payload.quantity_available === undefined) {
+      throw new ApiError(400, 'type, price, quantity_available are required');
     }
 
-    const quantityAvailable = Number(payload.quantityAvailable);
-    if (!Number.isFinite(quantityAvailable) || quantityAvailable < 0) {
-      throw new ApiError(400, 'quantityAvailable must be zero or a positive number');
+    const quantity_available = Number(payload.quantity_available);
+    if (!Number.isFinite(quantity_available) || quantity_available < 0) {
+      throw new ApiError(400, 'quantity_available must be zero or a positive number');
     }
 
     const price = Number(payload.price);
@@ -40,10 +40,10 @@ export function createCommerceService(eventsRepository, domainRepository) {
     }
 
     return domainRepository.createTicket({
-      eventId,
+      event_id: eventId,
       type: payload.type,
       price,
-      quantityAvailable
+      quantity_available
     });
   }
 
@@ -65,7 +65,7 @@ export function createCommerceService(eventsRepository, domainRepository) {
     ensureCanManageEvent(viewer, event);
 
     const ticket = await domainRepository.getTicketById(ticketId);
-    if (!ticket || ticket.eventId !== eventId) {
+    if (!ticket || ticket.event_id !== eventId) {
       throw new ApiError(404, 'Ticket not found for this event');
     }
 
@@ -85,12 +85,12 @@ export function createCommerceService(eventsRepository, domainRepository) {
       updates.price = price;
     }
 
-    if (payload.quantityAvailable !== undefined) {
-      const quantityAvailable = Number(payload.quantityAvailable);
-      if (!Number.isFinite(quantityAvailable) || quantityAvailable < 0) {
-        throw new ApiError(400, 'quantityAvailable must be zero or a positive number');
+    if (payload.quantity_available !== undefined) {
+      const quantity_available = Number(payload.quantity_available);
+      if (!Number.isFinite(quantity_available) || quantity_available < 0) {
+        throw new ApiError(400, 'quantity_available must be zero or a positive number');
       }
-      updates.quantityAvailable = quantityAvailable;
+      updates.quantity_available = quantity_available;
     }
 
     const updated = await domainRepository.updateTicket(ticketId, updates);
@@ -110,12 +110,12 @@ export function createCommerceService(eventsRepository, domainRepository) {
     ensureCanManageEvent(viewer, event);
 
     const ticket = await domainRepository.getTicketById(ticketId);
-    if (!ticket || ticket.eventId !== eventId) {
+    if (!ticket || ticket.event_id !== eventId) {
       throw new ApiError(404, 'Ticket not found for this event');
     }
 
     const orders = await domainRepository.listOrdersByEvent(eventId);
-    const hasOrders = orders.some((order) => String(order.ticketId) === String(ticketId));
+    const hasOrders = orders.some((order) => String(order.ticket_id) === String(ticketId));
     if (hasOrders) {
       throw new ApiError(409, 'Cannot delete a ticket tier that already has orders');
     }
@@ -132,8 +132,8 @@ export function createCommerceService(eventsRepository, domainRepository) {
       throw new ApiError(404, 'Event not found');
     }
 
-    const ticket = await domainRepository.getTicketById(payload.ticketId);
-    if (!ticket || ticket.eventId !== eventId) {
+    const ticket = await domainRepository.getTicketById(payload.ticket_id);
+    if (!ticket || ticket.event_id !== eventId) {
       throw new ApiError(404, 'Ticket not found for this event');
     }
 
@@ -142,25 +142,25 @@ export function createCommerceService(eventsRepository, domainRepository) {
       throw new ApiError(400, 'quantity must be a positive number');
     }
 
-    if (ticket.quantityAvailable < quantity) {
+    if (ticket.quantity_available < quantity) {
       throw new ApiError(409, 'Not enough ticket quantity available');
     }
 
-    const totalAmount = Number(ticket.price) * quantity;
+    const total_amount = Number(ticket.price) * quantity;
     const now = new Date().toISOString();
 
     await domainRepository.updateTicket(ticket.id, {
-      quantityAvailable: Number(ticket.quantityAvailable) - quantity
+      quantity_available: Number(ticket.quantity_available) - quantity
     });
 
     const order = await domainRepository.createOrder({
-      userId,
-      eventId,
-      ticketId: ticket.id,
+      user_id: userId,
+      event_id: eventId,
+      ticket_id: ticket.id,
       quantity,
-      totalAmount: totalAmount,
+      total_amount: total_amount,
       status: 'pending',
-      registrationDate: now
+      registration_date: now
     });
 
     return { order, payment: null };
@@ -172,7 +172,7 @@ export function createCommerceService(eventsRepository, domainRepository) {
       throw new ApiError(404, 'Order not found');
     }
 
-    if (String(order.userId) !== String(userId)) {
+    if (String(order.user_id) !== String(userId)) {
       throw new ApiError(403, 'You can only pay for your own orders');
     }
 
@@ -187,11 +187,11 @@ export function createCommerceService(eventsRepository, domainRepository) {
 
     const now = new Date().toISOString();
     const payment = await domainRepository.createPayment({
-      orderId: order.id,
-      amount: order.totalAmount,
-      paymentMethod: 'mock-gateway',
-      paymentStatus: 'paid',
-      paymentDate: now
+      order_id: order.id,
+      amount: order.total_amount,
+      payment_method: 'mock-gateway',
+      payment_status: 'paid',
+      payment_date: now
     });
 
     return { order: updated, payment };
@@ -203,7 +203,7 @@ export function createCommerceService(eventsRepository, domainRepository) {
       throw new ApiError(404, 'Order not found');
     }
 
-    if (String(order.userId) !== String(userId)) {
+    if (String(order.user_id) !== String(userId)) {
       throw new ApiError(403, 'You can only cancel your own orders');
     }
 
@@ -212,10 +212,10 @@ export function createCommerceService(eventsRepository, domainRepository) {
     }
 
     // Restore ticket quantity
-    const ticket = await domainRepository.getTicketById(order.ticketId);
+    const ticket = await domainRepository.getTicketById(order.ticket_id);
     if (ticket) {
       await domainRepository.updateTicket(ticket.id, {
-        quantityAvailable: Number(ticket.quantityAvailable) + Number(order.quantity)
+        quantity_available: Number(ticket.quantity_available) + Number(order.quantity)
       });
     }
 

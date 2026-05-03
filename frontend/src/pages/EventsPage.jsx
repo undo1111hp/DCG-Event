@@ -12,15 +12,15 @@ export function EventsPage() {
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
-  async function loadEvents(currentSearch = search, categoryId = selectedCategoryId) {
+  async function loadEvents(currentSearch = search, category_id = selectedCategoryId) {
     setLoading(true);
     setError('');
     try {
       const params = { search: currentSearch };
-      if (categoryId) {
-        params.categoryId = categoryId;
+      if (category_id) {
+        params.category_id = category_id;
       }
-      const data = await api.listEvents(params);
+      const data = await api.list_events(params);
       setEvents(Array.isArray(data) ? data : data.items || []);
     } catch (err) {
       setError(err.message);
@@ -32,7 +32,7 @@ export function EventsPage() {
   useEffect(() => {
     async function loadCategories() {
       try {
-        const cats = await api.listCategories();
+        const cats = await api.list_categories();
         setCategories(Array.isArray(cats) ? cats : []);
       } catch (err) {
         console.error('Failed to load categories:', err);

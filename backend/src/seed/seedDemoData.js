@@ -51,33 +51,33 @@ export async function seedDemoData(authRepository, eventsRepository, domainRepos
   let admin = await authRepository.findUserByEmail(ADMIN_ACCOUNT.email);
 
   if (!admin) {
-    const passwordHash = await bcrypt.hash(ADMIN_ACCOUNT.password, 10);
+    const password_hash = await bcrypt.hash(ADMIN_ACCOUNT.password, 10);
     admin = await authRepository.createUser({
       name: ADMIN_ACCOUNT.name,
       email: ADMIN_ACCOUNT.email,
-      passwordHash,
+      password_hash,
       role: 'admin'
     });
   }
 
   let customer = await authRepository.findUserByEmail(CUSTOMER_ACCOUNT.email);
   if (!customer) {
-    const passwordHash = await bcrypt.hash(CUSTOMER_ACCOUNT.password, 10);
+    const password_hash = await bcrypt.hash(CUSTOMER_ACCOUNT.password, 10);
     customer = await authRepository.createUser({
       name: CUSTOMER_ACCOUNT.name,
       email: CUSTOMER_ACCOUNT.email,
-      passwordHash,
+      password_hash,
       role: 'user'
     });
   }
 
   let organizer = await authRepository.findUserByEmail(ORGANIZER_ACCOUNT.email);
   if (!organizer) {
-    const passwordHash = await bcrypt.hash(ORGANIZER_ACCOUNT.password, 10);
+    const password_hash = await bcrypt.hash(ORGANIZER_ACCOUNT.password, 10);
     organizer = await authRepository.createUser({
       name: ORGANIZER_ACCOUNT.name,
       email: ORGANIZER_ACCOUNT.email,
-      passwordHash,
+      password_hash,
       role: 'organizer'
     });
   }
@@ -103,9 +103,9 @@ export async function seedDemoData(authRepository, eventsRepository, domainRepos
     for (const event of DEMO_EVENTS) {
       await eventsRepository.createEvent({
         ...event,
-        organizerId: organizer.id,
-        categoryIds: categories.slice(0, 2).map((c) => c.id),
-        venueIds: venues.slice(0, 1).map((v) => v.id)
+        organizer_id: organizer.id,
+        category_ids: categories.slice(0, 2).map((c) => c.id),
+        venue_ids: venues.slice(0, 1).map((v) => v.id)
       });
     }
   }
@@ -115,17 +115,17 @@ export async function seedDemoData(authRepository, eventsRepository, domainRepos
     const tickets = await domainRepository.listTicketsByEvent(event.id);
     if (tickets.length === 0) {
       await domainRepository.createTicket({
-        eventId: event.id,
+        event_id: event.id,
         type: 'Standard',
         price: 199000,
-        quantityAvailable: 120
+        quantity_available: 120
       });
 
       await domainRepository.createTicket({
-        eventId: event.id,
+        event_id: event.id,
         type: 'VIP',
         price: 499000,
-        quantityAvailable: 40
+        quantity_available: 40
       });
     }
   }
@@ -142,48 +142,48 @@ export async function seedDemoData(authRepository, eventsRepository, domainRepos
     const firstEvent = demoEvents[0];
     const tickets = await domainRepository.listTicketsByEvent(firstEvent.id);
     const selected = tickets[0];
-    if (selected && selected.quantityAvailable > 0) {
+    if (selected && selected.quantity_available > 0) {
       await domainRepository.updateTicket(selected.id, {
-        quantityAvailable: selected.quantityAvailable - 1
+        quantity_available: selected.quantity_available - 1
       });
 
       const now = new Date().toISOString();
       const order = await domainRepository.createOrder({
-        userId: customer.id,
-        eventId: firstEvent.id,
-        ticketId: selected.id,
+        user_id: customer.id,
+        event_id: firstEvent.id,
+        ticket_id: selected.id,
         quantity: 1,
-        totalAmount: selected.price,
+        total_amount: selected.price,
         status: 'paid',
-        registrationDate: now
+        registration_date: now
       });
 
       await domainRepository.createPayment({
-        orderId: order.id,
+        order_id: order.id,
         amount: selected.price,
-        paymentMethod: 'mock-gateway',
-        paymentStatus: 'paid',
-        paymentDate: now
+        payment_method: 'mock-gateway',
+        payment_status: 'paid',
+        payment_date: now
       });
     }
   }
 
   if (demoEvents.length > 0) {
     await domainRepository.createOrUpdateReview({
-      userId: customer.id,
-      eventId: demoEvents[0].id,
+      user_id: customer.id,
+      event_id: demoEvents[0].id,
       rating: 5,
       comment: 'Awesome event and smooth ticket booking.'
     });
   }
 
   return {
-    adminEmail: ADMIN_ACCOUNT.email,
-    adminPassword: ADMIN_ACCOUNT.password,
-    customerEmail: CUSTOMER_ACCOUNT.email,
-    customerPassword: CUSTOMER_ACCOUNT.password,
-    organizerEmail: ORGANIZER_ACCOUNT.email,
-    organizerPassword: ORGANIZER_ACCOUNT.password,
-    demoEventCount: DEMO_EVENTS.length
+    admin_email: ADMIN_ACCOUNT.email,
+    admin_password: ADMIN_ACCOUNT.password,
+    customer_email: CUSTOMER_ACCOUNT.email,
+    customer_password: CUSTOMER_ACCOUNT.password,
+    organizer_email: ORGANIZER_ACCOUNT.email,
+    organizer_password: ORGANIZER_ACCOUNT.password,
+    demo_event_count: DEMO_EVENTS.length
   };
 }

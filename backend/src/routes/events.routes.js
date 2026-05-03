@@ -39,59 +39,59 @@ export function createEventsRouter(
   );
 
   router.get(
-    '/:eventId',
+    '/:event_id',
     optionalAuth,
     asyncHandler(async (req, res) => {
-      const event = await eventsService.getEventById(req.params.eventId, req.user);
+      const event = await eventsService.getEventById(req.params.event_id, req.user);
       res.json(event);
     })
   );
 
   router.get(
-    '/:eventId/stats',
+    '/:event_id/stats',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      const stats = await eventsService.getEventStats(req.params.eventId, req.user);
+      const stats = await eventsService.getEventStats(req.params.event_id, req.user);
       res.json(stats);
     })
   );
 
   router.put(
-    '/:eventId',
+    '/:event_id',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      const event = await eventsService.updateEvent(req.params.eventId, req.body, req.user);
+      const event = await eventsService.updateEvent(req.params.event_id, req.body, req.user);
       res.json(event);
     })
   );
 
   router.delete(
-    '/:eventId',
+    '/:event_id',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      await eventsService.deleteEvent(req.params.eventId, req.user);
+      await eventsService.deleteEvent(req.params.event_id, req.user);
       res.status(204).send();
     })
   );
 
   router.post(
-    '/:eventId/register',
+    '/:event_id/register',
     requireAuth,
     asyncHandler(async (req, res) => {
-      const reg = await eventsService.registerForEvent(req.params.eventId, req.user.id);
+      const reg = await eventsService.registerForEvent(req.params.event_id, req.user.id);
       res.status(201).json(reg);
     })
   );
 
   router.get(
-    '/:eventId/orders',
+    '/:event_id/orders',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      const orders = await eventsService.listOrdersForEvent(req.params.eventId, req.user);
+      const orders = await eventsService.listOrdersForEvent(req.params.event_id, req.user);
       res.json(orders);
     })
   );

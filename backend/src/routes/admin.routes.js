@@ -15,11 +15,11 @@ export function createAdminRouter(authService, requireAuth, requireAdmin) {
   );
 
   router.put(
-    '/users/:userId/role',
+    '/users/:user_id/role',
     requireAuth,
     requireAdmin,
     asyncHandler(async (req, res) => {
-      const user = await authService.updateUserRole(req.params.userId, req.body.role);
+      const user = await authService.updateUserRole(req.params.user_id, req.body.role);
       res.json(user);
     })
   );

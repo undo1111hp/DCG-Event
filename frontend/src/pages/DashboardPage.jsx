@@ -69,7 +69,7 @@ export function DashboardPage() {
       setLoading(true);
       setError('');
       try {
-        const data = await api.myRegistrations();
+        const data = await api.my_registrations();
         setEvents(Array.isArray(data) ? data : []);
       } catch (err) {
         setError(err.message);
@@ -87,7 +87,7 @@ export function DashboardPage() {
   const score = totalRegistered * 120;
   const badges = getBadges(events);
   const recentActivity = [...events].sort(
-    (a, b) => new Date(b.registeredAt).getTime() - new Date(a.registeredAt).getTime()
+    (a, b) => new Date(b.registered_at).getTime() - new Date(a.registered_at).getTime()
   );
 
   return (
@@ -154,14 +154,14 @@ export function DashboardPage() {
           <div className="timeline">
             {recentActivity.map((event, index) => (
               <article
-                key={`activity-${event.registrationId}`}
+                key={`activity-${event.registration_id}`}
                 className="timeline-row"
                 style={{ animationDelay: `${index * 0.08}s` }}
               >
                 <div className="timeline-dot" />
                 <div>
                   <p className="timeline-title">Registered for {event.title}</p>
-                  <p className="status">{new Date(event.registeredAt).toLocaleString()}</p>
+                  <p className="status">{new Date(event.registered_at).toLocaleString()}</p>
                 </div>
               </article>
             ))}
@@ -178,13 +178,13 @@ export function DashboardPage() {
         {!loading && events.length > 0 ? (
           <StaggerList className="grid">
             {events.map((event) => (
-              <StaggerItem key={event.registrationId}>
+              <StaggerItem key={event.registration_id}>
                 <article className="card event-card">
                   <h2>{event.title}</h2>
                   <p>{event.description || 'No description yet.'}</p>
                   <p><strong>When:</strong> {event.date}</p>
                   <p><strong>Where:</strong> {event.location}</p>
-                  <p><strong>Registered:</strong> {new Date(event.registeredAt).toLocaleString()}</p>
+                  <p><strong>Registered:</strong> {new Date(event.registered_at).toLocaleString()}</p>
                   <Link className="solid-btn inline" to={`/events/${event.id}`}>
                     View event ►
                   </Link>

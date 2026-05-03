@@ -19,7 +19,7 @@ export default function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<EventsPage />} />
-        <Route path="/events/:eventId" element={<EventDetailPage />} />
+        <Route path="/events/:event_id" element={<EventDetailPage />} />
         <Route
           path="/dashboard"
           element={
@@ -69,7 +69,7 @@ export default function App() {
           }
         />
         <Route
-          path="/events/:eventId/edit"
+          path="/events/:event_id/edit"
           element={
             <OrganizerOrAdminRoute>
               <EventFormPage mode="edit" />

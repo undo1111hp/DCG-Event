@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
     role: { type: String, enum: ['admin', 'organizer', 'user'], default: 'user' },
     created_at: { type: String, default: null }
   },
-  { strict: false, collection: 'User' }
+  { strict: false, collection: 'User', versionKey: false }
 );
 
 export const UserModel = mongoose.model('User', userSchema, 'User');

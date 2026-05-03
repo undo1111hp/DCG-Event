@@ -9,10 +9,10 @@ const eventSchema = new mongoose.Schema(
     end_time: { type: String, default: null },
     rating_avg: { type: Number, default: 0 },
     rating_count: { type: Number, default: 0 },
-    categoryIds: [{ type: mongoose.Schema.Types.Mixed }],
-    venueIds: [{ type: mongoose.Schema.Types.Mixed }],
+    category_ids: [{ type: mongoose.Schema.Types.Mixed }],
+    venue_ids: [{ type: mongoose.Schema.Types.Mixed }],
   },
-  { strict: false, collection: 'Event' }
+  { strict: false, collection: 'Event', versionKey: false }
 );
 
 export const EventModel = mongoose.model('Event', eventSchema, 'Event');

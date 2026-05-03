@@ -32,11 +32,11 @@ export function AdminPage() {
     setLoading(true);
     setError('');
     try {
-      const data = await api.listEvents({ search, page, limit: pageSize });
+      const data = await api.list_events({ search, page, limit: pageSize });
       const items = Array.isArray(data) ? data : data.items || [];
       setEvents(items);
-      setTotalPages(Array.isArray(data) ? 1 : data.totalPages || 1);
-      setTotalItems(Array.isArray(data) ? items.length : data.totalItems || items.length);
+      setTotalPages(Array.isArray(data) ? 1 : data.total_pages || 1);
+      setTotalItems(Array.isArray(data) ? items.length : data.total_items || items.length);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -46,7 +46,7 @@ export function AdminPage() {
 
   async function loadMeta() {
     try {
-      const [categoryData, venueData] = await Promise.all([api.listCategories(), api.listVenues()]);
+      const [categoryData, venueData] = await Promise.all([api.list_categories(), api.list_venues()]);
       setCategories(Array.isArray(categoryData) ? categoryData : []);
       setVenues(Array.isArray(venueData) ? venueData : []);
     } catch {
@@ -56,7 +56,7 @@ export function AdminPage() {
 
   async function loadUsers() {
     try {
-      const userData = await api.listUsers();
+      const userData = await api.list_users();
       setUsers(Array.isArray(userData) ? userData : []);
     } catch {
       // Keep page usable even if user management is unavailable.
@@ -80,7 +80,7 @@ export function AdminPage() {
     setStatus('');
 
     try {
-      await api.createEvent(form);
+      await api.create_event(form);
       setForm(initialForm);
       setStatus('Event created.');
       setPage(1);
@@ -95,7 +95,7 @@ export function AdminPage() {
     setError('');
     setStatus('');
     try {
-      await api.createCategory({ name: categoryName });
+      await api.create_category({ name: categoryName });
       setCategoryName('');
       setStatus('Category created.');
       await loadMeta();
@@ -109,7 +109,7 @@ export function AdminPage() {
     setError('');
     setStatus('');
     try {
-      await api.createVenue({
+      await api.create_venue({
         ...venueForm,
         capacity: Number(venueForm.capacity)
       });
@@ -121,11 +121,11 @@ export function AdminPage() {
     }
   }
 
-  async function handleChangeRole(userId, role) {
+  async function handleChangeRole(user_id, role) {
     setError('');
     setStatus('');
     try {
-      await api.updateUserRole(userId, role);
+      await api.update_user_role(user_id, role);
       setStatus('User role updated.');
       await loadUsers();
     } catch (err) {
@@ -133,7 +133,7 @@ export function AdminPage() {
     }
   }
 
-  async function handleDelete(eventId) {
+  async function handleDelete(event_id) {
     if (!confirm('Delete this event?')) {
       return;
     }
@@ -142,7 +142,7 @@ export function AdminPage() {
     setStatus('');
 
     try {
-      await api.deleteEvent(eventId);
+      await api.delete_event(event_id);
       setStatus('Event deleted.');
       await loadEvents();
     } catch (err) {

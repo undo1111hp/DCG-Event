@@ -1,15 +1,15 @@
 import { memoryStore } from './memoryStore.js';
 
 function hydrateCategories(event) {
-  const categoryIds = Array.isArray(event.categoryIds) ? event.categoryIds.map((id) => String(id)) : [];
-  const categories = categoryIds
-    .map((categoryId) => memoryStore.categories.find((category) => String(category.id) === categoryId))
+  const category_ids = Array.isArray(event.category_ids) ? event.category_ids.map((id) => String(id)) : [];
+  const categories = category_ids
+    .map((cat_id) => memoryStore.categories.find((category) => String(category.id) === cat_id))
     .filter(Boolean)
     .map((category) => ({ id: String(category.id), name: category.name }));
 
   return {
     ...event,
-    categoryIds,
+    category_ids,
     categories
   };
 }
@@ -20,18 +20,18 @@ export const eventsRepositoryMemory = {
     const hasPagination = options.page !== undefined || options.limit !== undefined;
     const page = Math.max(1, Number(options.page || 1));
     const limit = Math.max(1, Number(options.limit || 0));
-    const organizerId = options.organizerId ? String(options.organizerId) : null;
-    const categoryId = options.categoryId ? String(options.categoryId) : null;
+    const organizerId = options.organizer_id ? String(options.organizer_id) : null;
+    const categoryId = options.category_id ? String(options.category_id) : null;
 
     let events = [...memoryStore.events].sort((a, b) => String(a.date).localeCompare(String(b.date)));
 
     if (organizerId) {
-      events = events.filter((event) => String(event.organizerId) === organizerId);
+      events = events.filter((event) => String(event.organizer_id) === organizerId);
     }
 
     if (categoryId) {
       events = events.filter(
-        (event) => Array.isArray(event.categoryIds) && event.categoryIds.some((id) => String(id) === categoryId)
+        (event) => Array.isArray(event.category_ids) && event.category_ids.some((id) => String(id) === categoryId)
       );
     }
 
@@ -68,11 +68,11 @@ export const eventsRepositoryMemory = {
     const event = {
       id: memoryStore.makeId(),
       ...payload,
-      organizerId: payload.organizerId,
-      categoryIds: Array.isArray(payload.categoryIds) ? payload.categoryIds.map((id) => String(id)) : [],
-      venueIds: Array.isArray(payload.venueIds) ? payload.venueIds.map((id) => String(id)) : [],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      organizer_id: payload.organizer_id,
+      category_ids: Array.isArray(payload.category_ids) ? payload.category_ids.map((id) => String(id)) : [],
+      venue_ids: Array.isArray(payload.venue_ids) ? payload.venue_ids.map((id) => String(id)) : [],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
     memoryStore.events.push(event);
     return hydrateCategories(event);
@@ -92,10 +92,10 @@ export const eventsRepositoryMemory = {
     memoryStore.events[idx] = {
       ...memoryStore.events[idx],
       ...updates,
-      categoryIds: Array.isArray(updates.categoryIds)
-        ? updates.categoryIds.map((categoryId) => String(categoryId))
-        : memoryStore.events[idx].categoryIds,
-      updatedAt: new Date().toISOString()
+      category_ids: Array.isArray(updates.category_ids)
+        ? updates.category_ids.map((cat_id) => String(cat_id))
+        : memoryStore.events[idx].category_ids,
+      updated_at: new Date().toISOString()
     };
 
     return hydrateCategories(memoryStore.events[idx]);
@@ -108,7 +108,7 @@ export const eventsRepositoryMemory = {
     }
 
     memoryStore.events.splice(idx, 1);
-    memoryStore.registrations = memoryStore.registrations.filter((r) => r.eventId !== id);
+    memoryStore.registrations = memoryStore.registrations.filter((r) => r.event_id !== id);
     return true;
   },
 
@@ -119,14 +119,14 @@ export const eventsRepositoryMemory = {
     }
 
     const nextCategoryId = String(categoryId);
-    const current = Array.isArray(event.categoryIds) ? event.categoryIds.map((id) => String(id)) : [];
+    const current = Array.isArray(event.category_ids) ? event.category_ids.map((id) => String(id)) : [];
     if (!current.includes(nextCategoryId)) {
       current.push(nextCategoryId);
     }
 
-    event.categoryIds = current;
-    event.updatedAt = new Date().toISOString();
-    return { eventId: String(eventId), categoryId: nextCategoryId };
+    event.category_ids = current;
+    event.updated_at = new Date().toISOString();
+    return { event_id: String(eventId), category_id: nextCategoryId };
   },
 
   async unlinkCategoryFromEvent(eventId, categoryId) {
@@ -136,12 +136,12 @@ export const eventsRepositoryMemory = {
     }
 
     const nextCategoryId = String(categoryId);
-    const current = Array.isArray(event.categoryIds) ? event.categoryIds.map((id) => String(id)) : [];
+    const current = Array.isArray(event.category_ids) ? event.category_ids.map((id) => String(id)) : [];
     const filtered = current.filter((id) => id !== nextCategoryId);
     const changed = filtered.length !== current.length;
-    event.categoryIds = filtered;
+    event.category_ids = filtered;
     if (changed) {
-      event.updatedAt = new Date().toISOString();
+      event.updated_at = new Date().toISOString();
     }
     return changed;
   },
@@ -152,8 +152,8 @@ export const eventsRepositoryMemory = {
       return;
     }
 
-    event.categoryIds = [];
-    event.updatedAt = new Date().toISOString();
+    event.category_ids = [];
+    event.updated_at = new Date().toISOString();
   },
 
   async migrateCategoriesToJunctionTable() {
@@ -162,7 +162,7 @@ export const eventsRepositoryMemory = {
 
   async registerForEvent(eventId, userId) {
     const duplicate = memoryStore.registrations.find(
-      (r) => r.eventId === eventId && r.userId === userId
+      (r) => r.event_id === eventId && r.user_id === userId
     );
 
     if (duplicate) {
@@ -171,9 +171,9 @@ export const eventsRepositoryMemory = {
 
     const reg = {
       id: memoryStore.makeId(),
-      eventId,
-      userId,
-      createdAt: new Date().toISOString()
+      event_id: eventId,
+      user_id: userId,
+      created_at: new Date().toISOString()
     };
 
     memoryStore.registrations.push(reg);
@@ -181,10 +181,10 @@ export const eventsRepositoryMemory = {
   },
 
   async listRegistrationsForEvent(eventId) {
-    return memoryStore.registrations.filter((r) => r.eventId === eventId);
+    return memoryStore.registrations.filter((r) => r.event_id === eventId);
   },
 
   async listRegistrationsForUser(userId) {
-    return memoryStore.registrations.filter((r) => r.userId === userId);
+    return memoryStore.registrations.filter((r) => r.user_id === userId);
   }
 };

@@ -232,12 +232,12 @@ Most users only need `.env` changes. If you want custom behavior, edit these fil
   - Returns approved events for public/attendee users
 - `GET /api/events/manage` (organizer/admin)
 - `POST /api/events` (organizer/admin)
-- `GET /api/events/:eventId`
-- `GET /api/events/:eventId/stats` (organizer/admin for manageable events)
-- `PUT /api/events/:eventId` (organizer/admin)
-- `DELETE /api/events/:eventId` (organizer/admin)
-- `POST /api/events/:eventId/register`
-- `GET /api/events/:eventId/registrations` (organizer/admin for manageable events)
+- `GET /api/events/:event_id`
+- `GET /api/events/:event_id/stats` (organizer/admin for manageable events)
+- `PUT /api/events/:event_id` (organizer/admin)
+- `DELETE /api/events/:event_id` (organizer/admin)
+- `POST /api/events/:event_id/register`
+- `GET /api/events/:event_id/registrations` (organizer/admin for manageable events)
 
 ### Metadata
 
@@ -248,22 +248,22 @@ Most users only need `.env` changes. If you want custom behavior, edit these fil
 
 ### Commerce
 
-- `GET /api/commerce/events/:eventId/tickets`
-- `POST /api/commerce/events/:eventId/tickets` (organizer/admin)
-- `POST /api/commerce/events/:eventId/orders` (attendee/authenticated)
+- `GET /api/commerce/events/:event_id/tickets`
+- `POST /api/commerce/events/:event_id/tickets` (organizer/admin)
+- `POST /api/commerce/events/:event_id/orders` (attendee/authenticated)
 - `GET /api/commerce/my-orders`
-- `GET /api/commerce/events/:eventId/orders` (organizer/admin)
-- `GET /api/commerce/orders/:orderId/payments`
+- `GET /api/commerce/events/:event_id/orders` (organizer/admin)
+- `GET /api/commerce/orders/:order_id/payments`
 
 ### Admin
 
 - `GET /api/admin/users` (admin)
-- `PUT /api/admin/users/:userId/role` (admin)
+- `PUT /api/admin/users/:user_id/role` (admin)
 
 ### Reviews
 
-- `GET /api/events/:eventId/reviews`
-- `POST /api/events/:eventId/reviews`
+- `GET /api/events/:event_id/reviews`
+- `POST /api/events/:event_id/reviews`
 
 ## Demo Accounts (Local Memory Mode)
 

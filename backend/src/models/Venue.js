@@ -8,7 +8,7 @@ const venueSchema = new mongoose.Schema(
     city: { type: String, required: true },
     capacity: { type: Number, required: true, min: 1 }
   },
-  { strict: false, collection: 'Venue' }
+  { strict: false, collection: 'Venue', versionKey: false }
 );
 
 export const VenueModel = mongoose.model('Venue', venueSchema, 'Venue');

@@ -55,13 +55,13 @@ export function AuthProvider({ children }) {
         applySession(result);
         return result.user;
       },
-      async updateAccount(name, email) {
-        const result = await api.updateAccount({ name, email });
+      async update_account(name, email) {
+        const result = await api.update_account({ name, email });
         applySession(result);
         return result.user;
       },
-      async changePassword(currentPassword, newPassword) {
-        const result = await api.changePassword({ currentPassword, newPassword });
+      async change_password(current_password, new_password) {
+        const result = await api.change_password({ current_password, new_password });
         applySession(result);
         return result.user;
       },

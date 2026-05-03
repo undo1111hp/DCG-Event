@@ -41,7 +41,7 @@ async function resolveCategories(events) {
     return events;
   }
 
-  const allCategoryIds = [...new Set(events.flatMap((event) => (event.categoryIds || []).map(toNumericId)))];
+  const allCategoryIds = [...new Set(events.flatMap((event) => (event.category_ids || []).map(toNumericId)))];
   if (allCategoryIds.length === 0) {
     return events.map((event) => ({ ...event, categories: [] }));
   }
@@ -50,42 +50,42 @@ async function resolveCategories(events) {
   const categoryMap = new Map(categories.map((cat) => [cat._id, { id: String(cat._id), name: cat.name }]));
 
   return events.map((event) => {
-    const catIds = (event.categoryIds || []).map(toNumericId);
+    const catIds = (event.category_ids || []).map(toNumericId);
     const catObjs = catIds.map((catId) => categoryMap.get(catId)).filter(Boolean);
     return { ...event, categories: catObjs };
   });
 }
 
 function mapEvent(doc) {
-  const organizerSource = doc.organizerId ?? doc.organizerIds;
+  const organizerSource = doc.organizer_id ?? doc.organizer_ids;
 
   return {
     id: String(doc._id),
     title: doc.title,
     description: doc.description,
     location: doc.location,
-    date: doc.date || doc.start_time || doc.startTime || '',
-    startTime: dateOnly(doc.start_time || doc.startTime || doc.date),
-    endTime: dateOnly(doc.end_time || doc.endTime),
-    organizerId: toIdString(doc.organizerId ?? organizerSource),
-    organizerIds: doc.organizerIds ?? organizerSource ?? null,
-    ratingAvg: doc.rating_avg ?? doc.ratingAvg ?? 0,
-    ratingCount: doc.rating_count ?? doc.ratingCount ?? 0,
-    categoryIds: (doc.categoryIds || []).map((id) => String(id)),
-    venueIds: (doc.venueIds || []).map((id) => String(id)),
-    createdAt: formatDate(doc.createdAt || doc.created_at),
-    updatedAt: formatDate(doc.updatedAt || doc.updated_at)
+    date: doc.date || doc.start_time || '',
+    start_time: dateOnly(doc.start_time || doc.date),
+    end_time: dateOnly(doc.end_time),
+    organizer_id: toIdString(doc.organizer_id ?? organizerSource),
+    organizer_ids: doc.organizer_ids ?? organizerSource ?? null,
+    rating_avg: doc.rating_avg ?? 0,
+    rating_count: doc.rating_count ?? 0,
+    category_ids: (doc.category_ids || []).map((id) => String(id)),
+    venue_ids: (doc.venue_ids || []).map((id) => String(id)),
+    created_at: formatDate(doc.created_at),
+    updated_at: formatDate(doc.updated_at)
   };
 }
 
 function mapRegistration(doc) {
   return {
     id: String(doc._id),
-    eventId: String(doc.eventId),
-    userId: String(doc.userId),
+    event_id: String(doc.event_id),
+    user_id: String(doc.user_id),
     status: doc.status || 'registered',
-    registrationDate: formatDate(doc.registrationDate || doc.createdAt || doc.created_at),
-    createdAt: formatDate(doc.createdAt || doc.created_at)
+    registration_date: formatDate(doc.created_at),
+    created_at: formatDate(doc.created_at)
   };
 }
 
@@ -95,7 +95,7 @@ async function hydrateEventLocations(events) {
   }
 
   const missingLocationEvents = events.filter(
-    (event) => !String(event.location || '').trim() && Array.isArray(event.venueIds) && event.venueIds.length > 0
+    (event) => !String(event.location || '').trim() && Array.isArray(event.venue_ids) && event.venue_ids.length > 0
   );
 
   if (missingLocationEvents.length === 0) {
@@ -103,7 +103,7 @@ async function hydrateEventLocations(events) {
   }
 
   const uniqueVenueIds = [
-    ...new Set(missingLocationEvents.flatMap((event) => event.venueIds.map((venueId) => Number(venueId))))
+    ...new Set(missingLocationEvents.flatMap((event) => event.venue_ids.map((venueId) => Number(venueId))))
   ].filter((venueId) => Number.isFinite(venueId));
 
   if (uniqueVenueIds.length === 0) {
@@ -120,7 +120,7 @@ async function hydrateEventLocations(events) {
       return event;
     }
 
-    const venueNames = (event.venueIds || [])
+    const venueNames = (event.venue_ids || [])
       .map((venueId) => venueNameById.get(String(venueId)))
       .filter(Boolean);
 
@@ -141,8 +141,8 @@ export const eventsRepositoryMongo = {
     const hasPagination = options.page !== undefined || options.limit !== undefined;
     const page = Math.max(1, Number(options.page || 1));
     const limit = Math.max(1, Number(options.limit || 0));
-    const organizerId = options.organizerId;
-    const categoryId = options.categoryId;
+    const organizerId = options.organizer_id;
+    const categoryId = options.category_id;
     const numericOrganizerId = organizerId !== undefined ? toNumericId(organizerId) : null;
     const numericCategoryId = categoryId !== undefined ? toNumericId(categoryId) : null;
 
@@ -164,9 +164,9 @@ export const eventsRepositoryMongo = {
     if (organizerId) {
       clauses.push({
         $or: [
-          { organizerId: numericOrganizerId },
-          { organizerIds: numericOrganizerId },
-          { organizerIds: { $in: [numericOrganizerId] } }
+          { organizer_id: numericOrganizerId },
+          { organizer_ids: numericOrganizerId },
+          { organizer_ids: { $in: [numericOrganizerId] } }
         ]
       });
     }
@@ -176,7 +176,7 @@ export const eventsRepositoryMongo = {
     if (numericCategoryId) {
       filter = {
         ...filter,
-        categoryIds: numericCategoryId
+        category_ids: numericCategoryId
       };
     }
 
@@ -217,13 +217,13 @@ export const eventsRepositoryMongo = {
       title: payload.title,
       description: payload.description || '',
       location: payload.location || '',
-      start_time: dateOnly(payload.startTime || payload.start_time || payload.date || null),
-      end_time: dateOnly(payload.endTime || payload.end_time || null),
-      organizerId: toNumericId(payload.organizerId),
-      categoryIds: Array.isArray(payload.categoryIds) ? payload.categoryIds.map(toNumericId) : [],
-      venueIds: Array.isArray(payload.venueIds) ? payload.venueIds.map(toNumericId) : [],
-      rating_avg: payload.rating_avg ?? payload.ratingAvg ?? 0,
-      rating_count: payload.rating_count ?? payload.ratingCount ?? 0
+      start_time: dateOnly(payload.start_time || payload.date || null),
+      end_time: dateOnly(payload.end_time || null),
+      organizer_id: toNumericId(payload.organizer_id),
+      category_ids: Array.isArray(payload.category_ids) ? payload.category_ids.map(toNumericId) : [],
+      venue_ids: Array.isArray(payload.venue_ids) ? payload.venue_ids.map(toNumericId) : [],
+      rating_avg: payload.rating_avg ?? 0,
+      rating_count: payload.rating_count ?? 0
     });
     return mapEvent(created);
   },
@@ -243,13 +243,11 @@ export const eventsRepositoryMongo = {
   async updateEvent(id, updates) {
     const doc = await EventModel.findByIdAndUpdate(toNumericId(id), {
       ...updates,
-      start_time: updates.start_time != null ? dateOnly(updates.start_time) : updates.start_time,
-      end_time: updates.end_time != null ? dateOnly(updates.end_time) : updates.end_time,
-      organizerId: updates.organizerId != null ? toNumericId(updates.organizerId) : undefined,
-      categoryIds: Array.isArray(updates.categoryIds) ? updates.categoryIds.map(toNumericId) : undefined,
-      venueIds: Array.isArray(updates.venueIds) ? updates.venueIds.map(toNumericId) : undefined,
-      rating_avg: updates.rating_avg ?? updates.ratingAvg,
-      rating_count: updates.rating_count ?? updates.ratingCount
+      start_time: updates.start_time != null ? dateOnly(updates.start_time) : undefined,
+      end_time: updates.end_time != null ? dateOnly(updates.end_time) : undefined,
+      organizer_id: updates.organizer_id != null ? toNumericId(updates.organizer_id) : undefined,
+      category_ids: Array.isArray(updates.category_ids) ? updates.category_ids.map(toNumericId) : undefined,
+      venue_ids: Array.isArray(updates.venue_ids) ? updates.venue_ids.map(toNumericId) : undefined
     }, {
       new: true,
       runValidators: true
@@ -266,17 +264,17 @@ export const eventsRepositoryMongo = {
       return false;
     }
 
-    await RegistrationModel.deleteMany({ eventId: toNumericId(id) }).exec();
+    await RegistrationModel.deleteMany({ event_id: toNumericId(id) }).exec();
     return true;
   },
 
   async registerForEvent(eventId, userId) {
     const doc = await RegistrationModel.findOneAndUpdate(
-      { eventId: toNumericId(eventId), userId: toNumericId(userId) },
+      { event_id: toNumericId(eventId), user_id: toNumericId(userId) },
       {
         _id: await nextNumericId(RegistrationModel),
-        eventId: toNumericId(eventId),
-        userId: toNumericId(userId),
+        event_id: toNumericId(eventId),
+        user_id: toNumericId(userId),
         created_at: formatDate(new Date())
       },
       { upsert: true, new: true, setDefaultsOnInsert: true }
@@ -288,12 +286,12 @@ export const eventsRepositoryMongo = {
   },
 
   async listRegistrationsForEvent(eventId) {
-    const docs = await RegistrationModel.find({ eventId: toNumericId(eventId) }).lean().exec();
+    const docs = await RegistrationModel.find({ event_id: toNumericId(eventId) }).lean().exec();
     return docs.map(mapRegistration);
   },
 
   async listRegistrationsForUser(userId) {
-    const docs = await RegistrationModel.find({ userId: toNumericId(userId) }).lean().exec();
+    const docs = await RegistrationModel.find({ user_id: toNumericId(userId) }).lean().exec();
     return docs.map(mapRegistration);
   },
 
@@ -303,10 +301,10 @@ export const eventsRepositoryMongo = {
 
     await EventModel.findByIdAndUpdate(
       numericEventId,
-      { $addToSet: { categoryIds: numericCategoryId } }
+      { $addToSet: { category_ids: numericCategoryId } }
     ).exec();
 
-    return { eventId: String(numericEventId), categoryId: String(numericCategoryId) };
+    return { event_id: String(numericEventId), category_id: String(numericCategoryId) };
   },
 
   async unlinkCategoryFromEvent(eventId, categoryId) {
@@ -315,7 +313,7 @@ export const eventsRepositoryMongo = {
 
     const doc = await EventModel.findByIdAndUpdate(
       numericEventId,
-      { $pull: { categoryIds: numericCategoryId } },
+      { $pull: { category_ids: numericCategoryId } },
       { new: true }
     ).exec();
 
@@ -325,7 +323,7 @@ export const eventsRepositoryMongo = {
   async unlinkAllCategoriesFromEvent(eventId) {
     await EventModel.findByIdAndUpdate(
       toNumericId(eventId),
-      { $set: { categoryIds: [] } }
+      { $set: { category_ids: [] } }
     ).exec();
   },
 

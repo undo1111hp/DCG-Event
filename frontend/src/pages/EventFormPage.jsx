@@ -26,7 +26,7 @@ const initialState = {
 };
 
 const emptyVenue = () => ({
-  clientId: `venue-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+  client_id: `venue-${Date.now()}-${Math.random().toString(16).slice(2)}`,
   id: '',
   name: '',
   address: '',
@@ -35,7 +35,7 @@ const emptyVenue = () => ({
 });
 
 export function EventFormPage({ mode }) {
-  const { eventId } = useParams();
+  const { event_id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
@@ -56,8 +56,8 @@ export function EventFormPage({ mode }) {
       try {
         // Load categories and venues
         const [categoryList, venueList] = await Promise.all([
-          api.listCategories(),
-          api.listVenues()
+          api.list_categories(),
+          api.list_venues()
         ]);
 
         if (isMounted) {
@@ -69,16 +69,16 @@ export function EventFormPage({ mode }) {
           return;
         }
 
-        const event = await api.getEvent(eventId);
+        const event = await api.get_event(event_id);
         if (!isMounted) {
           return;
         }
 
         const mappedVenues = Array.isArray(event.venues) && event.venues.length > 0
           ? event.venues.map((venue) => ({
-              clientId: `venue-${venue.id}`,
+              client_id: `venue-${venue.id}`,
               source: 'existing',
-              selectedVenueId: String(venue.id),
+              selected_venue_id: String(venue.id),
               id: String(venue.id),
               name: venue.name || '',
               address: venue.address || '',
@@ -88,16 +88,16 @@ export function EventFormPage({ mode }) {
           : [emptyVenue()];
 
         // Get selected category IDs from event
-        const catIds = Array.isArray(event.categoryIds)
-          ? event.categoryIds.map((id) => String(id))
+        const catIds = Array.isArray(event.category_ids)
+          ? event.category_ids.map((id) => String(id))
           : [];
 
         setForm({
           title: event.title,
           description: event.description,
           date: event.date,
-          start_time: dateOnly(event.startTime || event.start_time || event.date || ''),
-          end_time: dateOnly(event.endTime || event.end_time || ''),
+          start_time: dateOnly(event.start_time || event.date || ''),
+          end_time: dateOnly(event.end_time || ''),
           location: event.location
         });
         setVenueForms(mappedVenues);
@@ -118,12 +118,12 @@ export function EventFormPage({ mode }) {
     return () => {
       isMounted = false;
     };
-  }, [mode, eventId]);
+  }, [mode, event_id]);
 
   function updateVenueForm(clientId, field, value) {
     setVenueForms((current) =>
       current.map((venue) =>
-        venue.clientId === clientId
+        venue.client_id === clientId
           ? {
               ...venue,
               [field]: value
@@ -133,18 +133,18 @@ export function EventFormPage({ mode }) {
     );
   }
 
-  function handleExistingVenueSelect(clientId, venueId) {
-    if (!venueId) {
+  function handleExistingVenueSelect(clientId, venue_id) {
+    if (!venue_id) {
       updateVenueForm(clientId, 'source', 'custom');
-      updateVenueForm(clientId, 'selectedVenueId', '');
+      updateVenueForm(clientId, 'selected_venue_id', '');
       updateVenueForm(clientId, 'id', '');
       return;
     }
 
-    const selectedVenue = existingVenues.find((venue) => String(venue.id) === String(venueId));
+    const selectedVenue = existingVenues.find((venue) => String(venue.id) === String(venue_id));
     updateVenueForm(clientId, 'source', 'existing');
-    updateVenueForm(clientId, 'selectedVenueId', String(venueId));
-    updateVenueForm(clientId, 'id', String(venueId));
+    updateVenueForm(clientId, 'selected_venue_id', String(venue_id));
+    updateVenueForm(clientId, 'id', String(venue_id));
     updateVenueForm(clientId, 'name', selectedVenue?.name || '');
     updateVenueForm(clientId, 'address', selectedVenue?.address || '');
     updateVenueForm(clientId, 'city', selectedVenue?.city || '');
@@ -161,7 +161,7 @@ export function EventFormPage({ mode }) {
         return [emptyVenue()];
       }
 
-      return current.filter((venue) => venue.clientId !== clientId);
+      return current.filter((venue) => venue.client_id !== clientId);
     });
   }
 
@@ -198,13 +198,13 @@ export function EventFormPage({ mode }) {
           city: venue.city.trim()
         }))
         .filter((venue) =>
-          venue.selectedVenueId || venue.name || venue.address || venue.city || String(venue.capacity).trim() !== ''
+          venue.selected_venue_id || venue.name || venue.address || venue.city || String(venue.capacity).trim() !== ''
         );
 
       const savedVenueIds = [];
       for (const venue of normalizedVenues) {
-        if (venue.selectedVenueId) {
-          savedVenueIds.push(String(venue.selectedVenueId));
+        if (venue.selected_venue_id) {
+          savedVenueIds.push(String(venue.selected_venue_id));
           continue;
         }
 
@@ -218,20 +218,20 @@ export function EventFormPage({ mode }) {
 
         const venuePayload = buildVenuePayload(venue);
         const savedVenue = venue.id
-          ? await api.updateVenue(venue.id, venuePayload)
-          : await api.createVenue(venuePayload);
+          ? await api.update_venue(venue.id, venuePayload)
+          : await api.create_venue(venuePayload);
 
         savedVenueIds.push(savedVenue.id);
       }
 
-      payload.venueIds = savedVenueIds;
-      payload.categoryIds = selectedCategoryIds;
+      payload.venue_ids = savedVenueIds;
+      payload.category_ids = selectedCategoryIds;
 
       if (mode === 'create') {
-        const created = await api.createEvent(payload);
+        const created = await api.create_event(payload);
         navigate(`/events/${created.id}`);
       } else {
-        const updated = await api.updateEvent(eventId, payload);
+        const updated = await api.update_event(event_id, payload);
         navigate(`/events/${updated.id}`);
       }
     } catch (err) {
@@ -342,7 +342,7 @@ export function EventFormPage({ mode }) {
           </p>
           <div className="admin-list">
             {venueForms.map((venue, index) => (
-              <article key={venue.clientId} className="admin-row" style={{ alignItems: 'flex-start' }}>
+              <article key={venue.client_id} className="admin-row" style={{ alignItems: 'flex-start' }}>
                 <div className="form-grid" style={{ flex: 1 }}>
                   <div className="result-pill">Venue {index + 1}</div>
                     <div className="venue-source-group">
@@ -350,8 +350,8 @@ export function EventFormPage({ mode }) {
                       <div className="pixel-select-wrap">
                         <select
                           className="pixel-select venue-source-select"
-                          value={venue.selectedVenueId || ''}
-                          onChange={(e) => handleExistingVenueSelect(venue.clientId, e.target.value)}
+                          value={venue.selected_venue_id || ''}
+                          onChange={(e) => handleExistingVenueSelect(venue.client_id, e.target.value)}
                         >
                           <option value="">
                             {isAdmin ? 'Create a new venue' : 'Select a saved venue'}
@@ -367,7 +367,7 @@ export function EventFormPage({ mode }) {
                         </span>
                       </div>
                       <p className="status venue-source-status">
-                        {venue.selectedVenueId
+                        {venue.selected_venue_id
                           ? 'This event will use the selected saved venue.'
                           : isAdmin
                             ? 'Fill in the fields below to create a new venue.'
@@ -380,27 +380,27 @@ export function EventFormPage({ mode }) {
                         Name
                         <input
                           value={venue.name}
-                          onChange={(e) => updateVenueForm(venue.clientId, 'name', e.target.value)}
+                          onChange={(e) => updateVenueForm(venue.client_id, 'name', e.target.value)}
                           placeholder="Venue name"
-                          disabled={Boolean(venue.selectedVenueId)}
+                          disabled={Boolean(venue.selected_venue_id)}
                         />
                       </label>
                       <label>
                         Address
                         <input
                           value={venue.address}
-                          onChange={(e) => updateVenueForm(venue.clientId, 'address', e.target.value)}
+                          onChange={(e) => updateVenueForm(venue.client_id, 'address', e.target.value)}
                           placeholder="Street address"
-                          disabled={Boolean(venue.selectedVenueId)}
+                          disabled={Boolean(venue.selected_venue_id)}
                         />
                       </label>
                       <label>
                         City
                         <input
                           value={venue.city}
-                          onChange={(e) => updateVenueForm(venue.clientId, 'city', e.target.value)}
+                          onChange={(e) => updateVenueForm(venue.client_id, 'city', e.target.value)}
                           placeholder="City"
-                          disabled={Boolean(venue.selectedVenueId)}
+                          disabled={Boolean(venue.selected_venue_id)}
                         />
                       </label>
                       <label>
@@ -409,15 +409,15 @@ export function EventFormPage({ mode }) {
                           type="number"
                           min={1}
                           value={venue.capacity}
-                          onChange={(e) => updateVenueForm(venue.clientId, 'capacity', e.target.value)}
+                          onChange={(e) => updateVenueForm(venue.client_id, 'capacity', e.target.value)}
                           placeholder="100"
-                          disabled={Boolean(venue.selectedVenueId)}
+                          disabled={Boolean(venue.selected_venue_id)}
                         />
                       </label>
                     </>
                   ) : null}
                 </div>
-                <button type="button" className="ghost-btn" onClick={() => removeVenueForm(venue.clientId)}>
+                <button type="button" className="ghost-btn" onClick={() => removeVenueForm(venue.client_id)}>
                   Remove
                 </button>
               </article>

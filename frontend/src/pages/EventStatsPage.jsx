@@ -16,7 +16,7 @@ export function EventStatsPage() {
     setLoadingEvents(true);
     setError('');
     try {
-      const data = await api.listManageEvents();
+      const data = await api.list_manage_events();
       const items = Array.isArray(data) ? data : data.items || [];
       setEvents(items);
       if (items.length > 0) {
@@ -29,8 +29,8 @@ export function EventStatsPage() {
     }
   }
 
-  async function loadStats(eventId) {
-    if (!eventId) {
+  async function loadStats(event_id) {
+    if (!event_id) {
       setStats(null);
       return;
     }
@@ -38,7 +38,7 @@ export function EventStatsPage() {
     setLoadingStats(true);
     setError('');
     try {
-      const data = await api.getEventStats(eventId);
+      const data = await api.get_event_stats(event_id);
       setStats(data);
     } catch (err) {
       setError(err.message);
@@ -107,24 +107,24 @@ export function EventStatsPage() {
             <StaggerItem>
               <article className="card summary-tile">
                 <p className="kicker">Tickets</p>
-                <h2>{totals.ticketsSold} sold</h2>
-                <p className="status">{totals.ticketsRemaining} remaining</p>
+                <h2>{totals.tickets_sold} sold</h2>
+                <p className="status">{totals.tickets_remaining} remaining</p>
               </article>
             </StaggerItem>
             <StaggerItem>
               <article className="card summary-tile">
                 <p className="kicker">Inventory</p>
-                <h2>{totals.inventoryUsedPercent}% sold</h2>
+                <h2>{totals.inventory_used_percent}% sold</h2>
                 <div className="meter-track">
-                  <div className="meter-fill" style={{ width: `${totals.inventoryUsedPercent}%` }} />
+                  <div className="meter-fill" style={{ width: `${totals.inventory_used_percent}%` }} />
                 </div>
-                <p className="status">{totals.ticketsSold} of {totals.ticketInventory} total</p>
+                <p className="status">{totals.tickets_sold} of {totals.ticket_inventory} total</p>
               </article>
             </StaggerItem>
             <StaggerItem>
               <article className="card summary-tile">
                 <p className="kicker">Reviews</p>
-                <h2>{totals.averageRating}/5</h2>
+                <h2>{totals.average_rating}/5</h2>
                 <p className="status">{totals.reviews} review(s)</p>
               </article>
             </StaggerItem>

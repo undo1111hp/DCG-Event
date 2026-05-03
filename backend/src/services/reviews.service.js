@@ -13,8 +13,8 @@ export function createReviewsService(eventsRepository, domainRepository) {
     }
 
     return domainRepository.createOrUpdateReview({
-      userId,
-      eventId,
+      user_id: userId,
+      event_id: eventId,
       rating,
       comment: payload.comment || ''
     });

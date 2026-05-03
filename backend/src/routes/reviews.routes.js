@@ -5,18 +5,18 @@ export function createReviewsRouter(reviewsService, requireAuth) {
   const router = Router();
 
   router.get(
-    '/events/:eventId/reviews',
+    '/events/:event_id/reviews',
     asyncHandler(async (req, res) => {
-      const reviews = await reviewsService.listReviewsByEvent(req.params.eventId);
+      const reviews = await reviewsService.listReviewsByEvent(req.params.event_id);
       res.json(reviews);
     })
   );
 
   router.post(
-    '/events/:eventId/reviews',
+    '/events/:event_id/reviews',
     requireAuth,
     asyncHandler(async (req, res) => {
-      const review = await reviewsService.addReview(req.user.id, req.params.eventId, req.body);
+      const review = await reviewsService.addReview(req.user.id, req.params.event_id, req.body);
       res.status(201).json(review);
     })
   );

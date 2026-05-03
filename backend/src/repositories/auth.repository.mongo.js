@@ -42,10 +42,10 @@ function mapUser(doc) {
     id: String(doc._id),
     name: doc.name,
     email: doc.email,
-    passwordHash: doc.password || doc.passwordHash || '',
+    password_hash: doc.password || '',
     phone: doc.phone || '',
     role: doc.role || 'user',
-    createdAt: formatDate(doc.createdAt || doc.created_at)
+    created_at: formatDate(doc.created_at)
   };
 }
 
@@ -55,7 +55,7 @@ export const authRepositoryMongo = {
       _id: await nextNumericId(UserModel),
       name: user.name,
       email: user.email,
-      password: user.passwordHash || user.password,
+      password: user.password_hash || user.password,
       phone: user.phone || '',
       role: user.role || 'user',
       created_at: formatDate(new Date())

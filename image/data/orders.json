@@ -1,1002 +1,1002 @@
-[
-  {
-    "_id": 1,
-    "userId": 6,
-    "eventId": 2,
-    "ticketId": 5,
-    "quantity": 9,
-    "totalAmount": 2772,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 2,
-    "userId": 17,
-    "eventId": 15,
-    "ticketId": 43,
-    "quantity": 2,
-    "totalAmount": 682,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 3,
-    "userId": 16,
-    "eventId": 32,
-    "ticketId": 94,
-    "quantity": 8,
-    "totalAmount": 2616,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 4,
-    "userId": 18,
-    "eventId": 30,
-    "ticketId": 90,
-    "quantity": 4,
-    "totalAmount": 1448,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 5,
-    "userId": 8,
-    "eventId": 25,
-    "ticketId": 74,
-    "quantity": 2,
-    "totalAmount": 956,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 6,
-    "userId": 9,
-    "eventId": 50,
-    "ticketId": 149,
-    "quantity": 3,
-    "totalAmount": 1122,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 7,
-    "userId": 18,
-    "eventId": 36,
-    "ticketId": 107,
-    "quantity": 1,
-    "totalAmount": 427,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 8,
-    "userId": 19,
-    "eventId": 38,
-    "ticketId": 114,
-    "quantity": 3,
-    "totalAmount": 852,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 9,
-    "userId": 6,
-    "eventId": 18,
-    "ticketId": 54,
-    "quantity": 7,
-    "totalAmount": 2884,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 10,
-    "userId": 15,
-    "eventId": 11,
-    "ticketId": 32,
-    "quantity": 8,
-    "totalAmount": 3840,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 11,
-    "userId": 6,
-    "eventId": 22,
-    "ticketId": 66,
-    "quantity": 6,
-    "totalAmount": 1818,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 12,
-    "userId": 12,
-    "eventId": 45,
-    "ticketId": 135,
-    "quantity": 4,
-    "totalAmount": 1200,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 13,
-    "userId": 11,
-    "eventId": 3,
-    "ticketId": 9,
-    "quantity": 8,
-    "totalAmount": 3968,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 14,
-    "userId": 4,
-    "eventId": 31,
-    "ticketId": 93,
-    "quantity": 7,
-    "totalAmount": 2534,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 15,
-    "userId": 5,
-    "eventId": 41,
-    "ticketId": 121,
-    "quantity": 9,
-    "totalAmount": 990,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 16,
-    "userId": 13,
-    "eventId": 31,
-    "ticketId": 93,
-    "quantity": 10,
-    "totalAmount": 3620,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 17,
-    "userId": 17,
-    "eventId": 25,
-    "ticketId": 75,
-    "quantity": 8,
-    "totalAmount": 1216,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 18,
-    "userId": 17,
-    "eventId": 6,
-    "ticketId": 18,
-    "quantity": 2,
-    "totalAmount": 230,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 19,
-    "userId": 5,
-    "eventId": 6,
-    "ticketId": 17,
-    "quantity": 7,
-    "totalAmount": 2744,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 20,
-    "userId": 15,
-    "eventId": 3,
-    "ticketId": 8,
-    "quantity": 1,
-    "totalAmount": 372,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 21,
-    "userId": 8,
-    "eventId": 2,
-    "ticketId": 5,
-    "quantity": 9,
-    "totalAmount": 2772,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 22,
-    "userId": 13,
-    "eventId": 38,
-    "ticketId": 113,
-    "quantity": 7,
-    "totalAmount": 651,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 23,
-    "userId": 17,
-    "eventId": 24,
-    "ticketId": 72,
-    "quantity": 10,
-    "totalAmount": 3610,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 24,
-    "userId": 13,
-    "eventId": 21,
-    "ticketId": 62,
-    "quantity": 8,
-    "totalAmount": 3240,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 25,
-    "userId": 14,
-    "eventId": 13,
-    "ticketId": 37,
-    "quantity": 10,
-    "totalAmount": 3760,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 26,
-    "userId": 14,
-    "eventId": 46,
-    "ticketId": 137,
-    "quantity": 3,
-    "totalAmount": 378,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 27,
-    "userId": 16,
-    "eventId": 12,
-    "ticketId": 34,
-    "quantity": 8,
-    "totalAmount": 3048,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 28,
-    "userId": 16,
-    "eventId": 11,
-    "ticketId": 33,
-    "quantity": 4,
-    "totalAmount": 1460,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 29,
-    "userId": 14,
-    "eventId": 41,
-    "ticketId": 121,
-    "quantity": 6,
-    "totalAmount": 660,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 30,
-    "userId": 19,
-    "eventId": 48,
-    "ticketId": 144,
-    "quantity": 8,
-    "totalAmount": 2712,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 31,
-    "userId": 5,
-    "eventId": 9,
-    "ticketId": 26,
-    "quantity": 10,
-    "totalAmount": 4310,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 32,
-    "userId": 4,
-    "eventId": 15,
-    "ticketId": 45,
-    "quantity": 3,
-    "totalAmount": 1269,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 33,
-    "userId": 17,
-    "eventId": 31,
-    "ticketId": 91,
-    "quantity": 4,
-    "totalAmount": 1356,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 34,
-    "userId": 17,
-    "eventId": 39,
-    "ticketId": 116,
-    "quantity": 1,
-    "totalAmount": 162,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 35,
-    "userId": 6,
-    "eventId": 13,
-    "ticketId": 39,
-    "quantity": 3,
-    "totalAmount": 1026,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 36,
-    "userId": 15,
-    "eventId": 13,
-    "ticketId": 38,
-    "quantity": 2,
-    "totalAmount": 730,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 37,
-    "userId": 7,
-    "eventId": 47,
-    "ticketId": 140,
-    "quantity": 5,
-    "totalAmount": 1230,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 38,
-    "userId": 18,
-    "eventId": 40,
-    "ticketId": 118,
-    "quantity": 3,
-    "totalAmount": 1002,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 39,
-    "userId": 18,
-    "eventId": 2,
-    "ticketId": 5,
-    "quantity": 4,
-    "totalAmount": 1232,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 40,
-    "userId": 8,
-    "eventId": 35,
-    "ticketId": 103,
-    "quantity": 6,
-    "totalAmount": 1614,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 41,
-    "userId": 12,
-    "eventId": 26,
-    "ticketId": 77,
-    "quantity": 5,
-    "totalAmount": 2255,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 42,
-    "userId": 18,
-    "eventId": 41,
-    "ticketId": 123,
-    "quantity": 2,
-    "totalAmount": 502,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 43,
-    "userId": 15,
-    "eventId": 19,
-    "ticketId": 56,
-    "quantity": 3,
-    "totalAmount": 1152,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 44,
-    "userId": 15,
-    "eventId": 30,
-    "ticketId": 88,
-    "quantity": 8,
-    "totalAmount": 1144,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 45,
-    "userId": 12,
-    "eventId": 12,
-    "ticketId": 35,
-    "quantity": 2,
-    "totalAmount": 502,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 46,
-    "userId": 10,
-    "eventId": 45,
-    "ticketId": 134,
-    "quantity": 6,
-    "totalAmount": 936,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 47,
-    "userId": 10,
-    "eventId": 9,
-    "ticketId": 26,
-    "quantity": 6,
-    "totalAmount": 2586,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 48,
-    "userId": 9,
-    "eventId": 47,
-    "ticketId": 141,
-    "quantity": 6,
-    "totalAmount": 420,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 49,
-    "userId": 19,
-    "eventId": 2,
-    "ticketId": 4,
-    "quantity": 9,
-    "totalAmount": 3789,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 50,
-    "userId": 14,
-    "eventId": 29,
-    "ticketId": 86,
-    "quantity": 1,
-    "totalAmount": 121,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 51,
-    "userId": 16,
-    "eventId": 32,
-    "ticketId": 94,
-    "quantity": 7,
-    "totalAmount": 2289,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 52,
-    "userId": 11,
-    "eventId": 20,
-    "ticketId": 58,
-    "quantity": 5,
-    "totalAmount": 2080,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 53,
-    "userId": 6,
-    "eventId": 11,
-    "ticketId": 31,
-    "quantity": 2,
-    "totalAmount": 588,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 54,
-    "userId": 13,
-    "eventId": 38,
-    "ticketId": 113,
-    "quantity": 10,
-    "totalAmount": 930,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 55,
-    "userId": 15,
-    "eventId": 34,
-    "ticketId": 101,
-    "quantity": 6,
-    "totalAmount": 2622,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 56,
-    "userId": 13,
-    "eventId": 31,
-    "ticketId": 93,
-    "quantity": 8,
-    "totalAmount": 2896,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 57,
-    "userId": 10,
-    "eventId": 18,
-    "ticketId": 53,
-    "quantity": 9,
-    "totalAmount": 3951,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 58,
-    "userId": 16,
-    "eventId": 21,
-    "ticketId": 63,
-    "quantity": 4,
-    "totalAmount": 1596,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 59,
-    "userId": 16,
-    "eventId": 43,
-    "ticketId": 128,
-    "quantity": 8,
-    "totalAmount": 1952,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 60,
-    "userId": 11,
-    "eventId": 20,
-    "ticketId": 58,
-    "quantity": 5,
-    "totalAmount": 2080,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 61,
-    "userId": 7,
-    "eventId": 46,
-    "ticketId": 138,
-    "quantity": 1,
-    "totalAmount": 492,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 62,
-    "userId": 11,
-    "eventId": 5,
-    "ticketId": 15,
-    "quantity": 2,
-    "totalAmount": 522,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 63,
-    "userId": 14,
-    "eventId": 22,
-    "ticketId": 64,
-    "quantity": 6,
-    "totalAmount": 1032,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 64,
-    "userId": 13,
-    "eventId": 18,
-    "ticketId": 53,
-    "quantity": 5,
-    "totalAmount": 2195,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 65,
-    "userId": 18,
-    "eventId": 50,
-    "ticketId": 148,
-    "quantity": 4,
-    "totalAmount": 1464,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 66,
-    "userId": 14,
-    "eventId": 23,
-    "ticketId": 69,
-    "quantity": 3,
-    "totalAmount": 471,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 67,
-    "userId": 7,
-    "eventId": 40,
-    "ticketId": 119,
-    "quantity": 4,
-    "totalAmount": 1904,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 68,
-    "userId": 16,
-    "eventId": 8,
-    "ticketId": 24,
-    "quantity": 4,
-    "totalAmount": 1072,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 69,
-    "userId": 16,
-    "eventId": 32,
-    "ticketId": 96,
-    "quantity": 5,
-    "totalAmount": 1370,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 70,
-    "userId": 8,
-    "eventId": 22,
-    "ticketId": 65,
-    "quantity": 6,
-    "totalAmount": 2430,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 71,
-    "userId": 7,
-    "eventId": 4,
-    "ticketId": 12,
-    "quantity": 3,
-    "totalAmount": 1146,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 72,
-    "userId": 10,
-    "eventId": 26,
-    "ticketId": 78,
-    "quantity": 8,
-    "totalAmount": 1464,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 73,
-    "userId": 18,
-    "eventId": 24,
-    "ticketId": 72,
-    "quantity": 3,
-    "totalAmount": 1083,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 74,
-    "userId": 14,
-    "eventId": 27,
-    "ticketId": 79,
-    "quantity": 2,
-    "totalAmount": 570,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 75,
-    "userId": 10,
-    "eventId": 25,
-    "ticketId": 73,
-    "quantity": 2,
-    "totalAmount": 578,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 76,
-    "userId": 9,
-    "eventId": 37,
-    "ticketId": 111,
-    "quantity": 4,
-    "totalAmount": 1288,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 77,
-    "userId": 15,
-    "eventId": 36,
-    "ticketId": 108,
-    "quantity": 10,
-    "totalAmount": 960,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 78,
-    "userId": 4,
-    "eventId": 42,
-    "ticketId": 125,
-    "quantity": 9,
-    "totalAmount": 3456,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 79,
-    "userId": 11,
-    "eventId": 47,
-    "ticketId": 139,
-    "quantity": 10,
-    "totalAmount": 3520,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 80,
-    "userId": 19,
-    "eventId": 6,
-    "ticketId": 18,
-    "quantity": 1,
-    "totalAmount": 115,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 81,
-    "userId": 17,
-    "eventId": 8,
-    "ticketId": 22,
-    "quantity": 9,
-    "totalAmount": 3213,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 82,
-    "userId": 11,
-    "eventId": 17,
-    "ticketId": 49,
-    "quantity": 4,
-    "totalAmount": 1412,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 83,
-    "userId": 6,
-    "eventId": 45,
-    "ticketId": 134,
-    "quantity": 10,
-    "totalAmount": 1560,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 84,
-    "userId": 5,
-    "eventId": 39,
-    "ticketId": 115,
-    "quantity": 6,
-    "totalAmount": 2850,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 85,
-    "userId": 15,
-    "eventId": 46,
-    "ticketId": 138,
-    "quantity": 3,
-    "totalAmount": 1476,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 86,
-    "userId": 9,
-    "eventId": 34,
-    "ticketId": 101,
-    "quantity": 7,
-    "totalAmount": 3059,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 87,
-    "userId": 15,
-    "eventId": 34,
-    "ticketId": 102,
-    "quantity": 1,
-    "totalAmount": 315,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 88,
-    "userId": 10,
-    "eventId": 35,
-    "ticketId": 104,
-    "quantity": 2,
-    "totalAmount": 970,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 89,
-    "userId": 16,
-    "eventId": 35,
-    "ticketId": 104,
-    "quantity": 1,
-    "totalAmount": 485,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 90,
-    "userId": 15,
-    "eventId": 33,
-    "ticketId": 97,
-    "quantity": 7,
-    "totalAmount": 833,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 91,
-    "userId": 10,
-    "eventId": 45,
-    "ticketId": 135,
-    "quantity": 9,
-    "totalAmount": 2700,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 92,
-    "userId": 11,
-    "eventId": 37,
-    "ticketId": 110,
-    "quantity": 8,
-    "totalAmount": 1408,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 93,
-    "userId": 7,
-    "eventId": 49,
-    "ticketId": 147,
-    "quantity": 8,
-    "totalAmount": 2176,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 94,
-    "userId": 7,
-    "eventId": 20,
-    "ticketId": 59,
-    "quantity": 6,
-    "totalAmount": 2634,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 95,
-    "userId": 11,
-    "eventId": 36,
-    "ticketId": 107,
-    "quantity": 1,
-    "totalAmount": 427,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 96,
-    "userId": 6,
-    "eventId": 33,
-    "ticketId": 97,
-    "quantity": 6,
-    "totalAmount": 714,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 97,
-    "userId": 16,
-    "eventId": 49,
-    "ticketId": 147,
-    "quantity": 8,
-    "totalAmount": 2176,
-    "status": "confirmed",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 98,
-    "userId": 19,
-    "eventId": 19,
-    "ticketId": 56,
-    "quantity": 2,
-    "totalAmount": 768,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 99,
-    "userId": 4,
-    "eventId": 25,
-    "ticketId": 74,
-    "quantity": 4,
-    "totalAmount": 1912,
-    "status": "cancelled",
-    "registration_date": "2026-06-01"
-  },
-  {
-    "_id": 100,
-    "userId": 17,
-    "eventId": 6,
-    "ticketId": 16,
-    "quantity": 2,
-    "totalAmount": 950,
-    "status": "pending",
-    "registration_date": "2026-06-01"
-  }
+﻿[
+    {
+        "_id":  1,
+        "quantity":  9,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  6,
+        "event_id":  2,
+        "ticket_id":  5,
+        "total_amount":  2772
+    },
+    {
+        "_id":  2,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  15,
+        "ticket_id":  43,
+        "total_amount":  682
+    },
+    {
+        "_id":  3,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  32,
+        "ticket_id":  94,
+        "total_amount":  2616
+    },
+    {
+        "_id":  4,
+        "quantity":  4,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  18,
+        "event_id":  30,
+        "ticket_id":  90,
+        "total_amount":  1448
+    },
+    {
+        "_id":  5,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  8,
+        "event_id":  25,
+        "ticket_id":  74,
+        "total_amount":  956
+    },
+    {
+        "_id":  6,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  9,
+        "event_id":  50,
+        "ticket_id":  149,
+        "total_amount":  1122
+    },
+    {
+        "_id":  7,
+        "quantity":  1,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  18,
+        "event_id":  36,
+        "ticket_id":  107,
+        "total_amount":  427
+    },
+    {
+        "_id":  8,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  19,
+        "event_id":  38,
+        "ticket_id":  114,
+        "total_amount":  852
+    },
+    {
+        "_id":  9,
+        "quantity":  7,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  6,
+        "event_id":  18,
+        "ticket_id":  54,
+        "total_amount":  2884
+    },
+    {
+        "_id":  10,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  11,
+        "ticket_id":  32,
+        "total_amount":  3840
+    },
+    {
+        "_id":  11,
+        "quantity":  6,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  6,
+        "event_id":  22,
+        "ticket_id":  66,
+        "total_amount":  1818
+    },
+    {
+        "_id":  12,
+        "quantity":  4,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  12,
+        "event_id":  45,
+        "ticket_id":  135,
+        "total_amount":  1200
+    },
+    {
+        "_id":  13,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  3,
+        "ticket_id":  9,
+        "total_amount":  3968
+    },
+    {
+        "_id":  14,
+        "quantity":  7,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  4,
+        "event_id":  31,
+        "ticket_id":  93,
+        "total_amount":  2534
+    },
+    {
+        "_id":  15,
+        "quantity":  9,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  5,
+        "event_id":  41,
+        "ticket_id":  121,
+        "total_amount":  990
+    },
+    {
+        "_id":  16,
+        "quantity":  10,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  13,
+        "event_id":  31,
+        "ticket_id":  93,
+        "total_amount":  3620
+    },
+    {
+        "_id":  17,
+        "quantity":  8,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  25,
+        "ticket_id":  75,
+        "total_amount":  1216
+    },
+    {
+        "_id":  18,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  6,
+        "ticket_id":  18,
+        "total_amount":  230
+    },
+    {
+        "_id":  19,
+        "quantity":  7,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  5,
+        "event_id":  6,
+        "ticket_id":  17,
+        "total_amount":  2744
+    },
+    {
+        "_id":  20,
+        "quantity":  1,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  3,
+        "ticket_id":  8,
+        "total_amount":  372
+    },
+    {
+        "_id":  21,
+        "quantity":  9,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  8,
+        "event_id":  2,
+        "ticket_id":  5,
+        "total_amount":  2772
+    },
+    {
+        "_id":  22,
+        "quantity":  7,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  13,
+        "event_id":  38,
+        "ticket_id":  113,
+        "total_amount":  651
+    },
+    {
+        "_id":  23,
+        "quantity":  10,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  24,
+        "ticket_id":  72,
+        "total_amount":  3610
+    },
+    {
+        "_id":  24,
+        "quantity":  8,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  13,
+        "event_id":  21,
+        "ticket_id":  62,
+        "total_amount":  3240
+    },
+    {
+        "_id":  25,
+        "quantity":  10,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  14,
+        "event_id":  13,
+        "ticket_id":  37,
+        "total_amount":  3760
+    },
+    {
+        "_id":  26,
+        "quantity":  3,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  14,
+        "event_id":  46,
+        "ticket_id":  137,
+        "total_amount":  378
+    },
+    {
+        "_id":  27,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  12,
+        "ticket_id":  34,
+        "total_amount":  3048
+    },
+    {
+        "_id":  28,
+        "quantity":  4,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  11,
+        "ticket_id":  33,
+        "total_amount":  1460
+    },
+    {
+        "_id":  29,
+        "quantity":  6,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  14,
+        "event_id":  41,
+        "ticket_id":  121,
+        "total_amount":  660
+    },
+    {
+        "_id":  30,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  19,
+        "event_id":  48,
+        "ticket_id":  144,
+        "total_amount":  2712
+    },
+    {
+        "_id":  31,
+        "quantity":  10,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  5,
+        "event_id":  9,
+        "ticket_id":  26,
+        "total_amount":  4310
+    },
+    {
+        "_id":  32,
+        "quantity":  3,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  4,
+        "event_id":  15,
+        "ticket_id":  45,
+        "total_amount":  1269
+    },
+    {
+        "_id":  33,
+        "quantity":  4,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  31,
+        "ticket_id":  91,
+        "total_amount":  1356
+    },
+    {
+        "_id":  34,
+        "quantity":  1,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  39,
+        "ticket_id":  116,
+        "total_amount":  162
+    },
+    {
+        "_id":  35,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  6,
+        "event_id":  13,
+        "ticket_id":  39,
+        "total_amount":  1026
+    },
+    {
+        "_id":  36,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  13,
+        "ticket_id":  38,
+        "total_amount":  730
+    },
+    {
+        "_id":  37,
+        "quantity":  5,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  7,
+        "event_id":  47,
+        "ticket_id":  140,
+        "total_amount":  1230
+    },
+    {
+        "_id":  38,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  18,
+        "event_id":  40,
+        "ticket_id":  118,
+        "total_amount":  1002
+    },
+    {
+        "_id":  39,
+        "quantity":  4,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  18,
+        "event_id":  2,
+        "ticket_id":  5,
+        "total_amount":  1232
+    },
+    {
+        "_id":  40,
+        "quantity":  6,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  8,
+        "event_id":  35,
+        "ticket_id":  103,
+        "total_amount":  1614
+    },
+    {
+        "_id":  41,
+        "quantity":  5,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  12,
+        "event_id":  26,
+        "ticket_id":  77,
+        "total_amount":  2255
+    },
+    {
+        "_id":  42,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  18,
+        "event_id":  41,
+        "ticket_id":  123,
+        "total_amount":  502
+    },
+    {
+        "_id":  43,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  19,
+        "ticket_id":  56,
+        "total_amount":  1152
+    },
+    {
+        "_id":  44,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  30,
+        "ticket_id":  88,
+        "total_amount":  1144
+    },
+    {
+        "_id":  45,
+        "quantity":  2,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  12,
+        "event_id":  12,
+        "ticket_id":  35,
+        "total_amount":  502
+    },
+    {
+        "_id":  46,
+        "quantity":  6,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  10,
+        "event_id":  45,
+        "ticket_id":  134,
+        "total_amount":  936
+    },
+    {
+        "_id":  47,
+        "quantity":  6,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  10,
+        "event_id":  9,
+        "ticket_id":  26,
+        "total_amount":  2586
+    },
+    {
+        "_id":  48,
+        "quantity":  6,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  9,
+        "event_id":  47,
+        "ticket_id":  141,
+        "total_amount":  420
+    },
+    {
+        "_id":  49,
+        "quantity":  9,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  19,
+        "event_id":  2,
+        "ticket_id":  4,
+        "total_amount":  3789
+    },
+    {
+        "_id":  50,
+        "quantity":  1,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  14,
+        "event_id":  29,
+        "ticket_id":  86,
+        "total_amount":  121
+    },
+    {
+        "_id":  51,
+        "quantity":  7,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  32,
+        "ticket_id":  94,
+        "total_amount":  2289
+    },
+    {
+        "_id":  52,
+        "quantity":  5,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  20,
+        "ticket_id":  58,
+        "total_amount":  2080
+    },
+    {
+        "_id":  53,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  6,
+        "event_id":  11,
+        "ticket_id":  31,
+        "total_amount":  588
+    },
+    {
+        "_id":  54,
+        "quantity":  10,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  13,
+        "event_id":  38,
+        "ticket_id":  113,
+        "total_amount":  930
+    },
+    {
+        "_id":  55,
+        "quantity":  6,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  34,
+        "ticket_id":  101,
+        "total_amount":  2622
+    },
+    {
+        "_id":  56,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  13,
+        "event_id":  31,
+        "ticket_id":  93,
+        "total_amount":  2896
+    },
+    {
+        "_id":  57,
+        "quantity":  9,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  10,
+        "event_id":  18,
+        "ticket_id":  53,
+        "total_amount":  3951
+    },
+    {
+        "_id":  58,
+        "quantity":  4,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  21,
+        "ticket_id":  63,
+        "total_amount":  1596
+    },
+    {
+        "_id":  59,
+        "quantity":  8,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  43,
+        "ticket_id":  128,
+        "total_amount":  1952
+    },
+    {
+        "_id":  60,
+        "quantity":  5,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  20,
+        "ticket_id":  58,
+        "total_amount":  2080
+    },
+    {
+        "_id":  61,
+        "quantity":  1,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  7,
+        "event_id":  46,
+        "ticket_id":  138,
+        "total_amount":  492
+    },
+    {
+        "_id":  62,
+        "quantity":  2,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  5,
+        "ticket_id":  15,
+        "total_amount":  522
+    },
+    {
+        "_id":  63,
+        "quantity":  6,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  14,
+        "event_id":  22,
+        "ticket_id":  64,
+        "total_amount":  1032
+    },
+    {
+        "_id":  64,
+        "quantity":  5,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  13,
+        "event_id":  18,
+        "ticket_id":  53,
+        "total_amount":  2195
+    },
+    {
+        "_id":  65,
+        "quantity":  4,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  18,
+        "event_id":  50,
+        "ticket_id":  148,
+        "total_amount":  1464
+    },
+    {
+        "_id":  66,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  14,
+        "event_id":  23,
+        "ticket_id":  69,
+        "total_amount":  471
+    },
+    {
+        "_id":  67,
+        "quantity":  4,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  7,
+        "event_id":  40,
+        "ticket_id":  119,
+        "total_amount":  1904
+    },
+    {
+        "_id":  68,
+        "quantity":  4,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  8,
+        "ticket_id":  24,
+        "total_amount":  1072
+    },
+    {
+        "_id":  69,
+        "quantity":  5,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  32,
+        "ticket_id":  96,
+        "total_amount":  1370
+    },
+    {
+        "_id":  70,
+        "quantity":  6,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  8,
+        "event_id":  22,
+        "ticket_id":  65,
+        "total_amount":  2430
+    },
+    {
+        "_id":  71,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  7,
+        "event_id":  4,
+        "ticket_id":  12,
+        "total_amount":  1146
+    },
+    {
+        "_id":  72,
+        "quantity":  8,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  10,
+        "event_id":  26,
+        "ticket_id":  78,
+        "total_amount":  1464
+    },
+    {
+        "_id":  73,
+        "quantity":  3,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  18,
+        "event_id":  24,
+        "ticket_id":  72,
+        "total_amount":  1083
+    },
+    {
+        "_id":  74,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  14,
+        "event_id":  27,
+        "ticket_id":  79,
+        "total_amount":  570
+    },
+    {
+        "_id":  75,
+        "quantity":  2,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  10,
+        "event_id":  25,
+        "ticket_id":  73,
+        "total_amount":  578
+    },
+    {
+        "_id":  76,
+        "quantity":  4,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  9,
+        "event_id":  37,
+        "ticket_id":  111,
+        "total_amount":  1288
+    },
+    {
+        "_id":  77,
+        "quantity":  10,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  36,
+        "ticket_id":  108,
+        "total_amount":  960
+    },
+    {
+        "_id":  78,
+        "quantity":  9,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  4,
+        "event_id":  42,
+        "ticket_id":  125,
+        "total_amount":  3456
+    },
+    {
+        "_id":  79,
+        "quantity":  10,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  47,
+        "ticket_id":  139,
+        "total_amount":  3520
+    },
+    {
+        "_id":  80,
+        "quantity":  1,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  19,
+        "event_id":  6,
+        "ticket_id":  18,
+        "total_amount":  115
+    },
+    {
+        "_id":  81,
+        "quantity":  9,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  8,
+        "ticket_id":  22,
+        "total_amount":  3213
+    },
+    {
+        "_id":  82,
+        "quantity":  4,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  17,
+        "ticket_id":  49,
+        "total_amount":  1412
+    },
+    {
+        "_id":  83,
+        "quantity":  10,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  6,
+        "event_id":  45,
+        "ticket_id":  134,
+        "total_amount":  1560
+    },
+    {
+        "_id":  84,
+        "quantity":  6,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  5,
+        "event_id":  39,
+        "ticket_id":  115,
+        "total_amount":  2850
+    },
+    {
+        "_id":  85,
+        "quantity":  3,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  46,
+        "ticket_id":  138,
+        "total_amount":  1476
+    },
+    {
+        "_id":  86,
+        "quantity":  7,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  9,
+        "event_id":  34,
+        "ticket_id":  101,
+        "total_amount":  3059
+    },
+    {
+        "_id":  87,
+        "quantity":  1,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  34,
+        "ticket_id":  102,
+        "total_amount":  315
+    },
+    {
+        "_id":  88,
+        "quantity":  2,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  10,
+        "event_id":  35,
+        "ticket_id":  104,
+        "total_amount":  970
+    },
+    {
+        "_id":  89,
+        "quantity":  1,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  35,
+        "ticket_id":  104,
+        "total_amount":  485
+    },
+    {
+        "_id":  90,
+        "quantity":  7,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  15,
+        "event_id":  33,
+        "ticket_id":  97,
+        "total_amount":  833
+    },
+    {
+        "_id":  91,
+        "quantity":  9,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  10,
+        "event_id":  45,
+        "ticket_id":  135,
+        "total_amount":  2700
+    },
+    {
+        "_id":  92,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  37,
+        "ticket_id":  110,
+        "total_amount":  1408
+    },
+    {
+        "_id":  93,
+        "quantity":  8,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  7,
+        "event_id":  49,
+        "ticket_id":  147,
+        "total_amount":  2176
+    },
+    {
+        "_id":  94,
+        "quantity":  6,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  7,
+        "event_id":  20,
+        "ticket_id":  59,
+        "total_amount":  2634
+    },
+    {
+        "_id":  95,
+        "quantity":  1,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  11,
+        "event_id":  36,
+        "ticket_id":  107,
+        "total_amount":  427
+    },
+    {
+        "_id":  96,
+        "quantity":  6,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  6,
+        "event_id":  33,
+        "ticket_id":  97,
+        "total_amount":  714
+    },
+    {
+        "_id":  97,
+        "quantity":  8,
+        "status":  "confirmed",
+        "registration_date":  "2026-06-01",
+        "user_id":  16,
+        "event_id":  49,
+        "ticket_id":  147,
+        "total_amount":  2176
+    },
+    {
+        "_id":  98,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  19,
+        "event_id":  19,
+        "ticket_id":  56,
+        "total_amount":  768
+    },
+    {
+        "_id":  99,
+        "quantity":  4,
+        "status":  "cancelled",
+        "registration_date":  "2026-06-01",
+        "user_id":  4,
+        "event_id":  25,
+        "ticket_id":  74,
+        "total_amount":  1912
+    },
+    {
+        "_id":  100,
+        "quantity":  2,
+        "status":  "pending",
+        "registration_date":  "2026-06-01",
+        "user_id":  17,
+        "event_id":  6,
+        "ticket_id":  16,
+        "total_amount":  950
+    }
 ]

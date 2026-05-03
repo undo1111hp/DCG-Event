@@ -5,31 +5,31 @@ export function createCommerceRouter(commerceService, requireAuth, requireOrgani
   const router = Router();
 
   router.post(
-    '/events/:eventId/tickets',
+    '/events/:event_id/tickets',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      const ticket = await commerceService.createTicket(req.params.eventId, req.body, req.user);
+      const ticket = await commerceService.createTicket(req.params.event_id, req.body, req.user);
       res.status(201).json(ticket);
     })
   );
 
   router.get(
-    '/events/:eventId/tickets',
+    '/events/:event_id/tickets',
     asyncHandler(async (req, res) => {
-      const tickets = await commerceService.listTicketsByEvent(req.params.eventId);
+      const tickets = await commerceService.listTicketsByEvent(req.params.event_id);
       res.json(tickets);
     })
   );
 
   router.put(
-    '/events/:eventId/tickets/:ticketId',
+    '/events/:event_id/tickets/:ticket_id',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
       const ticket = await commerceService.updateTicket(
-        req.params.eventId,
-        req.params.ticketId,
+        req.params.event_id,
+        req.params.ticket_id,
         req.body,
         req.user
       );
@@ -38,20 +38,20 @@ export function createCommerceRouter(commerceService, requireAuth, requireOrgani
   );
 
   router.delete(
-    '/events/:eventId/tickets/:ticketId',
+    '/events/:event_id/tickets/:ticket_id',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      await commerceService.deleteTicket(req.params.eventId, req.params.ticketId, req.user);
+      await commerceService.deleteTicket(req.params.event_id, req.params.ticket_id, req.user);
       res.status(204).send();
     })
   );
 
   router.post(
-    '/events/:eventId/orders',
+    '/events/:event_id/orders',
     requireAuth,
     asyncHandler(async (req, res) => {
-      const result = await commerceService.createOrderAndPayment(req.user.id, req.params.eventId, req.body);
+      const result = await commerceService.createOrderAndPayment(req.user.id, req.params.event_id, req.body);
       res.status(201).json(result);
     })
   );
@@ -66,38 +66,38 @@ export function createCommerceRouter(commerceService, requireAuth, requireOrgani
   );
 
   router.get(
-    '/events/:eventId/orders',
+    '/events/:event_id/orders',
     requireAuth,
     requireOrganizerOrAdmin,
     asyncHandler(async (req, res) => {
-      const orders = await commerceService.listOrdersByEvent(req.params.eventId);
+      const orders = await commerceService.listOrdersByEvent(req.params.event_id);
       res.json(orders);
     })
   );
 
   router.get(
-    '/orders/:orderId/payments',
+    '/orders/:order_id/payments',
     requireAuth,
     asyncHandler(async (req, res) => {
-      const payments = await commerceService.listPaymentsByOrder(req.params.orderId);
+      const payments = await commerceService.listPaymentsByOrder(req.params.order_id);
       res.json(payments);
     })
   );
 
   router.put(
-    '/orders/:orderId/pay',
+    '/orders/:order_id/pay',
     requireAuth,
     asyncHandler(async (req, res) => {
-      const result = await commerceService.payOrder(req.params.orderId, req.user.id);
+      const result = await commerceService.payOrder(req.params.order_id, req.user.id);
       res.json(result);
     })
   );
 
   router.put(
-    '/orders/:orderId/cancel',
+    '/orders/:order_id/cancel',
     requireAuth,
     asyncHandler(async (req, res) => {
-      const result = await commerceService.cancelOrder(req.params.orderId, req.user.id);
+      const result = await commerceService.cancelOrder(req.params.order_id, req.user.id);
       res.json(result);
     })
   );

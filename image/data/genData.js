@@ -48,11 +48,11 @@ for (let i = 1; i <= 50; i++) {
     description: "Some description",
     start_time: "2026-07-01",
     end_time: "2026-07-02",
-    venueIds: sample(venues.map(v => v._id), rand(1, 4)),
-    organizerId: rand(1, 4),
+    venue_ids: sample(venues.map(v => v._id), rand(1, 4)),
+    organizer_id: rand(1, 4),
     rating_avg: 0,
     rating_count: 0,
-    categoryIds: sample(categories.map(c => c._id), rand(1, 4))
+    category_ids: sample(categories.map(c => c._id), rand(1, 4))
   });
 }
 
@@ -63,7 +63,7 @@ events.forEach(e => {
   ["VIP", "Standard", "Early"].forEach(type => {
     tickets.push({
       _id: ticketId++,
-      eventId: e._id,
+      event_id: e._id,
       type,
       price: rand(50, 500),
       quantity_available: rand(200, 500)
@@ -79,18 +79,18 @@ for (let i = 1; i <= 100; i++) {
   const eventId = rand(1, 51);
 
   // find tickets belonging to that event
-  const eventTickets = tickets.filter(t => t.eventId === eventId);
+  const eventTickets = tickets.filter(t => t.event_id === eventId);
 
   // pick one matching ticket type
   const chosenTicket = pick(eventTickets);
   const randQuant = rand(1, 11)
   orders.push({
     _id: i,
-    userId: rand(4, 20),
-    eventId: eventId,
-    ticketId: chosenTicket._id,
+    user_id: rand(4, 20),
+    event_id: eventId,
+    ticket_id: chosenTicket._id,
     quantity: randQuant, // 1 to 10
-    totalAmount: randQuant*chosenTicket.price,
+    total_amount: randQuant*chosenTicket.price,
     status: pick(["pending", "confirmed", "cancelled"]),
     registration_date: "2026-06-01"
   });
@@ -99,8 +99,8 @@ for (let i = 1; i <= 100; i++) {
 // ===== PAYMENTS =====
 const payments = orders.map(o => ({
   _id: o._id,
-  orderId: o._id,
-  amount: tickets[o.ticketId-1].price * o.quantity,
+  order_id: o._id,
+  amount: tickets[o.ticket_id-1].price * o.quantity,
   payment_method: pick(["card", "momo", "paypal"]),
   payment_status: o.status === "confirmed" ? "success" : "pending",
   payment_date: "2026-06-01"
@@ -114,8 +114,8 @@ for (let i = 1; i <= 100; i++) {
 
   reviews.push({
     _id: i,
-    userId: rand(4, 20),
-    eventId,
+    user_id: rand(4, 20),
+    event_id: eventId,
     rating,
     comment: `Review ${i}`
   });

@@ -10,7 +10,7 @@ export function createEventsService(eventsRepository, domainRepository) {
       return;
     }
 
-    if (user.role === 'organizer' && String(event.organizerId) === String(user.id)) {
+    if (user.role === 'organizer' && String(event.organizer_id) === String(user.id)) {
       return;
     }
 
@@ -18,15 +18,15 @@ export function createEventsService(eventsRepository, domainRepository) {
   }
 
   async function hydrateEventVenues(event) {
-    const venueIds = Array.isArray(event?.venueIds) ? event.venueIds : [];
-    if (venueIds.length === 0) {
+    const venue_ids = Array.isArray(event?.venue_ids) ? event.venue_ids : [];
+    if (venue_ids.length === 0) {
       return {
         ...event,
         venues: []
       };
     }
 
-    const venues = await Promise.all(venueIds.map((venueId) => domainRepository.getVenueById(venueId)));
+    const venues = await Promise.all(venue_ids.map((venue_id) => domainRepository.getVenueById(venue_id)));
 
     return {
       ...event,
@@ -46,7 +46,7 @@ export function createEventsService(eventsRepository, domainRepository) {
     }
 
     if (viewer?.role === 'organizer' && String(options.manage || '') === 'true') {
-      return eventsRepository.listEvents({ ...options, organizerId: viewer.id });
+      return eventsRepository.listEvents({ ...options, organizer_id: viewer.id });
     }
 
     return eventsRepository.listEvents(options);
@@ -58,13 +58,13 @@ export function createEventsService(eventsRepository, domainRepository) {
     }
 
     // Categories are now required
-    if (!Array.isArray(payload.categoryIds) || payload.categoryIds.length === 0) {
+    if (!Array.isArray(payload.category_ids) || payload.category_ids.length === 0) {
       throw new ApiError(400, 'At least one category is required');
     }
 
     // Validate that all categories exist
     const categories = await Promise.all(
-      payload.categoryIds.map((catId) => domainRepository.getCategoryById(catId))
+      payload.category_ids.map((cat_id) => domainRepository.getCategoryById(cat_id))
     );
     if (categories.some((cat) => !cat)) {
       throw new ApiError(400, 'One or more categories do not exist');
@@ -76,9 +76,9 @@ export function createEventsService(eventsRepository, domainRepository) {
       location: payload.location || '',
       start_time: payload.start_time,
       end_time: payload.end_time,
-      organizerId: payload.organizerId || viewer.id,
-      categoryIds: payload.categoryIds,
-      venueIds: Array.isArray(payload.venueIds) ? payload.venueIds : []
+      organizer_id: payload.organizer_id || viewer.id,
+      category_ids: payload.category_ids,
+      venue_ids: Array.isArray(payload.venue_ids) ? payload.venue_ids : []
     });
 
     return event;
@@ -106,13 +106,13 @@ export function createEventsService(eventsRepository, domainRepository) {
     }
 
     // If updating categories, validate them
-    if (Array.isArray(updates.categoryIds)) {
-      if (updates.categoryIds.length === 0) {
+    if (Array.isArray(updates.category_ids)) {
+      if (updates.category_ids.length === 0) {
         throw new ApiError(400, 'At least one category is required');
       }
 
       const categories = await Promise.all(
-        updates.categoryIds.map((catId) => domainRepository.getCategoryById(catId))
+        updates.category_ids.map((cat_id) => domainRepository.getCategoryById(cat_id))
       );
       if (categories.some((cat) => !cat)) {
         throw new ApiError(400, 'One or more categories do not exist');
@@ -180,7 +180,7 @@ export function createEventsService(eventsRepository, domainRepository) {
     }
 
     const registrations = await eventsRepository.listRegistrationsForEvent(eventId);
-    const already = registrations.find((r) => r.userId === userId);
+    const already = registrations.find((r) => r.user_id === userId);
     if (already) {
       return already;
     }
@@ -213,29 +213,29 @@ export function createEventsService(eventsRepository, domainRepository) {
       domainRepository.listReviewsByEvent(eventId)
     ]);
 
-    const ticketsSold = orders.reduce((sum, order) => sum + Number(order.quantity || 0), 0);
-    const revenue = orders.reduce((sum, order) => sum + Number(order.totalAmount || 0), 0);
-    const avgRating =
+    const tickets_sold = orders.reduce((sum, order) => sum + Number(order.quantity || 0), 0);
+    const revenue = orders.reduce((sum, order) => sum + Number(order.total_amount || 0), 0);
+    const avg_rating =
       reviews.length > 0
         ? Number((reviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) / reviews.length).toFixed(2))
         : 0;
-    const ticketsRemaining = tickets.reduce((sum, ticket) => sum + Number(ticket.quantityAvailable || 0), 0);
-    const ticketInventory = ticketsSold + ticketsRemaining;
-    const inventoryUsedPercent =
-      ticketInventory > 0 ? Number(((ticketsSold / ticketInventory) * 100).toFixed(1)) : 0;
+    const tickets_remaining = tickets.reduce((sum, ticket) => sum + Number(ticket.quantity_available || 0), 0);
+    const ticket_inventory = tickets_sold + tickets_remaining;
+    const inventory_used_percent =
+      ticket_inventory > 0 ? Number(((tickets_sold / ticket_inventory) * 100).toFixed(1)) : 0;
 
     return {
       event,
       totals: {
         registrations: orders.length,
         orders: orders.length,
-        ticketsSold,
-        ticketsRemaining,
-        ticketInventory,
-        inventoryUsedPercent,
+        tickets_sold,
+        tickets_remaining,
+        ticket_inventory,
+        inventory_used_percent,
         revenue,
         reviews: reviews.length,
-        averageRating: avgRating
+        average_rating: avg_rating
       }
     };
   }

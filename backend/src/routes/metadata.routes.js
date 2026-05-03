@@ -41,11 +41,11 @@ export function createMetadataRouter(metadataService, requireAuth, requireAdmin,
   );
 
   router.put(
-    '/venues/:venueId',
+    '/venues/:venue_id',
     requireAuth,
     requireAdmin,
     asyncHandler(async (req, res) => {
-      const venue = await metadataService.updateVenue(req.params.venueId, req.body);
+      const venue = await metadataService.updateVenue(req.params.venue_id, req.body);
       res.json(venue);
     })
   );

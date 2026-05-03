@@ -6,7 +6,7 @@ export const authRepositoryMemory = {
       id: memoryStore.makeId(),
       ...user,
       role: user.role || 'user',
-      createdAt: new Date().toISOString()
+      created_at: new Date().toISOString()
     };
     memoryStore.users.push(created);
     return created;
@@ -31,13 +31,13 @@ export const authRepositoryMemory = {
     return user;
   },
 
-  async updateUserPassword(id, passwordHash) {
+  async updateUserPassword(id, password_hash) {
     const user = memoryStore.users.find((u) => u.id === id);
     if (!user) {
       return null;
     }
 
-    user.passwordHash = passwordHash;
+    user.password_hash = password_hash;
     return user;
   },
 

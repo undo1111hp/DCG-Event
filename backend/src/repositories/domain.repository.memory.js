@@ -18,8 +18,8 @@ export const domainRepositoryMemory = {
     const category = {
       id: memoryStore.makeId(),
       name: payload.name,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     memoryStore.categories.push(category);
@@ -41,8 +41,8 @@ export const domainRepositoryMemory = {
       address: payload.address || '',
       city: payload.city,
       capacity: Number(payload.capacity),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     memoryStore.venues.push(venue);
@@ -60,7 +60,7 @@ export const domainRepositoryMemory = {
       ...updates,
       capacity:
         updates.capacity !== undefined ? Number(updates.capacity) : memoryStore.venues[idx].capacity,
-      updatedAt: new Date().toISOString()
+      updated_at: new Date().toISOString()
     };
 
     return memoryStore.venues[idx];
@@ -71,18 +71,18 @@ export const domainRepositoryMemory = {
   },
 
   async listTicketsByEvent(eventId) {
-    return memoryStore.tickets.filter((ticket) => ticket.eventId === eventId);
+    return memoryStore.tickets.filter((ticket) => ticket.event_id === eventId);
   },
 
   async createTicket(payload) {
     const ticket = {
       id: memoryStore.makeId(),
-      eventId: payload.eventId,
+      event_id: payload.event_id,
       type: payload.type,
       price: Number(payload.price),
-      quantityAvailable: Number(payload.quantityAvailable),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      quantity_available: Number(payload.quantity_available),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     memoryStore.tickets.push(ticket);
@@ -98,7 +98,7 @@ export const domainRepositoryMemory = {
     memoryStore.tickets[idx] = {
       ...memoryStore.tickets[idx],
       ...updates,
-      updatedAt: new Date().toISOString()
+      updated_at: new Date().toISOString()
     };
 
     return memoryStore.tickets[idx];
@@ -122,8 +122,8 @@ export const domainRepositoryMemory = {
     const order = {
       id: memoryStore.makeId(),
       ...payload,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     memoryStore.orders.push(order);
@@ -131,19 +131,19 @@ export const domainRepositoryMemory = {
   },
 
   async listOrdersByUser(userId) {
-    return memoryStore.orders.filter((order) => order.userId === userId);
+    return memoryStore.orders.filter((order) => order.user_id === userId);
   },
 
   async listOrdersByEvent(eventId) {
-    return memoryStore.orders.filter((order) => order.eventId === eventId);
+    return memoryStore.orders.filter((order) => order.event_id === eventId);
   },
 
   async createPayment(payload) {
     const payment = {
       id: memoryStore.makeId(),
       ...payload,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     memoryStore.payments.push(payment);
@@ -151,20 +151,20 @@ export const domainRepositoryMemory = {
   },
 
   async listPaymentsByOrder(orderId) {
-    return memoryStore.payments.filter((payment) => payment.orderId === orderId);
+    return memoryStore.payments.filter((payment) => payment.order_id === orderId);
   },
 
   async createOrUpdateReview(payload) {
     const idx = memoryStore.reviews.findIndex(
-      (review) => review.userId === payload.userId && review.eventId === payload.eventId
+      (review) => review.user_id === payload.user_id && review.event_id === payload.event_id
     );
 
     if (idx === -1) {
       const review = {
         id: memoryStore.makeId(),
         ...payload,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
       memoryStore.reviews.push(review);
       return review;
@@ -173,14 +173,14 @@ export const domainRepositoryMemory = {
     memoryStore.reviews[idx] = {
       ...memoryStore.reviews[idx],
       ...payload,
-      updatedAt: new Date().toISOString()
+      updated_at: new Date().toISOString()
     };
 
     return memoryStore.reviews[idx];
   },
 
   async listReviewsByEvent(eventId) {
-    return memoryStore.reviews.filter((review) => review.eventId === eventId);
+    return memoryStore.reviews.filter((review) => review.event_id === eventId);
   },
 
   async updateOrder(id, updates) {
@@ -192,7 +192,7 @@ export const domainRepositoryMemory = {
     memoryStore.orders[idx] = {
       ...memoryStore.orders[idx],
       ...updates,
-      updatedAt: new Date().toISOString()
+      updated_at: new Date().toISOString()
     };
 
     return memoryStore.orders[idx];

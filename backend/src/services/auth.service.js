@@ -14,30 +14,30 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
     return typeof value === 'string' && value.startsWith('$2') && value.length > 20;
   }
 
-  async function verifyPassword(plainPassword, storedPasswordHash) {
-    if (!storedPasswordHash) {
+  async function verifyPassword(plain_password, stored_password_hash) {
+    if (!stored_password_hash) {
       return false;
     }
 
-    if (isBcryptHash(storedPasswordHash)) {
-      return bcrypt.compare(plainPassword, storedPasswordHash);
+    if (isBcryptHash(stored_password_hash)) {
+      return bcrypt.compare(plain_password, stored_password_hash);
     }
 
-    return plainPassword === storedPasswordHash;
+    return plain_password === stored_password_hash;
   }
 
   async function register({ name, email, password }) {
-    const normalizedEmail = String(email).trim().toLowerCase();
-    const existing = await authRepository.findUserByEmail(normalizedEmail);
+    const normalized_email = String(email).trim().toLowerCase();
+    const existing = await authRepository.findUserByEmail(normalized_email);
     if (existing) {
       throw new ApiError(409, 'Email already in use');
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const password_hash = await bcrypt.hash(password, 10);
     const user = await authRepository.createUser({
       name,
-      email: normalizedEmail,
-      passwordHash,
+      email: normalized_email,
+      password_hash,
       role: 'user'
     });
 
@@ -53,20 +53,20 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
   }
 
   async function login({ email, password }) {
-    const normalizedEmail = String(email).trim().toLowerCase();
-    const user = await authRepository.findUserByEmail(normalizedEmail);
+    const normalized_email = String(email).trim().toLowerCase();
+    const user = await authRepository.findUserByEmail(normalized_email);
     if (!user) {
       throw new ApiError(401, 'Invalid credentials');
     }
 
-    const valid = await verifyPassword(password, user.passwordHash);
+    const valid = await verifyPassword(password, user.password_hash);
     if (!valid) {
       throw new ApiError(401, 'Invalid credentials');
     }
 
-    if (!isBcryptHash(user.passwordHash)) {
-      const migratedHash = await bcrypt.hash(password, 10);
-      await authRepository.updateUserPassword(user.id, migratedHash);
+    if (!isBcryptHash(user.password_hash)) {
+      const migrated_hash = await bcrypt.hash(password, 10);
+      await authRepository.updateUserPassword(user.id, migrated_hash);
     }
 
     return {
@@ -80,8 +80,8 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
     };
   }
 
-  async function me(userId) {
-    const user = await authRepository.findUserById(userId);
+  async function me(user_id) {
+    const user = await authRepository.findUserById(user_id);
     if (!user) {
       throw new ApiError(404, 'User not found');
     }
@@ -94,20 +94,20 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
     };
   }
 
-  async function updateProfile(userId, { name, email }) {
-    const current = await authRepository.findUserById(userId);
+  async function updateProfile(user_id, { name, email }) {
+    const current = await authRepository.findUserById(user_id);
     if (!current) {
       throw new ApiError(404, 'User not found');
     }
 
     if (email !== current.email) {
       const existing = await authRepository.findUserByEmail(email);
-      if (existing && existing.id !== userId) {
+      if (existing && existing.id !== user_id) {
         throw new ApiError(409, 'Email already in use');
       }
     }
 
-    const updated = await authRepository.updateUserProfile(userId, { name, email });
+    const updated = await authRepository.updateUserProfile(user_id, { name, email });
     if (!updated) {
       throw new ApiError(404, 'User not found');
     }
@@ -123,19 +123,19 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
     };
   }
 
-  async function changePassword(userId, { currentPassword, newPassword }) {
-    const user = await authRepository.findUserById(userId);
+  async function changePassword(user_id, { current_password, new_password }) {
+    const user = await authRepository.findUserById(user_id);
     if (!user) {
       throw new ApiError(404, 'User not found');
     }
 
-    const valid = await verifyPassword(currentPassword, user.passwordHash);
+    const valid = await verifyPassword(current_password, user.password_hash);
     if (!valid) {
       throw new ApiError(401, 'Current password is incorrect');
     }
 
-    const passwordHash = await bcrypt.hash(newPassword, 10);
-    const updated = await authRepository.updateUserPassword(userId, passwordHash);
+    const password_hash = await bcrypt.hash(new_password, 10);
+    const updated = await authRepository.updateUserPassword(user_id, password_hash);
 
     return {
       token: signToken(updated),
@@ -155,9 +155,9 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
     // Deduplicate: one entry per event (keep the most recent order)
     const seen = new Map();
     for (const order of activeOrders) {
-      const existing = seen.get(order.eventId);
-      if (!existing || new Date(order.createdAt) > new Date(existing.createdAt)) {
-        seen.set(order.eventId, order);
+      const existing = seen.get(order.event_id);
+      if (!existing || new Date(order.created_at) > new Date(existing.created_at)) {
+        seen.set(order.event_id, order);
       }
     }
 
@@ -167,7 +167,7 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
     }
 
     const events = await Promise.all(
-      uniqueOrders.map((order) => eventsRepository.getEventById(order.eventId))
+      uniqueOrders.map((order) => eventsRepository.getEventById(order.event_id))
     );
 
     return uniqueOrders
@@ -178,12 +178,12 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
         }
 
         return {
-          orderId: order.id,
-          registrationId: order.id,
-          registeredAt: order.registrationDate || order.createdAt,
+          order_id: order.id,
+          registration_id: order.id,
+          registered_at: order.registration_date || order.created_at,
           quantity: order.quantity,
-          totalAmount: order.totalAmount,
-          orderStatus: order.status,
+          total_amount: order.total_amount,
+          order_status: order.status,
           ...event
         };
       })
@@ -197,17 +197,17 @@ export function createAuthService(authRepository, eventsRepository, domainReposi
       name: user.name,
       email: user.email,
       role: user.role || 'user',
-      createdAt: user.createdAt
+      created_at: user.created_at
     }));
   }
 
-  async function updateUserRole(userId, role) {
+  async function updateUserRole(user_id, role) {
     const allowed = ['user', 'organizer', 'admin'];
     if (!allowed.includes(role)) {
       throw new ApiError(400, 'role must be one of user, organizer, admin');
     }
 
-    const updated = await authRepository.updateUserRole(userId, role);
+    const updated = await authRepository.updateUserRole(user_id, role);
     if (!updated) {
       throw new ApiError(404, 'User not found');
     }

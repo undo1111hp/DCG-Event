@@ -28,8 +28,8 @@ function mapCategory(doc) {
   return {
     id: String(doc._id),
     name: doc.name,
-    createdAt: formatDate(doc.createdAt || doc.created_at),
-    updatedAt: formatDate(doc.updatedAt || doc.updated_at)
+    created_at: formatDate(doc.created_at),
+    updated_at: formatDate(doc.updated_at)
   };
 }
 
@@ -40,61 +40,61 @@ function mapVenue(doc) {
     address: doc.address,
     city: doc.city,
     capacity: doc.capacity,
-    createdAt: formatDate(doc.createdAt || doc.created_at),
-    updatedAt: formatDate(doc.updatedAt || doc.updated_at)
+    created_at: formatDate(doc.created_at),
+    updated_at: formatDate(doc.updated_at)
   };
 }
 
 function mapTicket(doc) {
   return {
     id: String(doc._id),
-    eventId: String(doc.eventId),
+    event_id: String(doc.event_id),
     type: doc.type,
     price: doc.price,
-    quantityAvailable: doc.quantityAvailable ?? doc.quantity_available ?? 0,
-    createdAt: formatDate(doc.createdAt || doc.created_at),
-    updatedAt: formatDate(doc.updatedAt || doc.updated_at)
+    quantity_available: doc.quantity_available ?? 0,
+    created_at: formatDate(doc.created_at),
+    updated_at: formatDate(doc.updated_at)
   };
 }
 
 function mapOrder(doc) {
   return {
     id: String(doc._id),
-    userId: String(doc.userId),
-    eventId: String(doc.eventId),
-    ticketId: doc.ticketId != null ? String(doc.ticketId) : null,
+    user_id: String(doc.user_id),
+    event_id: String(doc.event_id),
+    ticket_id: doc.ticket_id != null ? String(doc.ticket_id) : null,
     quantity: doc.quantity,
-    totalAmount: doc.totalAmount,
+    total_amount: doc.total_amount,
     status: doc.status,
-    registrationDate: formatDate(doc.registrationDate || doc.registration_date),
-    createdAt: formatDate(doc.createdAt || doc.created_at),
-    updatedAt: formatDate(doc.updatedAt || doc.updated_at)
+    registration_date: formatDate(doc.registration_date),
+    created_at: formatDate(doc.created_at),
+    updated_at: formatDate(doc.updated_at)
   };
 }
 
 function mapPayment(doc) {
   return {
     id: String(doc._id),
-    registrationId: doc.registrationId != null ? String(doc.registrationId) : null,
-    orderId: String(doc.orderId),
+    registration_id: doc.registration_id != null ? String(doc.registration_id) : null,
+    order_id: String(doc.order_id),
     amount: doc.amount,
-    paymentMethod: doc.paymentMethod || doc.payment_method || 'mock-gateway',
-    paymentStatus: doc.paymentStatus || doc.payment_status || 'paid',
-    paymentDate: formatDate(doc.paymentDate || doc.payment_date),
-    createdAt: formatDate(doc.createdAt || doc.created_at),
-    updatedAt: formatDate(doc.updatedAt || doc.updated_at)
+    payment_method: doc.payment_method || 'mock-gateway',
+    payment_status: doc.payment_status || 'paid',
+    payment_date: formatDate(doc.payment_date),
+    created_at: formatDate(doc.created_at),
+    updated_at: formatDate(doc.updated_at)
   };
 }
 
 function mapReview(doc) {
   return {
     id: String(doc._id),
-    userId: String(doc.userId),
-    eventId: String(doc.eventId),
+    user_id: String(doc.user_id),
+    event_id: String(doc.event_id),
     rating: doc.rating,
     comment: doc.comment,
-    createdAt: formatDate(doc.createdAt || doc.created_at),
-    updatedAt: formatDate(doc.updatedAt || doc.updated_at)
+    created_at: formatDate(doc.created_at),
+    updated_at: formatDate(doc.updated_at)
   };
 }
 
@@ -159,18 +159,17 @@ export const domainRepositoryMongo = {
   },
 
   async listTicketsByEvent(eventId) {
-    const docs = await TicketModel.find({ eventId: toNumericId(eventId) }).lean().exec();
+    const docs = await TicketModel.find({ event_id: toNumericId(eventId) }).lean().exec();
     return docs.map(mapTicket);
   },
 
   async createTicket(payload) {
     const created = await TicketModel.create({
       _id: await nextNumericId(TicketModel),
-      eventId: toNumericId(payload.eventId),
+      event_id: toNumericId(payload.event_id),
       type: payload.type,
       price: payload.price,
-      quantityAvailable: payload.quantityAvailable,
-      quantity_available: payload.quantityAvailable
+      quantity_available: payload.quantity_available
     });
     return mapTicket(created);
   },
@@ -178,11 +177,7 @@ export const domainRepositoryMongo = {
   async updateTicket(id, updates) {
     const doc = await TicketModel.findByIdAndUpdate(
       toNumericId(id),
-      {
-        ...updates,
-        quantity_available:
-          updates.quantityAvailable !== undefined ? updates.quantityAvailable : updates.quantity_available
-      },
+      { ...updates },
       { new: true, runValidators: true }
     )
       .lean()
@@ -203,36 +198,36 @@ export const domainRepositoryMongo = {
   async createOrder(payload) {
     const created = await OrderModel.create({
       _id: await nextNumericId(OrderModel),
-      userId: toNumericId(payload.userId),
-      eventId: toNumericId(payload.eventId),
-      ticketId: payload.ticketId != null ? toNumericId(payload.ticketId) : null,
+      user_id: toNumericId(payload.user_id),
+      event_id: toNumericId(payload.event_id),
+      ticket_id: payload.ticket_id != null ? toNumericId(payload.ticket_id) : null,
       quantity: payload.quantity,
-      totalAmount: payload.totalAmount,
+      total_amount: payload.total_amount,
       status: payload.status || 'paid',
-      registration_date: payload.registrationDate || null
+      registration_date: payload.registration_date || null
     });
     return mapOrder(created);
   },
 
   async listOrdersByUser(userId) {
-    const docs = await OrderModel.find({ userId: toNumericId(userId) }).sort({ _id: -1 }).lean().exec();
+    const docs = await OrderModel.find({ user_id: toNumericId(userId) }).sort({ _id: -1 }).lean().exec();
     return docs.map(mapOrder);
   },
 
   async listOrdersByEvent(eventId) {
-    const docs = await OrderModel.find({ eventId: toNumericId(eventId) }).sort({ _id: -1 }).lean().exec();
+    const docs = await OrderModel.find({ event_id: toNumericId(eventId) }).sort({ _id: -1 }).lean().exec();
     return docs.map(mapOrder);
   },
 
   async createPayment(payload) {
     const created = await PaymentModel.create({
       _id: await nextNumericId(PaymentModel),
-      registrationId: payload.registrationId != null ? toNumericId(payload.registrationId) : null,
-      orderId: toNumericId(payload.orderId),
+      registration_id: payload.registration_id != null ? toNumericId(payload.registration_id) : null,
+      order_id: toNumericId(payload.order_id),
       amount: payload.amount,
-      payment_method: payload.paymentMethod || 'mock-gateway',
-      payment_status: payload.paymentStatus || 'paid',
-      payment_date: payload.paymentDate || null
+      payment_method: payload.payment_method || 'mock-gateway',
+      payment_status: payload.payment_status || 'paid',
+      payment_date: payload.payment_date || null
     });
     return mapPayment(created);
   },
@@ -252,12 +247,12 @@ export const domainRepositoryMongo = {
   },
 
   async listPaymentsByOrder(orderId) {
-    const docs = await PaymentModel.find({ orderId: toNumericId(orderId) }).sort({ _id: -1 }).lean().exec();
+    const docs = await PaymentModel.find({ order_id: toNumericId(orderId) }).sort({ _id: -1 }).lean().exec();
     return docs.map(mapPayment);
   },
 
   async createOrUpdateReview(payload) {
-    const filter = { userId: toNumericId(payload.userId), eventId: toNumericId(payload.eventId) };
+    const filter = { user_id: toNumericId(payload.user_id), event_id: toNumericId(payload.event_id) };
 
     const existing = await ReviewModel.findOne(filter).lean().exec();
 
@@ -273,8 +268,8 @@ export const domainRepositoryMongo = {
           : {
               $setOnInsert: {
                 _id: await nextNumericId(ReviewModel),
-                userId: toNumericId(payload.userId),
-                eventId: toNumericId(payload.eventId)
+                user_id: toNumericId(payload.user_id),
+                event_id: toNumericId(payload.event_id)
               }
             })
       },
@@ -287,7 +282,7 @@ export const domainRepositoryMongo = {
   },
 
   async listReviewsByEvent(eventId) {
-    const docs = await ReviewModel.find({ eventId: toNumericId(eventId) }).sort({ _id: -1 }).lean().exec();
+    const docs = await ReviewModel.find({ event_id: toNumericId(eventId) }).sort({ _id: -1 }).lean().exec();
     return docs.map(mapReview);
   }
 };

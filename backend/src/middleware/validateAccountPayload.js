@@ -11,14 +11,14 @@ export function validateUpdateProfilePayload(req, res, next) {
 }
 
 export function validateChangePasswordPayload(req, res, next) {
-  const { currentPassword, newPassword } = req.body;
+  const { current_password, new_password } = req.body;
 
-  if (!currentPassword || !newPassword) {
-    return next(new ApiError(400, 'currentPassword and newPassword are required'));
+  if (!current_password || !new_password) {
+    return next(new ApiError(400, 'current_password and new_password are required'));
   }
 
-  if (String(newPassword).length < 6) {
-    return next(new ApiError(400, 'newPassword must be at least 6 characters'));
+  if (String(new_password).length < 6) {
+    return next(new ApiError(400, 'new_password must be at least 6 characters'));
   }
 
   next();

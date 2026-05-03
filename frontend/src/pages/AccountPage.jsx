@@ -3,9 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import { PageTransition } from '../components/PageTransition';
 
 export function AccountPage() {
-  const { user, updateAccount, changePassword } = useAuth();
+  const { user, update_account, change_password } = useAuth();
   const [profile, setProfile] = useState({ name: user?.name || '', email: user?.email || '' });
-  const [passwords, setPasswords] = useState({ currentPassword: '', newPassword: '' });
+  const [passwords, setPasswords] = useState({ current_password: '', new_password: '' });
   const [profileStatus, setProfileStatus] = useState('');
   const [profileError, setProfileError] = useState('');
   const [passwordStatus, setPasswordStatus] = useState('');
@@ -24,7 +24,7 @@ export function AccountPage() {
     setSavingProfile(true);
 
     try {
-      await updateAccount(profile.name, profile.email);
+      await update_account(profile.name, profile.email);
       setProfileStatus('✦ Account updated successfully.');
     } catch (err) {
       setProfileError(err.message);
@@ -40,9 +40,9 @@ export function AccountPage() {
     setSavingPassword(true);
 
     try {
-      await changePassword(passwords.currentPassword, passwords.newPassword);
+      await change_password(passwords.current_password, passwords.new_password);
       setPasswordStatus('✦ Password updated successfully.');
-      setPasswords({ currentPassword: '', newPassword: '' });
+      setPasswords({ current_password: '', new_password: '' });
     } catch (err) {
       setPasswordError(err.message);
     } finally {
@@ -97,8 +97,8 @@ export function AccountPage() {
                 Current Password
                 <input
                   type="password"
-                  value={passwords.currentPassword}
-                  onChange={(e) => setPasswords((s) => ({ ...s, currentPassword: e.target.value }))}
+                  value={passwords.current_password}
+                  onChange={(e) => setPasswords((s) => ({ ...s, current_password: e.target.value }))}
                   placeholder="••••••••"
                   required
                 />
@@ -107,8 +107,8 @@ export function AccountPage() {
                 New Password
                 <input
                   type="password"
-                  value={passwords.newPassword}
-                  onChange={(e) => setPasswords((s) => ({ ...s, newPassword: e.target.value }))}
+                  value={passwords.new_password}
+                  onChange={(e) => setPasswords((s) => ({ ...s, new_password: e.target.value }))}
                   placeholder="Min 6 characters"
                   required
                   minLength={6}

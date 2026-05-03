@@ -16,7 +16,7 @@ export function MyTicketsPage() {
     setLoading(true);
     setError('');
     try {
-      const [ordersData, eventsData] = await Promise.all([api.myOrders(), api.listEvents()]);
+      const [ordersData, eventsData] = await Promise.all([api.my_orders(), api.list_events()]);
       setOrders(Array.isArray(ordersData) ? ordersData : []);
       setEvents(Array.isArray(eventsData) ? eventsData : eventsData.items || []);
     } catch (err) {
@@ -30,12 +30,12 @@ export function MyTicketsPage() {
     load();
   }, []);
 
-  async function handlePay(orderId) {
+  async function handlePay(order_id) {
     setMessage('');
     setError('');
-    setProcessingOrderId(orderId);
+    setProcessingOrderId(order_id);
     try {
-      await api.payOrder(orderId);
+      await api.pay_order(order_id);
       setMessage('✦ Payment successful!');
       await load();
     } catch (err) {
@@ -45,13 +45,13 @@ export function MyTicketsPage() {
     }
   }
 
-  async function handleCancel(orderId) {
+  async function handleCancel(order_id) {
     if (!confirm('Are you sure you want to cancel this order?')) return;
     setMessage('');
     setError('');
-    setProcessingOrderId(orderId);
+    setProcessingOrderId(order_id);
     try {
-      await api.cancelOrder(orderId);
+      await api.cancel_order(order_id);
       setMessage('Order cancelled.');
       await load();
     } catch (err) {
@@ -79,7 +79,7 @@ export function MyTicketsPage() {
         {!loading && orders.length > 0 ? (
           <StaggerList className="grid">
             {orders.map((order) => {
-              const event = eventMap.get(order.eventId);
+              const event = eventMap.get(order.event_id);
               const isPending = order.status === 'pending';
               const isPaid = order.status === 'paid';
               const isConfirmed = order.status === 'confirmed';
@@ -98,8 +98,8 @@ export function MyTicketsPage() {
                       </span>
                     </p>
                     <p><strong>Quantity:</strong> {order.quantity}</p>
-                    <p><strong>Total:</strong> ${order.totalAmount}</p>
-                    <p><strong>Date:</strong> {order.registrationDate}</p>
+                    <p><strong>Total:</strong> ${order.total_amount}</p>
+                    <p><strong>Date:</strong> {order.registration_date}</p>
                     <div className="action-row">
                       {isPending && (
                         <>

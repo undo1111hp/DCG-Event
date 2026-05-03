@@ -6,7 +6,7 @@ import { LoadingSpinner } from '../components/LoadingSpinner';
 import { PageTransition } from '../components/PageTransition';
 
 export function EventDetailPage() {
-  const { eventId } = useParams();
+  const { event_id } = useParams();
   const { isAuthenticated, user } = useAuth();
   const isAdmin = user?.role === 'admin';
   const isOrganizer = user?.role === 'organizer';
@@ -16,9 +16,9 @@ export function EventDetailPage() {
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState('');
   const [ticketQty, setTicketQty] = useState(1);
-  const [ticketForm, setTicketForm] = useState({ type: '', quantityAvailable: 50, price: 0 });
+  const [ticketForm, setTicketForm] = useState({ type: '', quantity_available: 50, price: 0 });
   const [editingTicketId, setEditingTicketId] = useState('');
-  const [editTicketForm, setEditTicketForm] = useState({ type: 'Standard', quantityAvailable: 0, price: 0 });
+  const [editTicketForm, setEditTicketForm] = useState({ type: 'Standard', quantity_available: 0, price: 0 });
   const [reviews, setReviews] = useState([]);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
   const [message, setMessage] = useState('');
@@ -54,19 +54,19 @@ export function EventDetailPage() {
   }
   const hasPaidTickets = tickets.some((ticket) => Number(ticket.price) > 0);
   const isFreeEntryEvent = !hasPaidTickets;
-  const canManageEvent = isAdmin || (isOrganizer && event && user?.id === event.organizerId);
+  const canManageEvent = isAdmin || (isOrganizer && event && user?.id === event.organizer_id);
 
   async function load() {
     setLoading(true);
     setError('');
 
     try {
-      const ev = await api.getEvent(eventId);
+      const ev = await api.get_event(event_id);
       setEvent(ev);
 
       const [ticketData, reviewData] = await Promise.all([
-        api.listEventTickets(eventId),
-        api.listEventReviews(eventId)
+        api.list_event_tickets(event_id),
+        api.list_event_reviews(event_id)
       ]);
       setTickets(Array.isArray(ticketData) ? ticketData : []);
       setReviews(Array.isArray(reviewData) ? reviewData : []);
@@ -75,8 +75,8 @@ export function EventDetailPage() {
         setSelectedTicketId((prev) => prev || paidTicket?.id || ticketData[0].id);
       }
 
-      if (isAuthenticated && (isAdmin || (isOrganizer && ev && user?.id === ev.organizerId))) {
-        const eventOrders = await api.listEventOrders(eventId);
+      if (isAuthenticated && (isAdmin || (isOrganizer && ev && user?.id === ev.organizer_id))) {
+        const eventOrders = await api.list_event_orders(event_id);
         setOrders(eventOrders);
       } else {
         setOrders([]);
@@ -90,13 +90,13 @@ export function EventDetailPage() {
 
   useEffect(() => {
     load();
-  }, [eventId, isAuthenticated]);
+  }, [event_id, isAuthenticated]);
 
   async function handleRegister() {
     setMessage('');
     setError('');
     try {
-      await api.registerForEvent(eventId);
+      await api.register_for_event(event_id);
       setMessage('Registration successful');
       await load();
     } catch (err) {
@@ -114,10 +114,10 @@ export function EventDetailPage() {
     setError('');
 
     try {
-      await api.createOrder(eventId, {
-        ticketId: selectedTicketId,
+      await api.create_order(event_id, {
+        ticket_id: selectedTicketId,
         quantity: Number(ticketQty),
-        paymentMethod: 'mock-gateway'
+        payment_method: 'mock-gateway'
       });
       setMessage('Order created! Go to My Tickets to complete payment.');
       await load();
@@ -132,7 +132,7 @@ export function EventDetailPage() {
     setError('');
 
     try {
-      await api.addEventReview(eventId, {
+      await api.add_event_review(event_id, {
         rating: Number(reviewForm.rating),
         comment: reviewForm.comment
       });
@@ -150,9 +150,9 @@ export function EventDetailPage() {
     setError('');
 
     try {
-      await api.createTicket(eventId, {
+      await api.create_ticket(event_id, {
         type: ticketForm.type,
-        quantityAvailable: Number(ticketForm.quantityAvailable),
+        quantity_available: Number(ticketForm.quantity_available),
         price: Number(ticketForm.price)
       });
       setMessage('Ticket tier added.');
@@ -166,14 +166,14 @@ export function EventDetailPage() {
     setEditingTicketId(ticket.id);
     setEditTicketForm({
       type: ticket.type,
-      quantityAvailable: Number(ticket.quantityAvailable),
+      quantity_available: Number(ticket.quantity_available),
       price: Number(ticket.price)
     });
   }
 
   function cancelEditingTicket() {
     setEditingTicketId('');
-    setEditTicketForm({ type: 'Standard', quantityAvailable: 0, price: 0 });
+    setEditTicketForm({ type: 'Standard', quantity_available: 0, price: 0 });
   }
 
   async function handleUpdateTicketTier(e) {
@@ -186,9 +186,9 @@ export function EventDetailPage() {
     setError('');
 
     try {
-      await api.updateTicket(eventId, editingTicketId, {
+      await api.update_ticket(event_id, editingTicketId, {
         type: editTicketForm.type,
-        quantityAvailable: Number(editTicketForm.quantityAvailable),
+        quantity_available: Number(editTicketForm.quantity_available),
         price: Number(editTicketForm.price)
       });
       setMessage('Ticket tier updated.');
@@ -199,7 +199,7 @@ export function EventDetailPage() {
     }
   }
 
-  async function handleDeleteTicketTier(ticketId) {
+  async function handleDeleteTicketTier(ticket_id) {
     if (!confirm('Delete this ticket tier?')) {
       return;
     }
@@ -208,9 +208,9 @@ export function EventDetailPage() {
     setError('');
 
     try {
-      await api.deleteTicket(eventId, ticketId);
+      await api.delete_ticket(event_id, ticket_id);
       setMessage('Ticket tier deleted.');
-      if (editingTicketId === ticketId) {
+      if (editingTicketId === ticket_id) {
         cancelEditingTicket();
       }
       await load();
@@ -225,7 +225,7 @@ export function EventDetailPage() {
     }
 
     try {
-      await api.deleteEvent(eventId);
+      await api.delete_event(event_id);
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -260,10 +260,10 @@ export function EventDetailPage() {
         </div>
       )}
       <p className="detail-meta">
-        <strong>Start Date:</strong> {prettyTime(event.startTime || event.start_time || event.date)}
+        <strong>Start Date:</strong> {prettyTime(event.start_time || event.date)}
       </p>
       <p className="detail-meta">
-        <strong>End Date:</strong> {prettyTime(event.endTime || event.end_time)}
+        <strong>End Date:</strong> {prettyTime(event.end_time)}
       </p>
       <p className="detail-meta">
         <strong>Location:</strong> {event.location}
@@ -303,7 +303,7 @@ export function EventDetailPage() {
             ) : null}
             {canManageEvent ? (
               <>
-                <Link className="ghost-btn" to={`/events/${eventId}/edit`}>
+                <Link className="ghost-btn" to={`/events/${event_id}/edit`}>
                   Edit
                 </Link>
                 <Link className="ghost-btn" to="/events/stats">
@@ -339,7 +339,7 @@ export function EventDetailPage() {
                   >
                     {tickets.map((ticket) => (
                       <option key={ticket.id} value={ticket.id}>
-                        {ticket.type} - {ticket.price} (left: {ticket.quantityAvailable})
+                        {ticket.type} - {ticket.price} (left: {ticket.quantity_available})
                       </option>
                     ))}
                   </select>
@@ -387,9 +387,9 @@ export function EventDetailPage() {
               <input
                 type="number"
                 min={0}
-                value={ticketForm.quantityAvailable}
+                value={ticketForm.quantity_available}
                 onChange={(e) =>
-                  setTicketForm((prev) => ({ ...prev, quantityAvailable: e.target.value }))
+                  setTicketForm((prev) => ({ ...prev, quantity_available: e.target.value }))
                 }
                 required
               />
@@ -414,7 +414,7 @@ export function EventDetailPage() {
                 <div>
                   <h3>{ticket.type}</h3>
                   <p>
-                    Price: {ticket.price} | Remaining: {ticket.quantityAvailable}
+                    Price: {ticket.price} | Remaining: {ticket.quantity_available}
                   </p>
                 </div>
                 <div className="action-row">
@@ -445,9 +445,9 @@ export function EventDetailPage() {
                 <input
                   type="number"
                   min={0}
-                  value={editTicketForm.quantityAvailable}
+                  value={editTicketForm.quantity_available}
                   onChange={(e) =>
-                    setEditTicketForm((prev) => ({ ...prev, quantityAvailable: e.target.value }))
+                    setEditTicketForm((prev) => ({ ...prev, quantity_available: e.target.value }))
                   }
                   required
                 />
@@ -549,7 +549,7 @@ export function EventDetailPage() {
                     <tr key={order.id}>
                       <td>#{order.id}</td>
                       <td>{order.quantity}</td>
-                      <td>${order.totalAmount}</td>
+                      <td>${order.total_amount}</td>
                       <td>
                         <span className={`status-badge status-${order.status}`}>
                           {order.status}
