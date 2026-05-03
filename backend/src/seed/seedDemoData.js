@@ -103,7 +103,6 @@ export async function seedDemoData(authRepository, eventsRepository, domainRepos
     for (const event of DEMO_EVENTS) {
       await eventsRepository.createEvent({
         ...event,
-        createdBy: admin.id,
         organizerId: organizer.id,
         categoryIds: categories.slice(0, 2).map((c) => c.id),
         venueIds: venues.slice(0, 1).map((v) => v.id)

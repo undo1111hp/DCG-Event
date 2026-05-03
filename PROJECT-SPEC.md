@@ -88,7 +88,7 @@ All collections use **numeric `_id`** fields (not ObjectId). Collection names ar
 | `rating_count` | Number   | Computed from reviews           |
 | `categoryIds`  | Mixed[]  | References to Category          |
 | `venueIds`     | Mixed[]  | References to Venue             |
-| `createdBy`    | Mixed    | User ID of creator              |
+
 
 ### Category
 | Field  | Type   | Notes       |

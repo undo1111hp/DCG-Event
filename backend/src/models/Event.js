@@ -11,7 +11,6 @@ const eventSchema = new mongoose.Schema(
     rating_count: { type: Number, default: 0 },
     categoryIds: [{ type: mongoose.Schema.Types.Mixed }],
     venueIds: [{ type: mongoose.Schema.Types.Mixed }],
-    createdBy: { type: mongoose.Schema.Types.Mixed, default: null },
   },
   { strict: false, collection: 'Event' }
 );

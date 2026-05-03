@@ -57,7 +57,7 @@ async function resolveCategories(events) {
 }
 
 function mapEvent(doc) {
-  const organizerSource = doc.organizerId ?? doc.organizerIds ?? doc.createdBy;
+  const organizerSource = doc.organizerId ?? doc.organizerIds;
 
   return {
     id: String(doc._id),
@@ -67,7 +67,6 @@ function mapEvent(doc) {
     date: doc.date || doc.start_time || doc.startTime || '',
     startTime: dateOnly(doc.start_time || doc.startTime || doc.date),
     endTime: dateOnly(doc.end_time || doc.endTime),
-    createdBy: toIdString(doc.createdBy ?? organizerSource),
     organizerId: toIdString(doc.organizerId ?? organizerSource),
     organizerIds: doc.organizerIds ?? organizerSource ?? null,
     ratingAvg: doc.rating_avg ?? doc.ratingAvg ?? 0,
@@ -167,8 +166,7 @@ export const eventsRepositoryMongo = {
         $or: [
           { organizerId: numericOrganizerId },
           { organizerIds: numericOrganizerId },
-          { organizerIds: { $in: [numericOrganizerId] } },
-          { createdBy: numericOrganizerId }
+          { organizerIds: { $in: [numericOrganizerId] } }
         ]
       });
     }
@@ -221,7 +219,7 @@ export const eventsRepositoryMongo = {
       location: payload.location || '',
       start_time: dateOnly(payload.startTime || payload.start_time || payload.date || null),
       end_time: dateOnly(payload.endTime || payload.end_time || null),
-      organizerId: toNumericId(payload.organizerId || payload.createdBy),
+      organizerId: toNumericId(payload.organizerId),
       categoryIds: Array.isArray(payload.categoryIds) ? payload.categoryIds.map(toNumericId) : [],
       venueIds: Array.isArray(payload.venueIds) ? payload.venueIds.map(toNumericId) : [],
       rating_avg: payload.rating_avg ?? payload.ratingAvg ?? 0,
