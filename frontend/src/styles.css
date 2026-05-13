@@ -286,6 +286,41 @@ a:hover {
 .event-card p { margin: 0.15rem 0; }
 
 /* =============================================
+   RECOMMENDED EVENTS SECTION
+   ============================================= */
+.recommended-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 2px solid var(--amber);
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(255, 182, 39, 0.06), rgba(140, 82, 255, 0.06));
+  box-shadow: 0 0 20px var(--glow-amber), inset 0 0 30px rgba(255, 182, 39, 0.03);
+}
+
+.recommended-heading {
+  font-size: 1rem;
+  color: var(--amber);
+  margin-bottom: 0.25rem;
+  text-shadow: 0 0 10px var(--glow-amber);
+}
+
+.recommended-subtitle {
+  font-size: 1.1rem;
+  color: var(--line);
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.recommended-card {
+  border-color: var(--amber) !important;
+  box-shadow: 0 0 8px var(--glow-amber);
+}
+
+.recommended-card::after {
+  background: linear-gradient(90deg, var(--amber), var(--violet), var(--cyan));
+}
+
+/* =============================================
    BUTTONS
    ============================================= */
 button, .solid-btn, .ghost-btn {
