@@ -320,6 +320,20 @@ a:hover {
   background: linear-gradient(90deg, var(--amber), var(--violet), var(--cyan));
 }
 
+.match-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.85rem;
+  font-family: 'Press Start 2P', monospace;
+  color: var(--bg);
+  background: var(--green);
+  border: 2px solid var(--green);
+  border-radius: 2px;
+  white-space: nowrap;
+  text-shadow: none;
+  box-shadow: 0 0 8px var(--glow-green);
+}
+
 /* =============================================
    BUTTONS
    ============================================= */

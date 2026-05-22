@@ -8,6 +8,8 @@ import { PageTransition, StaggerList, StaggerItem } from '../components/PageTran
 export function EventsPage() {
   const { isAuthenticated } = useAuth();
   const [events, setEvents] = useState([]);
+  const [mlRecommendations, setMlRecommendations] = useState([]);
+  const [mlLoading, setMlLoading] = useState(false);
   const [registeredEventIds, setRegisteredEventIds] = useState(new Set());
   const [registeredCategoryIds, setRegisteredCategoryIds] = useState(new Set());
   const [registeredVenueIds, setRegisteredVenueIds] = useState(new Set());
@@ -51,10 +53,28 @@ export function EventsPage() {
       setRegisteredEventIds(new Set());
       setRegisteredCategoryIds(new Set());
       setRegisteredVenueIds(new Set());
+      setMlRecommendations([]);
       return;
     }
 
     let cancelled = false;
+
+    // Fetch ML recommendations
+    setMlLoading(true);
+    api
+      .get_recommended(4)
+      .then((recs) => {
+        if (cancelled) return;
+        setMlRecommendations(Array.isArray(recs) ? recs : []);
+      })
+      .catch(() => {
+        if (!cancelled) setMlRecommendations([]);
+      })
+      .finally(() => {
+        if (!cancelled) setMlLoading(false);
+      });
+
+    // Fetch registrations for fallback recommendations
     api
       .my_registrations()
       .then((regs) => {
@@ -79,7 +99,9 @@ export function EventsPage() {
     };
   }, [isAuthenticated]);
 
-  const recommendedEvents = useMemo(() => {
+  // Fallback: simple overlap-based recommendations for cold-start users
+  const fallbackRecommendations = useMemo(() => {
+    if (mlRecommendations.length > 0) return [];
     if (registeredCategoryIds.size === 0 && registeredVenueIds.size === 0) return [];
     return events.filter((event) => {
       if (registeredEventIds.has(event.id)) return false;
@@ -88,8 +110,11 @@ export function EventsPage() {
       const sharesCategory = eventCatIds.some((id) => registeredCategoryIds.has(id));
       const sharesVenue = eventVenIds.some((id) => registeredVenueIds.has(id));
       return sharesCategory || sharesVenue;
-    });
-  }, [events, registeredEventIds, registeredCategoryIds, registeredVenueIds]);
+    }).slice(0, 4);
+  }, [events, registeredEventIds, registeredCategoryIds, registeredVenueIds, mlRecommendations]);
+
+  const displayRecommendations = mlRecommendations.length > 0 ? mlRecommendations : fallbackRecommendations;
+  const isMlPowered = mlRecommendations.length > 0;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -138,17 +163,28 @@ export function EventsPage() {
         {loading ? <LoadingSpinner /> : null}
         {error ? <p className="error">{error}</p> : null}
 
-        {!loading && recommendedEvents.length > 0 && (
+        {!loading && displayRecommendations.length > 0 && (
           <div className="recommended-section">
-            <h2 className="recommended-heading">✦ Recommended For You</h2>
+            <h2 className="recommended-heading">
+              {isMlPowered ? '🤖 Smart Picks' : '✦ Recommended For You'}
+            </h2>
             <p className="recommended-subtitle">
-              Based on categories and venues of events you've registered for
+              {isMlPowered
+                ? 'ML-powered recommendations based on your booking history'
+                : 'Based on categories and venues of events you\'ve registered for'}
             </p>
             <StaggerList className="grid">
-              {recommendedEvents.map((event) => (
+              {displayRecommendations.map((event) => (
                 <StaggerItem key={event.id}>
                   <article className="card event-card recommended-card">
-                    <h2>{event.title}</h2>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <h2 style={{ margin: 0 }}>{event.title}</h2>
+                      {isMlPowered && event.recommendationScore != null && (
+                        <span className="match-badge">
+                          {event.recommendationScore}% match
+                        </span>
+                      )}
+                    </div>
                     <p>{event.description || 'No description yet.'}</p>
                     {Array.isArray(event.categories) && event.categories.length > 0 && (
                       <div style={{ marginBottom: '0.5rem' }}>

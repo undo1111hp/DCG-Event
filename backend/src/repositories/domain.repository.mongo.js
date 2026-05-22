@@ -220,6 +220,16 @@ export const domainRepositoryMongo = {
     return docs.map(mapOrder);
   },
 
+  async listAllOrders() {
+    const docs = await OrderModel.find({}).lean().exec();
+    return docs.map(mapOrder);
+  },
+
+  async listAllTickets() {
+    const docs = await TicketModel.find({}).lean().exec();
+    return docs.map(mapTicket);
+  },
+
   async createPayment(payload) {
     const created = await PaymentModel.create({
       _id: await nextNumericId(PaymentModel),

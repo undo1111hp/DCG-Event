@@ -31,6 +31,7 @@ Build working Event Management frontend and backend with API calls, then connect
 - [x] Dashboard now uses Orders instead of Registrations (cancelled orders filtered out)
 - [x] EventCategory junction table removed — categories resolved inline from Event.categoryIds
 - [x] Event detail page shows Orders for organizer/admin instead of Registrations
+- [x] ML recommendation engine: logistic regression trained on paid orders, serves top-4 via API, displayed on EventsPage with match %
 
 ## Resume Checklist
 1. Keep backend in mongo mode with EventManagement in `.env`.

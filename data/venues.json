@@ -3,105 +3,105 @@
     "_id": 1,
     "name": "Venue 1",
     "address": "Street 1",
-    "city": "Hanoi",
-    "capacity": 2665
+    "city": "Da Nang",
+    "capacity": 4609
   },
   {
     "_id": 2,
     "name": "Venue 2",
     "address": "Street 2",
-    "city": "Hanoi",
-    "capacity": 764
+    "city": "HCM",
+    "capacity": 3678
   },
   {
     "_id": 3,
     "name": "Venue 3",
     "address": "Street 3",
-    "city": "Hanoi",
-    "capacity": 3482
+    "city": "HCM",
+    "capacity": 2343
   },
   {
     "_id": 4,
     "name": "Venue 4",
     "address": "Street 4",
     "city": "HCM",
-    "capacity": 3305
+    "capacity": 4096
   },
   {
     "_id": 5,
     "name": "Venue 5",
     "address": "Street 5",
-    "city": "HCM",
-    "capacity": 3596
+    "city": "Da Nang",
+    "capacity": 2690
   },
   {
     "_id": 6,
     "name": "Venue 6",
     "address": "Street 6",
-    "city": "HCM",
-    "capacity": 3289
+    "city": "Da Nang",
+    "capacity": 1569
   },
   {
     "_id": 7,
     "name": "Venue 7",
     "address": "Street 7",
-    "city": "Hanoi",
-    "capacity": 3886
+    "city": "HCM",
+    "capacity": 3110
   },
   {
     "_id": 8,
     "name": "Venue 8",
     "address": "Street 8",
-    "city": "Da Nang",
-    "capacity": 3410
+    "city": "HCM",
+    "capacity": 1355
   },
   {
     "_id": 9,
     "name": "Venue 9",
     "address": "Street 9",
-    "city": "Hanoi",
-    "capacity": 4962
+    "city": "HCM",
+    "capacity": 430
   },
   {
     "_id": 10,
     "name": "Venue 10",
     "address": "Street 10",
-    "city": "Hanoi",
-    "capacity": 4929
+    "city": "HCM",
+    "capacity": 1105
   },
   {
     "_id": 11,
     "name": "Venue 11",
     "address": "Street 11",
-    "city": "Hanoi",
-    "capacity": 3877
+    "city": "HCM",
+    "capacity": 3916
   },
   {
     "_id": 12,
     "name": "Venue 12",
     "address": "Street 12",
-    "city": "Hanoi",
-    "capacity": 1212
+    "city": "HCM",
+    "capacity": 2257
   },
   {
     "_id": 13,
     "name": "Venue 13",
     "address": "Street 13",
-    "city": "HCM",
-    "capacity": 1048
+    "city": "Da Nang",
+    "capacity": 614
   },
   {
     "_id": 14,
     "name": "Venue 14",
     "address": "Street 14",
-    "city": "Hanoi",
-    "capacity": 3590
+    "city": "Da Nang",
+    "capacity": 683
   },
   {
     "_id": 15,
     "name": "Venue 15",
     "address": "Street 15",
-    "city": "HCM",
-    "capacity": 520
+    "city": "Hanoi",
+    "capacity": 1423
   }
 ]

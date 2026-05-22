@@ -72,10 +72,14 @@ events.forEach(e => {
 });
 
 // ===== ORDERS =====
-// ===== ORDERS =====
 const orders = [];
+const orderStatuses = [];
+// Weighted distribution: ~60% paid, ~20% pending, ~20% cancelled
+for (let i = 0; i < 120; i++) orderStatuses.push("paid");
+for (let i = 0; i < 40; i++) orderStatuses.push("pending");
+for (let i = 0; i < 40; i++) orderStatuses.push("cancelled");
 
-for (let i = 1; i <= 100; i++) {
+for (let i = 1; i <= 200; i++) {
   const event_id = rand(1, 51);
 
   // find tickets belonging to that event
@@ -83,15 +87,15 @@ for (let i = 1; i <= 100; i++) {
 
   // pick one matching ticket type
   const chosenTicket = pick(eventTickets);
-  const randQuant = rand(1, 11)
+  const randQuant = rand(1, 11);
   orders.push({
     _id: i,
     user_id: rand(4, 20),
     event_id: event_id,
     ticket_id: chosenTicket._id,
     quantity: randQuant, // 1 to 10
-    total_amount: randQuant*chosenTicket.price,
-    status: pick(["pending", "confirmed", "cancelled"]),
+    total_amount: randQuant * chosenTicket.price,
+    status: orderStatuses[i - 1],
     registration_date: "2026-06-01"
   });
 }
@@ -100,9 +104,9 @@ for (let i = 1; i <= 100; i++) {
 const payments = orders.map(o => ({
   _id: o._id,
   orderId: o._id,
-  amount: tickets[o.ticket_id-1].price * o.quantity,
+  amount: tickets[o.ticket_id - 1].price * o.quantity,
   payment_method: pick(["card", "momo", "paypal"]),
-  payment_status: o.status === "confirmed" ? "success" : "pending",
+  payment_status: o.status === "paid" ? "success" : "pending",
   payment_date: "2026-06-01"
 }));
 

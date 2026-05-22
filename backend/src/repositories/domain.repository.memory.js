@@ -138,6 +138,14 @@ export const domainRepositoryMemory = {
     return memoryStore.orders.filter((order) => order.event_id === eventId);
   },
 
+  async listAllOrders() {
+    return [...memoryStore.orders];
+  },
+
+  async listAllTickets() {
+    return [...memoryStore.tickets];
+  },
+
   async createPayment(payload) {
     const payment = {
       id: memoryStore.makeId(),

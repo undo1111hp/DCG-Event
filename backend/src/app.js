@@ -6,6 +6,7 @@ import { createEventsRouter } from './routes/events.routes.js';
 import { createCommerceRouter } from './routes/commerce.routes.js';
 import { createMetadataRouter } from './routes/metadata.routes.js';
 import { createReviewsRouter } from './routes/reviews.routes.js';
+import { createRecommendationsRouter } from './routes/recommendations.routes.js';
 import { requireAuth, optionalAuth, requireAdmin, requireOrganizerOrAdmin } from './middleware/auth.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 import { getRepositories } from './repositories/index.js';
@@ -33,6 +34,7 @@ export function createApp() {
 
   app.use('/api/auth', createAuthRouter(authService, requireAuth));
   app.use('/api/admin', createAdminRouter(authService, requireAuth, requireAdmin));
+  app.use('/api/events', createRecommendationsRouter(eventsRepository, domainRepository, requireAuth));
   app.use(
     '/api/events',
     createEventsRouter(eventsService, requireAuth, optionalAuth, requireOrganizerOrAdmin)

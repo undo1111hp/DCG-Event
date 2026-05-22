@@ -1,0 +1,17 @@
+{
+  "weights": [
+    2.1184678867676934,
+    2.879731968561862,
+    -0.0471995224273844,
+    1.4089363153912688
+  ],
+  "intercept": -3.5090782764461697,
+  "features": [
+    "categoryOverlap",
+    "venueOverlap",
+    "priceSimilarity",
+    "eventPopularity"
+  ],
+  "trainingAccuracy": 0.7416666666666667,
+  "trainingSamples": 240
+}

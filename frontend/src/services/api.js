@@ -92,5 +92,6 @@ export const api = {
     request(`/meta/venues/${venue_id}`, { method: 'PUT', body: JSON.stringify(payload) }),
   list_users: () => request('/admin/users'),
   update_user_role: (user_id, role) =>
-    request(`/admin/users/${user_id}/role`, { method: 'PUT', body: JSON.stringify({ role }) })
+    request(`/admin/users/${user_id}/role`, { method: 'PUT', body: JSON.stringify({ role }) }),
+  get_recommended: (limit = 4) => request(`/events/recommended?limit=${limit}`)
 };
